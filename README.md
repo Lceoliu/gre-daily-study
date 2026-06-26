@@ -18,7 +18,7 @@ The app serves at `http://127.0.0.1:5173/` in development.
 npm run build
 ```
 
-The build output is `dist/`. The build step also regenerates `public/data/study-data.json` and copies PDFs into `public/pdfs/`.
+The build output is `dist/`. Use `npm run build:fresh` locally when the source vocabulary/PDF folders changed and `public/data` plus `public/pdfs` need to be regenerated first.
 
 ## Deploy
 

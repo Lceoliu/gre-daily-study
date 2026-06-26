@@ -6,7 +6,8 @@
   "scripts": {
     "prepare:data": "node scripts/prepare-data.mjs",
     "dev": "vite --host 127.0.0.1",
-    "build": "npm run prepare:data && vite build",
+    "build": "vite build",
+    "build:fresh": "npm run prepare:data && vite build",
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {
