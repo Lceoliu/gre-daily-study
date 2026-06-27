@@ -37,6 +37,6 @@ GitHub Pages:
 ## Notes
 
 - Word progress, saved words, and the study start date are stored in browser `localStorage`.
-- Pronunciation uses the device/browser SpeechSynthesis voice; no audio files are required.
+- Pronunciation uses dictionary audio from `dictionaryapi.dev` when available and caches lookup results in `localStorage`. It does not fall back to browser SpeechSynthesis, because synthetic voices can mispronounce GRE vocabulary.
 - Detailed dictionary entries are not invented. The app displays the existing explanation and synonym fields from the source word list.
 - Practice PDFs are rendered in-app with PDF.js when possible, with an `Open PDF` fallback for the original file.

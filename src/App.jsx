@@ -23,6 +23,8 @@ import pdfWorkerUrl from "pdfjs-dist/legacy/build/pdf.worker.min.mjs?url";
 
 const STORAGE_KEY = "gre-daily-study-state-v1";
 const START_DATE_KEY = "gre-daily-study-start-date";
+const AUDIO_CACHE_KEY = "gre-daily-study-audio-cache-v1";
+const DICTIONARY_API_BASE = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 const BASE_URL = import.meta.env.BASE_URL || "/";
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
 
@@ -82,13 +84,50 @@ function buildPageChips(pageCount) {
   return [1, 2, 3, 4, pageCount];
 }
 
-function speakWord(word) {
-  if (!("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(word);
-  utterance.lang = "en-US";
-  utterance.rate = 0.82;
-  window.speechSynthesis.speak(utterance);
+function normalizeAudioWord(word) {
+  return String(word || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z\s'-]/g, "")
+    .replace(/\s+/g, " ");
+}
+
+function pickAudioUrl(entries) {
+  if (!Array.isArray(entries)) return null;
+  const phonetics = entries.flatMap((entry) => entry.phonetics || []);
+  const withAudio = phonetics
+    .map((item) => item.audio)
+    .filter(Boolean)
+    .map((url) => (url.startsWith("//") ? `https:${url}` : url));
+  return withAudio.find((url) => /-us\.mp3($|\?)/i.test(url)) || withAudio[0] || null;
+}
+
+async function resolveDictionaryAudio(word, cacheRef) {
+  const normalized = normalizeAudioWord(word);
+  if (!normalized) return null;
+  const candidates = normalized.includes(" ") ? [normalized, normalized.split(" ")[0]] : [normalized];
+
+  for (const candidate of candidates) {
+    if (Object.prototype.hasOwnProperty.call(cacheRef.current, candidate)) {
+      const cached = cacheRef.current[candidate];
+      if (cached) return cached;
+      continue;
+    }
+
+    try {
+      const response = await fetch(`${DICTIONARY_API_BASE}${encodeURIComponent(candidate)}`);
+      if (!response.ok) throw new Error(`Dictionary lookup failed: ${response.status}`);
+      const audioUrl = pickAudioUrl(await response.json());
+      cacheRef.current = { ...cacheRef.current, [candidate]: audioUrl };
+      window.localStorage.setItem(AUDIO_CACHE_KEY, JSON.stringify(cacheRef.current));
+      if (audioUrl) return audioUrl;
+    } catch {
+      cacheRef.current = { ...cacheRef.current, [candidate]: null };
+      window.localStorage.setItem(AUDIO_CACHE_KEY, JSON.stringify(cacheRef.current));
+    }
+  }
+
+  return null;
 }
 
 function getWordState(progress, id) {
@@ -222,7 +261,7 @@ function TimelineBadge({ icon: Icon, tone = "green" }) {
   );
 }
 
-function WordFocusCard({ word, state, reveal, onReveal, onToggleMastered, onToggleSaved }) {
+function WordFocusCard({ word, state, reveal, audioStatus, onPronounce, onReveal, onToggleMastered, onToggleSaved }) {
   if (!word) return null;
   const pos = parsePartOfSpeech(word.explanation);
   const explanation = compactExplanation(word.explanation);
@@ -234,11 +273,11 @@ function WordFocusCard({ word, state, reveal, onReveal, onToggleMastered, onTogg
         <div>
           <div className="focus-word-line">
             <h3>{word.word}</h3>
-            <IconButton aria-label={`Pronounce ${word.word}`} onClick={() => speakWord(word.word)}>
+            <IconButton aria-label={`Pronounce ${word.word}`} onClick={() => onPronounce(word.word)}>
               <Volume2 size={24} />
             </IconButton>
           </div>
-          <span className="voice-note">device voice</span>
+          <span className="voice-note">{audioStatus || "dictionary audio"}</span>
         </div>
         <button className="hide-button" type="button" onClick={onReveal}>
           {reveal ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -257,8 +296,8 @@ function WordFocusCard({ word, state, reveal, onReveal, onToggleMastered, onTogg
       </div>
 
       <div className="focus-actions">
-        <ActionButton icon={Eye} onClick={onReveal}>
-          Reveal
+        <ActionButton icon={reveal ? EyeOff : Eye} onClick={onReveal}>
+          {reveal ? "Hide" : "Reveal"}
         </ActionButton>
         <ActionButton icon={CheckCircle2} active={state.mastered} onClick={onToggleMastered}>
           Mastered
@@ -342,19 +381,35 @@ function PracticePanel({ pdf, selectedPage, onSelectPage, onOpenReader }) {
   );
 }
 
+function SectionHeading({ title, body, onClick }) {
+  return (
+    <button className="section-heading" type="button" onClick={onClick}>
+      <div>
+        <h2>{title}</h2>
+        <p>{body}</p>
+      </div>
+      <ChevronRight size={28} />
+    </button>
+  );
+}
+
 function TodayView({
   day,
   focusWord,
   focusState,
   focusReveal,
+  audioStatus,
   selectedPdf,
   selectedPage,
   masteredCount,
   progress,
+  onPronounce,
   onRevealFocus,
   onToggleMastered,
   onToggleSaved,
   onSelectPage,
+  onOpenList,
+  onOpenSaved,
   onOpenReader,
 }) {
   const upcoming = day.words.filter((word) => word.id !== focusWord?.id).slice(0, 3);
@@ -362,55 +417,37 @@ function TodayView({
   return (
     <section className="timeline">
       <div className="timeline-row vocabulary-row">
-        <time>9:00 AM</time>
+        <time>9 AM</time>
         <TimelineBadge icon={BookOpen} />
         <div className="timeline-content">
-          <div className="section-heading">
-            <div>
-              <h2>Vocabulary</h2>
-              <p>
-                {masteredCount} / {day.words.length} words
-              </p>
-            </div>
-            <ChevronRight size={28} />
-          </div>
+          <SectionHeading title="Vocabulary" body={`${masteredCount} / ${day.words.length} words`} onClick={onOpenList} />
           <WordFocusCard
             word={focusWord}
             state={focusState}
             reveal={focusReveal}
+            audioStatus={audioStatus}
+            onPronounce={onPronounce}
             onReveal={onRevealFocus}
             onToggleMastered={() => onToggleMastered(focusWord)}
             onToggleSaved={() => onToggleSaved(focusWord)}
           />
-          <UpcomingWords words={upcoming} progress={progress} onSpeak={speakWord} onToggleSaved={onToggleSaved} />
+          <UpcomingWords words={upcoming} progress={progress} onSpeak={onPronounce} onToggleSaved={onToggleSaved} />
         </div>
       </div>
 
       <div className="timeline-row compact-row">
-        <time>11:00 AM</time>
+        <time>11 AM</time>
         <TimelineBadge icon={RotateCcw} tone="lavender" />
         <div className="timeline-content">
-          <div className="section-heading">
-            <div>
-              <h2>Review</h2>
-              <p>Saved words and unfinished items</p>
-            </div>
-            <ChevronRight size={28} />
-          </div>
+          <SectionHeading title="Review" body="Saved words and unfinished items" onClick={onOpenSaved} />
         </div>
       </div>
 
       <div className="timeline-row practice-row">
-        <time>2:00 PM</time>
+        <time>2 PM</time>
         <TimelineBadge icon={PencilLine} />
         <div className="timeline-content">
-          <div className="section-heading">
-            <div>
-              <h2>Practice</h2>
-              <p>GRE Practice PDFs</p>
-            </div>
-            <ChevronRight size={28} />
-          </div>
+          <SectionHeading title="Practice" body="GRE Practice PDFs" onClick={onOpenReader} />
           <PracticePanel pdf={selectedPdf} selectedPage={selectedPage} onSelectPage={onSelectPage} onOpenReader={onOpenReader} />
         </div>
       </div>
@@ -418,7 +455,7 @@ function TodayView({
   );
 }
 
-function WordListView({ days, selectedDay, setSelectedDay, progress, toggleMastered, toggleSaved }) {
+function WordListView({ days, selectedDay, setSelectedDay, progress, onPronounce, toggleMastered, toggleSaved }) {
   const [query, setQuery] = useState("");
   const activeDay = days[selectedDay - 1];
   const words = useMemo(() => {
@@ -469,7 +506,7 @@ function WordListView({ days, selectedDay, setSelectedDay, progress, toggleMaste
                 {word.synonyms.length > 0 && <em>{word.synonyms.join(", ")}</em>}
               </div>
               <div className="word-actions">
-                <IconButton aria-label={`Pronounce ${word.word}`} onClick={() => speakWord(word.word)}>
+                <IconButton aria-label={`Pronounce ${word.word}`} onClick={() => onPronounce(word.word)}>
                   <Volume2 size={18} />
                 </IconButton>
                 <IconButton
@@ -538,7 +575,7 @@ function ReaderView({ pdfs, selectedPdfId, setSelectedPdfId, selectedPage, setSe
   );
 }
 
-function SavedView({ days, progress, toggleMastered, toggleSaved }) {
+function SavedView({ days, progress, onPronounce, toggleMastered, toggleSaved }) {
   const savedWords = days
     .flatMap((day) => day.words.map((word) => ({ ...word, day: day.day })))
     .filter((word) => getWordState(progress, word.id).saved);
@@ -579,7 +616,7 @@ function SavedView({ days, progress, toggleMastered, toggleSaved }) {
                   <p>{compactExplanation(word.explanation)}</p>
                 </div>
                 <div className="word-actions">
-                  <IconButton aria-label={`Pronounce ${word.word}`} onClick={() => speakWord(word.word)}>
+                  <IconButton aria-label={`Pronounce ${word.word}`} onClick={() => onPronounce(word.word)}>
                     <Volume2 size={18} />
                   </IconButton>
                   <IconButton
@@ -684,6 +721,9 @@ export function App() {
   const [focusReveal, setFocusReveal] = useState(true);
   const [selectedPdfId, setSelectedPdfId] = useState("");
   const [selectedPage, setSelectedPage] = useState(1);
+  const [audioStatus, setAudioStatus] = useState("");
+  const audioCacheRef = useRef(loadJsonStorage(AUDIO_CACHE_KEY, {}));
+  const audioRef = useRef(null);
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
@@ -701,6 +741,16 @@ export function App() {
     const pdf = data.pdfs[(selectedDay - 1) % Math.max(1, data.pdfs.length)];
     if (pdf) setSelectedPdfId(pdf.id);
   }, [data, selectedDay, selectedPdfId]);
+
+  useEffect(() => {
+    if (!data) return;
+    const activeDay = data.days[selectedDay - 1];
+    if (!activeDay) return;
+
+    activeDay.words.slice(0, 4).forEach((word) => {
+      resolveDictionaryAudio(word.word, audioCacheRef);
+    });
+  }, [data, selectedDay]);
 
   if (error) return <ErrorScreen error={error} />;
   if (!data) return <LoadingScreen />;
@@ -728,6 +778,7 @@ export function App() {
     const value = todayIso();
     window.localStorage.setItem(START_DATE_KEY, value);
     setStartDate(value);
+    setFocusReveal(true);
   };
 
   const changeDay = (direction) => {
@@ -743,6 +794,28 @@ export function App() {
   const openReader = () => {
     if (selectedPdf) setSelectedPdfId(selectedPdf.id);
     setActiveTab("reader");
+  };
+
+  const playPronunciation = async (word) => {
+    if (!word) return;
+    setAudioStatus("loading audio");
+    const audioUrl = await resolveDictionaryAudio(word, audioCacheRef);
+    if (!audioUrl) {
+      setAudioStatus("no dictionary audio");
+      return;
+    }
+
+    try {
+      audioRef.current?.pause();
+      const audio = new Audio(audioUrl);
+      audioRef.current = audio;
+      audio.onplaying = () => setAudioStatus("playing dictionary audio");
+      audio.onended = () => setAudioStatus("dictionary audio");
+      audio.onerror = () => setAudioStatus("audio failed");
+      await audio.play();
+    } catch {
+      setAudioStatus("tap again to play");
+    }
   };
 
   return (
@@ -764,14 +837,18 @@ export function App() {
             focusWord={focusWord}
             focusState={focusState}
             focusReveal={focusReveal}
+            audioStatus={audioStatus}
             selectedPdf={selectedPdf}
             selectedPage={selectedPage}
             masteredCount={masteredCount}
             progress={progress}
+            onPronounce={playPronunciation}
             onRevealFocus={() => setFocusReveal((value) => !value)}
             onToggleMastered={toggleMastered}
             onToggleSaved={toggleSaved}
             onSelectPage={setSelectedPage}
+            onOpenList={() => setActiveTab("list")}
+            onOpenSaved={() => setActiveTab("saved")}
             onOpenReader={openReader}
           />
         )}
@@ -782,6 +859,7 @@ export function App() {
             selectedDay={selectedDay}
             setSelectedDay={setSelectedDay}
             progress={progress}
+            onPronounce={playPronunciation}
             toggleMastered={toggleMastered}
             toggleSaved={toggleSaved}
           />
@@ -797,7 +875,9 @@ export function App() {
           />
         )}
 
-        {activeTab === "saved" && <SavedView days={data.days} progress={progress} toggleMastered={toggleMastered} toggleSaved={toggleSaved} />}
+        {activeTab === "saved" && (
+          <SavedView days={data.days} progress={progress} onPronounce={playPronunciation} toggleMastered={toggleMastered} toggleSaved={toggleSaved} />
+        )}
       </div>
 
       <nav className="bottom-nav" aria-label="Main navigation">

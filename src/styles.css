@@ -2,19 +2,21 @@
 
 :root {
   color-scheme: light;
-  --page: #fbfbf7;
-  --paper: #fffdfa;
-  --parchment: #fbf5e8;
-  --ink: #242423;
-  --muted: #696a64;
-  --faint: #8b8d86;
-  --line: #ddddd6;
-  --line-strong: #cfcfc8;
-  --green: #17613f;
-  --green-soft: #e7f0e9;
-  --lavender: #8a79c7;
-  --lavender-soft: #eeeafa;
-  --shadow: 0 14px 40px rgba(42, 45, 39, 0.08);
+  --page: #fafaf6;
+  --paper: #fffefa;
+  --parchment: #f7f1df;
+  --ink: #20231f;
+  --muted: #62665d;
+  --faint: #858a81;
+  --line: #dcddd4;
+  --line-strong: #c7cbc0;
+  --green: #195f45;
+  --green-soft: #e3efe8;
+  --amber: #b46f24;
+  --amber-soft: #f3e5cf;
+  --lavender: #6b6f9f;
+  --lavender-soft: #e9ebf6;
+  --shadow: 0 8px 22px rgba(38, 43, 36, 0.08);
   font-family: "Inter", "Noto Sans SC", "Microsoft YaHei UI", system-ui, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -25,7 +27,7 @@
 }
 
 html {
-  background: #e9e9e3;
+  background: #e7e8e1;
 }
 
 body {
@@ -97,21 +99,21 @@ button {
 
 .top-header {
   border-bottom: 1px solid var(--line);
-  background: linear-gradient(180deg, #fffefa 0%, var(--page) 100%);
+  background: var(--paper);
 }
 
 .title-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 76px;
-  padding: 16px 24px 10px;
+  min-height: 68px;
+  padding: 14px 20px 8px;
 }
 
 .title-row h1 {
   margin: 0;
   font-family: "Fraunces", Georgia, serif;
-  font-size: 50px;
+  font-size: 44px;
   font-weight: 500;
   line-height: 0.92;
   letter-spacing: 0;
@@ -213,22 +215,22 @@ button {
 }
 
 .content-area {
-  padding-bottom: 86px;
+  padding-bottom: calc(112px + env(safe-area-inset-bottom));
 }
 
 .timeline-row {
   display: grid;
-  grid-template-columns: 70px 52px minmax(0, 1fr);
-  column-gap: 12px;
+  grid-template-columns: 48px 44px minmax(0, 1fr);
+  column-gap: 10px;
   position: relative;
-  padding: 18px 20px 0 16px;
+  padding: 15px 14px 0 10px;
 }
 
 .timeline-row::before {
   position: absolute;
-  top: 72px;
+  top: 66px;
   bottom: 0;
-  left: 111px;
+  left: 80px;
   width: 2px;
   background: var(--green);
   content: "";
@@ -240,9 +242,9 @@ button {
 }
 
 .timeline-row time {
-  padding-top: 9px;
+  padding-top: 8px;
   color: #555752;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.2;
   white-space: nowrap;
 }
@@ -250,8 +252,8 @@ button {
 .timeline-badge {
   z-index: 1;
   display: grid;
-  width: 46px;
-  height: 46px;
+  width: 42px;
+  height: 42px;
   place-items: center;
   border-radius: 50%;
   color: #fff;
@@ -272,9 +274,26 @@ button {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  width: 100%;
   min-height: 48px;
   gap: 12px;
-  padding-top: 7px;
+  padding: 7px 0 7px;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  text-align: left;
+}
+
+.section-heading:hover,
+.section-heading:focus-visible {
+  color: var(--green);
+  outline: none;
+}
+
+.section-heading svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: var(--amber);
 }
 
 .section-heading h2,
@@ -306,12 +325,12 @@ button {
 }
 
 .focus-card {
-  margin-top: 9px;
-  margin-left: -34px;
+  margin-top: 7px;
+  margin-left: -20px;
   overflow: hidden;
   border: 1px solid var(--line-strong);
-  border-left: 4px solid var(--green);
-  border-radius: 4px 0 0 4px;
+  border-left: 5px solid var(--green);
+  border-radius: 6px 0 0 6px;
   background: var(--parchment);
   box-shadow: var(--shadow);
 }
@@ -320,8 +339,8 @@ button {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
-  padding: 17px 18px 5px 19px;
+  gap: 10px;
+  padding: 17px 15px 7px 17px;
 }
 
 .focus-word-line {
@@ -332,11 +351,11 @@ button {
 }
 
 .focus-word-line h3 {
-  max-width: 148px;
+  max-width: 185px;
   margin: 0;
   overflow-wrap: anywhere;
   font-family: "Fraunces", Georgia, serif;
-  font-size: 36px;
+  font-size: 40px;
   font-weight: 500;
   line-height: 0.95;
   letter-spacing: 0;
@@ -349,9 +368,11 @@ button {
 
 .voice-note {
   display: block;
-  margin-top: 4px;
+  margin-top: 5px;
   color: var(--faint);
   font-size: 12px;
+  font-weight: 700;
+  text-transform: lowercase;
 }
 
 .hide-button {
@@ -381,20 +402,21 @@ button {
 }
 
 .part-of-speech {
-  margin: 0 18px 8px 19px;
+  margin: 0 15px 8px 17px;
   color: var(--green);
   font-size: 16px;
   font-weight: 600;
 }
 
 .meaning-block {
-  margin: 0 18px 0 19px;
+  margin: 0 15px 0 17px;
   padding-top: 10px;
   border-top: 1px solid #d3d1c6;
 }
 
 .meaning-block.is-hidden {
-  filter: blur(5px);
+  filter: blur(6px);
+  opacity: 0.72;
   user-select: none;
 }
 
@@ -434,7 +456,7 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
+  min-height: 52px;
   gap: 7px;
   border: 0;
   border-right: 1px solid #d3d1c6;
@@ -461,7 +483,7 @@ button {
 }
 
 .upcoming-list {
-  margin-left: -34px;
+  margin-left: -20px;
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   border-left: 1px solid var(--line);
@@ -652,6 +674,7 @@ button {
   border-top: 1px solid var(--line);
   background: rgba(251, 251, 247, 0.96);
   backdrop-filter: blur(12px);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 @media (min-width: 431px) {
@@ -663,7 +686,7 @@ button {
 
 .bottom-nav button {
   display: grid;
-  min-height: 72px;
+  min-height: 74px;
   place-items: center;
   gap: 3px;
   border: 0;
@@ -919,40 +942,40 @@ button {
 
 @media (max-width: 360px) {
   .title-row {
-    padding-inline: 20px;
+    padding-inline: 16px;
   }
 
   .title-row h1 {
-    font-size: 56px;
+    font-size: 40px;
   }
 
   .day-title strong {
-    font-size: 25px;
+    font-size: 22px;
   }
 
   .timeline-row {
-    grid-template-columns: 62px 46px minmax(0, 1fr);
-    column-gap: 9px;
-    padding-inline: 12px 14px;
+    grid-template-columns: 42px 40px minmax(0, 1fr);
+    column-gap: 8px;
+    padding-inline: 8px 10px;
   }
 
   .timeline-row::before {
-    left: 89px;
+    left: 68px;
   }
 
   .timeline-badge {
-    width: 42px;
-    height: 42px;
+    width: 38px;
+    height: 38px;
   }
 
   .focus-card,
   .upcoming-list {
-    margin-left: -26px;
+    margin-left: -16px;
   }
 
   .focus-word-line h3 {
-    max-width: 138px;
-    font-size: 34px;
+    max-width: 168px;
+    font-size: 36px;
   }
 
   .practice-panel {
