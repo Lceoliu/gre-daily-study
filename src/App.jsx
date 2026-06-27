@@ -92,6 +92,12 @@ function normalizeAudioWord(word) {
     .replace(/\s+/g, " ");
 }
 
+function getAudioCandidates(word) {
+  const normalized = normalizeAudioWord(word);
+  if (!normalized) return [];
+  return normalized.includes(" ") ? [normalized, normalized.split(" ")[0]] : [normalized];
+}
+
 function pickAudioUrl(entries) {
   if (!Array.isArray(entries)) return null;
   const phonetics = entries.flatMap((entry) => entry.phonetics || []);
@@ -103,11 +109,7 @@ function pickAudioUrl(entries) {
 }
 
 async function resolveDictionaryAudio(word, cacheRef) {
-  const normalized = normalizeAudioWord(word);
-  if (!normalized) return null;
-  const candidates = normalized.includes(" ") ? [normalized, normalized.split(" ")[0]] : [normalized];
-
-  for (const candidate of candidates) {
+  for (const candidate of getAudioCandidates(word)) {
     if (Object.prototype.hasOwnProperty.call(cacheRef.current, candidate)) {
       const cached = cacheRef.current[candidate];
       if (cached) return cached;
@@ -128,6 +130,14 @@ async function resolveDictionaryAudio(word, cacheRef) {
   }
 
   return null;
+}
+
+function getCachedDictionaryAudio(word, cacheRef) {
+  for (const candidate of getAudioCandidates(word)) {
+    if (!Object.prototype.hasOwnProperty.call(cacheRef.current, candidate)) continue;
+    return cacheRef.current[candidate];
+  }
+  return undefined;
 }
 
 function getWordState(progress, id) {
@@ -796,15 +806,7 @@ export function App() {
     setActiveTab("reader");
   };
 
-  const playPronunciation = async (word) => {
-    if (!word) return;
-    setAudioStatus("loading audio");
-    const audioUrl = await resolveDictionaryAudio(word, audioCacheRef);
-    if (!audioUrl) {
-      setAudioStatus("no dictionary audio");
-      return;
-    }
-
+  const playAudioUrl = (audioUrl) => {
     try {
       audioRef.current?.pause();
       const audio = new Audio(audioUrl);
@@ -812,10 +814,31 @@ export function App() {
       audio.onplaying = () => setAudioStatus("playing dictionary audio");
       audio.onended = () => setAudioStatus("dictionary audio");
       audio.onerror = () => setAudioStatus("audio failed");
-      await audio.play();
+      audio.play().catch(() => setAudioStatus("tap again to play"));
     } catch {
       setAudioStatus("tap again to play");
     }
+  };
+
+  const playPronunciation = async (word) => {
+    if (!word) return;
+    const cachedAudio = getCachedDictionaryAudio(word, audioCacheRef);
+    if (cachedAudio) {
+      playAudioUrl(cachedAudio);
+      return;
+    }
+    if (cachedAudio === null) {
+      setAudioStatus("no dictionary audio");
+      return;
+    }
+
+    setAudioStatus("loading audio");
+    const audioUrl = await resolveDictionaryAudio(word, audioCacheRef);
+    if (!audioUrl) {
+      setAudioStatus("no dictionary audio");
+      return;
+    }
+    setAudioStatus("audio ready, tap again");
   };
 
   return (
