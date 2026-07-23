@@ -10,7 +10,6 @@ import {
   ChevronRight,
   Eye,
   EyeOff,
-  FileText,
   List,
   Loader2,
   PencilLine,
@@ -18,20 +17,18 @@ import {
   Search,
   Volume2,
 } from "lucide-react";
-import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
-import pdfWorkerUrl from "pdfjs-dist/legacy/build/pdf.worker.min.mjs?url";
 
 const STORAGE_KEY = "gre-daily-study-state-v1";
 const START_DATE_KEY = "gre-daily-study-start-date";
 const AUDIO_CACHE_KEY = "gre-daily-study-audio-cache-v1";
+const PRACTICE_DRAFTS_KEY = "gre-daily-study-essay-drafts-v1";
 const DICTIONARY_API_BASE = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 const BASE_URL = import.meta.env.BASE_URL || "/";
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
 
 const navItems = [
   { id: "today", label: "Today", icon: CalendarDays },
   { id: "list", label: "List", icon: List },
-  { id: "reader", label: "Reader", icon: FileText },
+  { id: "practice", label: "Practice", icon: PencilLine },
   { id: "saved", label: "Saved", icon: Bookmark },
 ];
 
@@ -77,11 +74,6 @@ function parsePartOfSpeech(text) {
 
 function compactExplanation(text) {
   return text.replace(/\s+/g, " ").trim();
-}
-
-function buildPageChips(pageCount) {
-  if (!pageCount || pageCount < 5) return [1, 2, 3].filter((page) => !pageCount || page <= pageCount);
-  return [1, 2, 3, 4, pageCount];
 }
 
 function normalizeAudioWord(word) {
@@ -159,13 +151,15 @@ function useStudyData() {
 
   useEffect(() => {
     let mounted = true;
-    fetch(`${BASE_URL}data/study-data.json`)
-      .then((response) => {
+    const fetchJson = (path) =>
+      fetch(`${BASE_URL}data/${path}`).then((response) => {
         if (!response.ok) throw new Error(`Data request failed: ${response.status}`);
         return response.json();
-      })
-      .then((data) => {
-        if (mounted) setState({ data, error: null });
+      });
+
+    Promise.all([fetchJson("study-data.json"), fetchJson("practice-data.json")])
+      .then(([studyData, practiceData]) => {
+        if (mounted) setState({ data: { ...studyData, practice: practiceData }, error: null });
       })
       .catch((error) => {
         if (mounted) setState({ data: null, error });
@@ -346,47 +340,21 @@ function UpcomingWords({ words, progress, onSpeak, onToggleSaved }) {
   );
 }
 
-function PracticePanel({ pdf, selectedPage, onSelectPage, onOpenReader }) {
-  if (!pdf) return null;
-  const pageChips = buildPageChips(pdf.pageCount);
+function DailyPracticePanel({ question, totalCount, onOpenPractice }) {
+  if (!question) return null;
+  const preview = question.category === "essay" ? question.promptText : question.questionText || question.passage?.text;
 
   return (
-    <section className="practice-panel">
-      <div className="pdf-thumb">
-        <div className="pdf-mark">GRE</div>
-        <div className="pdf-lines">
-          <span />
-          <span />
-          <span />
-          <span />
-        </div>
-        <b>PDF</b>
+    <section className="daily-practice-panel">
+      <div className="daily-practice-copy">
+        <span>{question.typeLabel}</span>
+        <h3>{question.id}</h3>
+        <p>{preview}</p>
       </div>
-
-      <div className="practice-meta">
-        <h3>{pdf.title}</h3>
-        <p>GRE Practice PDF</p>
-        <span>{pdf.pageCount ? `${pdf.pageCount} pages` : "PDF reader"}</span>
-        <label>Pages</label>
-        <div className="page-chips">
-          {pageChips.slice(0, 4).map((page) => (
-            <button className={selectedPage === page ? "is-active" : ""} key={page} type="button" onClick={() => onSelectPage(page)}>
-              {page}
-            </button>
-          ))}
-          {pageChips.length > 4 && <span>...</span>}
-          {pageChips.length > 4 && (
-            <button className={selectedPage === pageChips.at(-1) ? "is-active" : ""} type="button" onClick={() => onSelectPage(pageChips.at(-1))}>
-              {pageChips.at(-1)}
-            </button>
-          )}
-        </div>
-      </div>
-
-      <button className="reader-button" type="button" onClick={onOpenReader}>
-        <BookOpen size={22} />
-        <span>Open Reader</span>
+      <button className="practice-start-button" type="button" onClick={() => onOpenPractice(question)}>
+        Start question
       </button>
+      <small>{totalCount} public GRE questions and prompts</small>
     </section>
   );
 }
@@ -409,18 +377,17 @@ function TodayView({
   focusState,
   focusReveal,
   audioStatus,
-  selectedPdf,
-  selectedPage,
+  dailyPracticeQuestion,
+  practiceTotal,
   masteredCount,
   progress,
   onPronounce,
   onRevealFocus,
   onToggleMastered,
   onToggleSaved,
-  onSelectPage,
   onOpenList,
   onOpenSaved,
-  onOpenReader,
+  onOpenPractice,
 }) {
   const upcoming = day.words.filter((word) => word.id !== focusWord?.id).slice(0, 3);
 
@@ -457,8 +424,8 @@ function TodayView({
         <time>2 PM</time>
         <TimelineBadge icon={PencilLine} />
         <div className="timeline-content">
-          <SectionHeading title="Practice" body="GRE Practice PDFs" onClick={onOpenReader} />
-          <PracticePanel pdf={selectedPdf} selectedPage={selectedPage} onSelectPage={onSelectPage} onOpenReader={onOpenReader} />
+          <SectionHeading title="Practice" body={`${practiceTotal} real questions and Issue prompts`} onClick={() => onOpenPractice(dailyPracticeQuestion)} />
+          <DailyPracticePanel question={dailyPracticeQuestion} totalCount={practiceTotal} onOpenPractice={onOpenPractice} />
         </div>
       </div>
     </section>
@@ -542,45 +509,353 @@ function WordListView({ days, selectedDay, setSelectedDay, progress, onPronounce
   );
 }
 
-function ReaderView({ pdfs, selectedPdfId, setSelectedPdfId, selectedPage, setSelectedPage }) {
-  const activePdf = pdfs.find((pdf) => pdf.id === selectedPdfId) || pdfs[0];
-  if (!activePdf) {
-    return <EmptyState title="No PDFs yet" body="Practice PDFs will appear here after data preparation." />;
-  }
+const practiceTypeFilters = [
+  { id: "all", label: "All" },
+  { id: "text_completion", label: "Text Completion" },
+  { id: "sentence_equivalence", label: "Sentence Equivalence" },
+  { id: "reading_comprehension", label: "Reading" },
+  { id: "issue_task", label: "Issue" },
+];
 
-  const fileUrl = `${BASE_URL}pdfs/${activePdf.fileName}`;
-  const openUrl = `${fileUrl}#page=${selectedPage}`;
+function sourceLabel(question) {
+  const file = question.source?.file?.replace(/\.pdf$/i, "") || "GRE";
+  return `${file} · p. ${question.source?.page || "?"}`;
+}
+
+function questionPreview(question) {
+  return question.category === "essay" ? question.promptText : question.questionText || question.passage?.text || "Untitled question";
+}
+
+function getAnswerLabels(answer) {
+  if (answer?.label) return [answer.label];
+  return Array.isArray(answer?.labels) ? answer.labels : [];
+}
+
+function sameLabels(left, right) {
+  return left.length === right.length && left.every((label) => right.includes(label));
+}
+
+function splitPassageSentences(text) {
+  const source = String(text || "").replace(/\s+/g, " ").trim();
+  return source.match(/[^.!?]+(?:[.!?]+[”"']?(?=\s|$)|$)/g)?.map((sentence) => sentence.trim()).filter(Boolean) || [];
+}
+
+function buildSentenceChoices(passage, answer) {
+  const choices = splitPassageSentences(passage);
+  const normalizedAnswer = String(answer || "").replace(/\s+/g, " ").trim();
+  if (normalizedAnswer && !choices.some((choice) => choice.replace(/\s+/g, " ").trim() === normalizedAnswer)) {
+    choices.push(normalizedAnswer);
+  }
+  return choices;
+}
+
+function QuestionMeta({ question }) {
+  return (
+    <div className="source-meta">
+      <span>{question.typeLabel}</span>
+      <span>{sourceLabel(question)}</span>
+      {question.topic && <span>{question.topic}</span>}
+    </div>
+  );
+}
+
+function AnswerSummary({ answer }) {
+  if (answer?.label) return <>{answer.label}. {answer.text}</>;
+  if (Array.isArray(answer?.labels)) return <>{answer.labels.map((label, index) => `${label}. ${answer.texts?.[index] || ""}`).join(" · ")}</>;
+  if (Array.isArray(answer?.selections)) return <>{answer.selections.map((selection) => `${selection.blank} ${selection.label}. ${selection.text}`).join(" · ")}</>;
+  if (answer?.sentence_text) return <>{answer.sentence_text}</>;
+  return <>Answer unavailable.</>;
+}
+
+function SolutionPanel({ answer, correct }) {
+  return (
+    <section className={`solution-panel ${correct ? "is-correct" : "is-incorrect"}`}>
+      <strong>{correct ? "Correct" : "Review the answer"}</strong>
+      <p><b>Answer:</b> <AnswerSummary answer={answer} /></p>
+      {answer?.rationale_zh && <p>{answer.rationale_zh}</p>}
+      {answer?.coherence_zh && <p>{answer.coherence_zh}</p>}
+      {answer?.pair_relation_zh && <p>{answer.pair_relation_zh}</p>}
+    </section>
+  );
+}
+
+function TranslationBlock({ translation }) {
+  if (!translation) return null;
+  const hasContent = translation.passage_zh || translation.question_zh || translation.selected_sentence_zh || translation.options_zh?.length || translation.option_groups_zh?.length;
+  if (!hasContent) return null;
 
   return (
-    <section className="reader-view">
-      <div className="reader-toolbar">
-        <div>
-          <h2>Reader</h2>
-          <p>{activePdf.title}</p>
+    <details className="translation-block">
+      <summary>中文翻译</summary>
+      {translation.passage_zh && <p><b>语段：</b>{translation.passage_zh}</p>}
+      {translation.question_zh && <p><b>题干：</b>{translation.question_zh}</p>}
+      {translation.selected_sentence_zh && <p><b>正确句：</b>{translation.selected_sentence_zh}</p>}
+      {translation.options_zh?.length > 0 && (
+        <ul>
+          {translation.options_zh.map((option) => <li key={option.label}><b>{option.label}.</b> {option.text_zh}</li>)}
+        </ul>
+      )}
+      {translation.option_groups_zh?.map((group) => (
+        <div className="translation-choice-group" key={group.blank}>
+          <b>{group.blank}</b>
+          <ul>
+            {group.choices.map((option) => <li key={option.label}><b>{option.label}.</b> {option.text_zh}</li>)}
+          </ul>
         </div>
-        <a href={openUrl} target="_blank" rel="noreferrer">
-          Open PDF
-        </a>
-      </div>
+      ))}
+    </details>
+  );
+}
 
-      <div className="reader-controls">
-        <select value={activePdf.id} onChange={(event) => setSelectedPdfId(event.target.value)}>
-          {pdfs.map((pdf) => (
-            <option key={pdf.id} value={pdf.id}>
-              {pdf.title}
-            </option>
+function VocabularyCards({ vocabulary }) {
+  if (!vocabulary?.length) return null;
+
+  return (
+    <section className="vocab-notes">
+      <h3>Vocabulary notes</h3>
+      <div>
+        {vocabulary.map((item, index) => (
+          <article className="vocab-mini-card" key={`${item.blank || ""}-${item.label || index}-${item.term}`}>
+            <span>{item.blank ? `${item.blank} · ${item.label}` : item.label}</span>
+            <h4>{item.term}</h4>
+            <p>{item.translation_zh}</p>
+            {item.memory_zh && <small><b>记忆：</b>{item.memory_zh}</small>}
+            {item.example_en && <em>{item.example_en}</em>}
+            {item.example_zh && <small>{item.example_zh}</small>}
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function OptionButton({ option, selected, correct, incorrect, onClick }) {
+  return (
+    <button
+      className={`choice-option ${selected ? "is-selected" : ""} ${correct ? "is-correct" : ""} ${incorrect ? "is-wrong" : ""}`}
+      type="button"
+      onClick={onClick}
+    >
+      <span>{option.label}</span>
+      <strong>{option.text}</strong>
+    </button>
+  );
+}
+
+function VerbalQuestion({ question }) {
+  const [selectedLabels, setSelectedLabels] = useState([]);
+  const [selectedByBlank, setSelectedByBlank] = useState({});
+  const [selectedSentence, setSelectedSentence] = useState("");
+  const [checked, setChecked] = useState(false);
+  const format = question.responseFormat?.id;
+  const expectedLabels = getAnswerLabels(question.answer);
+  const selectionLimit = Math.max(1, expectedLabels.length);
+  const isBlankQuestion = format === "two_blanks_three_each" || format === "three_blanks_three_each";
+  const isSentenceQuestion = format === "passage_sentence_selection";
+  const sentenceChoices = isSentenceQuestion ? buildSentenceChoices(question.passage?.text, question.answer?.sentence_text) : [];
+  const correctByBlank = Object.fromEntries((question.answer?.selections || []).map((selection) => [selection.blank, selection.label]));
+  const complete = isBlankQuestion
+    ? question.optionGroups.every((group) => selectedByBlank[group.blank])
+    : isSentenceQuestion
+      ? Boolean(selectedSentence)
+      : selectedLabels.length === selectionLimit;
+  const correct = isBlankQuestion
+    ? question.optionGroups.every((group) => selectedByBlank[group.blank] === correctByBlank[group.blank])
+    : isSentenceQuestion
+      ? selectedSentence.replace(/\s+/g, " ").trim() === String(question.answer?.sentence_text || "").replace(/\s+/g, " ").trim()
+      : sameLabels(selectedLabels, expectedLabels);
+
+  const chooseOption = (label) => {
+    setChecked(false);
+    if (selectionLimit === 1) {
+      setSelectedLabels([label]);
+      return;
+    }
+    setSelectedLabels((current) => {
+      if (current.includes(label)) return current.filter((item) => item !== label);
+      if (current.length >= selectionLimit) return [...current.slice(1), label];
+      return [...current, label];
+    });
+  };
+
+  return (
+    <article className="question-card">
+      <QuestionMeta question={question} />
+      {question.responseFormat?.selection_rule && <p className="selection-rule">{question.responseFormat.selection_rule}</p>}
+      {question.passage?.text && <blockquote className="passage-block">{question.passage.text}</blockquote>}
+      <h3 className="question-prompt">{question.questionText}</h3>
+
+      {isBlankQuestion && (
+        <div className="blank-groups">
+          {question.optionGroups.map((group) => (
+            <section className="blank-group" key={group.blank}>
+              <h4>{group.blank}</h4>
+              <div className="choice-list">
+                {group.choices.map((option) => (
+                  <OptionButton
+                    correct={checked && correctByBlank[group.blank] === option.label}
+                    incorrect={checked && selectedByBlank[group.blank] === option.label && correctByBlank[group.blank] !== option.label}
+                    key={option.label}
+                    option={option}
+                    selected={selectedByBlank[group.blank] === option.label}
+                    onClick={() => {
+                      setChecked(false);
+                      setSelectedByBlank((current) => ({ ...current, [group.blank]: option.label }));
+                    }}
+                  />
+                ))}
+              </div>
+            </section>
           ))}
-        </select>
-        <input
-          min="1"
-          max={activePdf.pageCount || undefined}
-          type="number"
-          value={selectedPage}
-          onChange={(event) => setSelectedPage(Math.max(1, Number(event.target.value) || 1))}
-        />
+        </div>
+      )}
+
+      {isSentenceQuestion && (
+        <div className="sentence-choice-list">
+          {sentenceChoices.map((sentence, index) => {
+            const isCorrectSentence = sentence.replace(/\s+/g, " ").trim() === String(question.answer?.sentence_text || "").replace(/\s+/g, " ").trim();
+            return (
+              <button
+                className={`sentence-choice ${selectedSentence === sentence ? "is-selected" : ""} ${checked && isCorrectSentence ? "is-correct" : ""} ${checked && selectedSentence === sentence && !isCorrectSentence ? "is-wrong" : ""}`}
+                key={`${index}-${sentence}`}
+                type="button"
+                onClick={() => {
+                  setChecked(false);
+                  setSelectedSentence(sentence);
+                }}
+              >
+                <span>{index + 1}</span>
+                {sentence}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {!isBlankQuestion && !isSentenceQuestion && (
+        <div className="choice-list">
+          {question.options.map((option) => (
+            <OptionButton
+              correct={checked && expectedLabels.includes(option.label)}
+              incorrect={checked && selectedLabels.includes(option.label) && !expectedLabels.includes(option.label)}
+              key={option.label}
+              option={option}
+              selected={selectedLabels.includes(option.label)}
+              onClick={() => chooseOption(option.label)}
+            />
+          ))}
+        </div>
+      )}
+
+      <button className="practice-check-button" disabled={!complete} type="button" onClick={() => setChecked(true)}>
+        Check answer
+      </button>
+      {checked && <SolutionPanel answer={question.answer} correct={correct} />}
+      <TranslationBlock translation={question.translation} />
+      <VocabularyCards vocabulary={question.vocabulary} />
+    </article>
+  );
+}
+
+function EssayQuestion({ question, draft, onChangeDraft }) {
+  return (
+    <article className="question-card essay-question">
+      <QuestionMeta question={question} />
+      <h3 className="essay-prompt">{question.promptText}</h3>
+      <label className="essay-draft-label" htmlFor={`draft-${question.id}`}>Your response</label>
+      <textarea
+        id={`draft-${question.id}`}
+        className="essay-draft"
+        value={draft || ""}
+        onChange={(event) => onChangeDraft(event.target.value)}
+        placeholder="Write your Issue response here…"
+      />
+      <div className="essay-draft-footer">
+        <span>Saved in this browser.</span>
+        <button type="button" onClick={() => onChangeDraft("")}>Clear draft</button>
+      </div>
+    </article>
+  );
+}
+
+function PracticeQuestion({ question, draft, onChangeDraft }) {
+  if (question.category === "essay") return <EssayQuestion question={question} draft={draft} onChangeDraft={onChangeDraft} />;
+  return <VerbalQuestion question={question} />;
+}
+
+function PracticeView({ records, selectedQuestionId, onSelectQuestion, essayDrafts, onChangeEssayDraft }) {
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [sourceFilter, setSourceFilter] = useState("all");
+  const [query, setQuery] = useState("");
+  const sources = useMemo(() => [...new Set(records.map((record) => record.source?.file).filter(Boolean))], [records]);
+  const filteredRecords = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    return records.filter((record) => {
+      if (typeFilter !== "all" && record.questionType !== typeFilter) return false;
+      if (sourceFilter !== "all" && record.source?.file !== sourceFilter) return false;
+      if (!normalizedQuery) return true;
+      return `${record.id} ${record.typeLabel} ${questionPreview(record)} ${record.topic || ""}`.toLowerCase().includes(normalizedQuery);
+    });
+  }, [query, records, sourceFilter, typeFilter]);
+  const selectedQuestion = filteredRecords.find((record) => record.id === selectedQuestionId) || filteredRecords[0] || null;
+  const selectedIndex = selectedQuestion ? filteredRecords.findIndex((record) => record.id === selectedQuestion.id) : -1;
+  const moveQuestion = (offset) => {
+    if (!filteredRecords.length) return;
+    const nextIndex = (selectedIndex + offset + filteredRecords.length) % filteredRecords.length;
+    onSelectQuestion(filteredRecords[nextIndex].id);
+  };
+
+  return (
+    <section className="panel-view practice-view">
+      <div className="panel-title">
+        <div>
+          <h2>Practice</h2>
+          <p>{records.length} public GRE questions and Issue prompts.</p>
+        </div>
       </div>
 
-      <PdfPagePreview page={selectedPage} url={fileUrl} />
+      <div className="practice-type-pills" aria-label="Question type">
+        {practiceTypeFilters.map((filter) => (
+          <button className={typeFilter === filter.id ? "is-active" : ""} key={filter.id} type="button" onClick={() => setTypeFilter(filter.id)}>
+            {filter.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="practice-controls">
+        <select aria-label="Practice set" value={sourceFilter} onChange={(event) => setSourceFilter(event.target.value)}>
+          <option value="all">All practice sets</option>
+          {sources.map((source) => <option key={source} value={source}>{source.replace(/\.pdf$/i, "")}</option>)}
+        </select>
+        <div className="search-box">
+          <Search size={19} />
+          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search question text or ID" />
+        </div>
+      </div>
+
+      {!selectedQuestion ? (
+        <EmptyState title="No matching questions" body="Try another question type, practice set, or search phrase." />
+      ) : (
+        <>
+          <div className="practice-picker">
+            <select aria-label="Question selector" value={selectedQuestion.id} onChange={(event) => onSelectQuestion(event.target.value)}>
+              {filteredRecords.map((record) => <option key={record.id} value={record.id}>{record.id} · {record.typeLabel}</option>)}
+            </select>
+            <span>{selectedIndex + 1} / {filteredRecords.length}</span>
+          </div>
+          <div className="practice-navigation">
+            <button type="button" onClick={() => moveQuestion(-1)}>Previous</button>
+            <button type="button" onClick={() => onSelectQuestion(filteredRecords[Math.floor(Math.random() * filteredRecords.length)].id)}>Random</button>
+            <button type="button" onClick={() => moveQuestion(1)}>Next</button>
+          </div>
+          <PracticeQuestion
+            key={selectedQuestion.id}
+            question={selectedQuestion}
+            draft={essayDrafts[selectedQuestion.id]}
+            onChangeDraft={(value) => onChangeEssayDraft(selectedQuestion.id, value)}
+          />
+        </>
+      )}
     </section>
   );
 }
@@ -649,79 +924,6 @@ function SavedView({ days, progress, onPronounce, toggleMastered, toggleSaved })
   );
 }
 
-function PdfPagePreview({ page, url }) {
-  const canvasRef = useRef(null);
-  const frameRef = useRef(null);
-  const [status, setStatus] = useState("loading");
-  const [errorMessage, setErrorMessage] = useState("");
-
-  useEffect(() => {
-    let cancelled = false;
-    let loadingTask = null;
-    let renderTask = null;
-
-    async function renderPage() {
-      try {
-        setStatus("loading");
-        setErrorMessage("");
-        loadingTask = pdfjsLib.getDocument({ url, disableWorker: true });
-        const pdf = await loadingTask.promise;
-        const safePage = Math.min(Math.max(1, page), pdf.numPages);
-        const pdfPage = await pdf.getPage(safePage);
-        const baseViewport = pdfPage.getViewport({ scale: 1 });
-        const availableWidth = Math.max(280, frameRef.current?.clientWidth || 360);
-        const scale = Math.min(1.6, availableWidth / baseViewport.width);
-        const viewport = pdfPage.getViewport({ scale });
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-
-        const context = canvas.getContext("2d");
-        const outputScale = window.devicePixelRatio || 1;
-        canvas.width = Math.floor(viewport.width * outputScale);
-        canvas.height = Math.floor(viewport.height * outputScale);
-        canvas.style.width = `${Math.floor(viewport.width)}px`;
-        canvas.style.height = `${Math.floor(viewport.height)}px`;
-        context.setTransform(outputScale, 0, 0, outputScale, 0, 0);
-        context.clearRect(0, 0, viewport.width, viewport.height);
-        renderTask = pdfPage.render({ canvasContext: context, viewport });
-        await renderTask.promise;
-        if (!cancelled) setStatus("ready");
-      } catch (error) {
-        if (!cancelled && error?.name !== "RenderingCancelledException") {
-          setErrorMessage(error?.message || error?.name || "Unknown PDF preview error");
-          setStatus("error");
-        }
-      }
-    }
-
-    renderPage();
-
-    return () => {
-      cancelled = true;
-      renderTask?.cancel?.();
-      loadingTask?.destroy?.();
-    };
-  }, [page, url]);
-
-  return (
-    <div className="pdf-preview" ref={frameRef}>
-      {status === "loading" && (
-        <div className="pdf-status">
-          <Loader2 className="spin" size={24} />
-          <span>Rendering page</span>
-        </div>
-      )}
-      {status === "error" && (
-        <div className="pdf-status">
-          <span>Preview unavailable. Open the PDF file instead.</span>
-          <small>{errorMessage}</small>
-        </div>
-      )}
-      <canvas className={status === "ready" ? "is-ready" : ""} ref={canvasRef} />
-    </div>
-  );
-}
-
 export function App() {
   const { data, error } = useStudyData();
   const [activeTab, setActiveTab] = useState(getInitialTab);
@@ -729,8 +931,8 @@ export function App() {
   const [selectedDay, setSelectedDay] = useState(1);
   const [progress, setProgress] = useState(() => loadJsonStorage(STORAGE_KEY, {}));
   const [focusReveal, setFocusReveal] = useState(true);
-  const [selectedPdfId, setSelectedPdfId] = useState("");
-  const [selectedPage, setSelectedPage] = useState(1);
+  const [practiceQuestionId, setPracticeQuestionId] = useState("");
+  const [essayDrafts, setEssayDrafts] = useState(() => loadJsonStorage(PRACTICE_DRAFTS_KEY, {}));
   const [audioStatus, setAudioStatus] = useState("");
   const audioCacheRef = useRef(loadJsonStorage(AUDIO_CACHE_KEY, {}));
   const audioRef = useRef(null);
@@ -740,17 +942,15 @@ export function App() {
   }, [progress]);
 
   useEffect(() => {
+    window.localStorage.setItem(PRACTICE_DRAFTS_KEY, JSON.stringify(essayDrafts));
+  }, [essayDrafts]);
+
+  useEffect(() => {
     if (!data) return;
     const elapsed = Math.max(0, daysBetween(startDate, todayIso()));
     const currentDay = (elapsed % data.days.length) + 1;
     setSelectedDay(currentDay);
   }, [data, startDate]);
-
-  useEffect(() => {
-    if (!data || selectedPdfId) return;
-    const pdf = data.pdfs[(selectedDay - 1) % Math.max(1, data.pdfs.length)];
-    if (pdf) setSelectedPdfId(pdf.id);
-  }, [data, selectedDay, selectedPdfId]);
 
   useEffect(() => {
     if (!data) return;
@@ -770,7 +970,8 @@ export function App() {
   const dayProgress = day.words.length ? masteredCount / day.words.length : 0;
   const focusWord = day.words.find((word) => !getWordState(progress, word.id).mastered) || day.words[0];
   const focusState = focusWord ? getWordState(progress, focusWord.id) : { mastered: false, saved: false };
-  const selectedPdf = data.pdfs.find((pdf) => pdf.id === selectedPdfId) || data.pdfs[(selectedDay - 1) % data.pdfs.length];
+  const practiceRecords = data.practice?.records || [];
+  const dailyPracticeQuestion = practiceRecords.length ? practiceRecords[(selectedDay - 1) % practiceRecords.length] : null;
 
   const toggleMastered = (word) => {
     if (!word) return;
@@ -801,9 +1002,13 @@ export function App() {
     });
   };
 
-  const openReader = () => {
-    if (selectedPdf) setSelectedPdfId(selectedPdf.id);
-    setActiveTab("reader");
+  const openPractice = (question) => {
+    if (question?.id) setPracticeQuestionId(question.id);
+    setActiveTab("practice");
+  };
+
+  const changeEssayDraft = (questionId, value) => {
+    setEssayDrafts((current) => ({ ...current, [questionId]: value }));
   };
 
   const playAudioUrl = (audioUrl) => {
@@ -861,18 +1066,17 @@ export function App() {
             focusState={focusState}
             focusReveal={focusReveal}
             audioStatus={audioStatus}
-            selectedPdf={selectedPdf}
-            selectedPage={selectedPage}
+            dailyPracticeQuestion={dailyPracticeQuestion}
+            practiceTotal={practiceRecords.length}
             masteredCount={masteredCount}
             progress={progress}
             onPronounce={playPronunciation}
             onRevealFocus={() => setFocusReveal((value) => !value)}
             onToggleMastered={toggleMastered}
             onToggleSaved={toggleSaved}
-            onSelectPage={setSelectedPage}
             onOpenList={() => setActiveTab("list")}
             onOpenSaved={() => setActiveTab("saved")}
-            onOpenReader={openReader}
+            onOpenPractice={openPractice}
           />
         )}
 
@@ -888,13 +1092,13 @@ export function App() {
           />
         )}
 
-        {activeTab === "reader" && (
-          <ReaderView
-            pdfs={data.pdfs}
-            selectedPdfId={selectedPdfId}
-            setSelectedPdfId={setSelectedPdfId}
-            selectedPage={selectedPage}
-            setSelectedPage={setSelectedPage}
+        {activeTab === "practice" && (
+          <PracticeView
+            records={practiceRecords}
+            selectedQuestionId={practiceQuestionId}
+            onSelectQuestion={setPracticeQuestionId}
+            essayDrafts={essayDrafts}
+            onChangeEssayDraft={changeEssayDraft}
           />
         )}
 

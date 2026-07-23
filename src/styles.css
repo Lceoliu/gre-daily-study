@@ -297,8 +297,7 @@ button {
 }
 
 .section-heading h2,
-.panel-title h2,
-.reader-toolbar h2 {
+.panel-title h2 {
   margin: 0;
   font-size: 22px;
   font-weight: 700;
@@ -307,8 +306,7 @@ button {
 }
 
 .section-heading p,
-.panel-title p,
-.reader-toolbar p {
+.panel-title p {
   margin: 5px 0 0;
   color: var(--green);
   font-size: 15px;
@@ -531,96 +529,6 @@ button {
   background: var(--green-soft);
 }
 
-.practice-panel {
-  display: grid;
-  grid-template-columns: 112px minmax(0, 1fr);
-  column-gap: 17px;
-  row-gap: 16px;
-  margin-top: 14px;
-  padding-bottom: 18px;
-}
-
-.pdf-thumb {
-  position: relative;
-  height: 126px;
-  overflow: hidden;
-  border: 1px solid #d1d3cd;
-  border-radius: 5px;
-  background: #fff;
-  box-shadow: 0 6px 22px rgba(34, 40, 35, 0.07);
-}
-
-.pdf-mark {
-  position: absolute;
-  top: 9px;
-  left: 9px;
-  color: #2a5ba8;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0;
-}
-
-.pdf-lines {
-  display: grid;
-  gap: 8px;
-  padding: 34px 15px 0;
-}
-
-.pdf-lines span {
-  display: block;
-  height: 7px;
-  border-radius: 99px;
-  background: linear-gradient(90deg, #c7ccc9 0%, #dfe2df 100%);
-}
-
-.pdf-thumb b {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 5px 10px 6px;
-  border-radius: 0 5px 0 0;
-  color: #fff;
-  background: #cf2f25;
-  font-size: 13px;
-  letter-spacing: 0;
-}
-
-.practice-meta h3 {
-  margin: 3px 0 5px;
-  overflow: hidden;
-  font-family: "Fraunces", Georgia, serif;
-  font-size: 26px;
-  font-weight: 500;
-  line-height: 1.1;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.practice-meta p,
-.practice-meta span {
-  display: block;
-  margin: 0 0 7px;
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.2;
-}
-
-.practice-meta label {
-  display: block;
-  margin: 14px 0 8px;
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.page-chips {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 9px;
-}
-
-.page-chips button,
 .day-pills button {
   display: inline-grid;
   min-width: 34px;
@@ -634,32 +542,70 @@ button {
   font-weight: 700;
 }
 
-.page-chips button.is-active,
 .day-pills button.is-active {
   border-color: var(--green);
   color: #fff;
   background: var(--green);
 }
 
-.page-chips span {
-  color: var(--muted);
-  letter-spacing: 2px;
+.daily-practice-panel {
+  display: grid;
+  gap: 13px;
+  margin-top: 12px;
+  padding: 15px 15px 13px;
+  border: 1px solid var(--line-strong);
+  border-left: 4px solid var(--green);
+  border-radius: 6px 0 0 6px;
+  background: var(--paper);
 }
 
-.reader-button {
-  grid-column: 1 / -1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 54px;
-  gap: 10px;
+.daily-practice-copy > span,
+.source-meta span:first-child {
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.daily-practice-copy h3 {
+  margin: 4px 0 6px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.daily-practice-copy p {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.practice-start-button,
+.practice-check-button {
+  min-height: 44px;
   border: 0;
   border-radius: 5px;
   color: #fff;
   background: var(--green);
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 800;
-  box-shadow: 0 10px 24px rgba(23, 97, 63, 0.19);
+}
+
+.practice-start-button:hover,
+.practice-check-button:not(:disabled):hover {
+  background: #114d37;
+}
+
+.daily-practice-panel small {
+  color: var(--faint);
+  font-size: 12px;
 }
 
 .bottom-nav {
@@ -700,13 +646,11 @@ button {
   color: var(--green);
 }
 
-.panel-view,
-.reader-view {
+.panel-view {
   padding: 24px 21px 26px;
 }
 
-.panel-title,
-.reader-toolbar {
+.panel-title {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -714,8 +658,7 @@ button {
   margin-bottom: 18px;
 }
 
-.panel-title p,
-.reader-toolbar p {
+.panel-title p {
   color: var(--muted);
 }
 
@@ -815,32 +758,52 @@ button {
   gap: 1px;
 }
 
-.reader-toolbar a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 36px;
-  padding: 0 13px;
-  border: 1px solid var(--green);
-  border-radius: 6px;
+.practice-view {
+  padding-bottom: 34px;
+}
+
+.practice-type-pills {
+  display: flex;
+  gap: 8px;
+  margin: 0 -21px 16px;
+  overflow-x: auto;
+  padding: 0 21px 4px;
+  scrollbar-width: none;
+}
+
+.practice-type-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.practice-type-pills button {
+  flex: 0 0 auto;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
   color: var(--green);
+  background: #fff;
   font-size: 13px;
-  font-weight: 800;
-  text-decoration: none;
-  white-space: nowrap;
+  font-weight: 700;
 }
 
-.reader-controls {
+.practice-type-pills button.is-active {
+  border-color: var(--green);
+  color: #fff;
+  background: var(--green);
+}
+
+.practice-controls {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 74px;
   gap: 10px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
-.reader-controls select,
-.reader-controls input {
+.practice-controls > select,
+.practice-picker select {
+  width: 100%;
   min-width: 0;
-  height: 42px;
+  height: 44px;
   border: 1px solid var(--line-strong);
   border-radius: 6px;
   color: var(--ink);
@@ -849,46 +812,351 @@ button {
   font-size: 14px;
 }
 
-.pdf-preview {
-  position: relative;
+.practice-picker {
   display: grid;
-  min-height: calc(100vh - 245px);
-  max-height: calc(100vh - 170px);
-  width: 100%;
-  place-items: start center;
-  overflow: auto;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 10px;
+}
+
+.practice-picker span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.practice-navigation {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.practice-navigation button {
+  min-height: 38px;
   border: 1px solid var(--line-strong);
   border-radius: 5px;
-  background: #fff;
+  color: var(--green);
+  background: var(--paper);
+  font-size: 13px;
+  font-weight: 800;
 }
 
-.pdf-preview canvas {
-  display: block;
-  max-width: 100%;
-  opacity: 0;
+.practice-navigation button:hover {
+  border-color: var(--green);
+  background: var(--green-soft);
 }
 
-.pdf-preview canvas.is-ready {
-  opacity: 1;
+.question-card {
+  padding: 17px 0 0;
+  border-top: 1px solid var(--line-strong);
 }
 
-.pdf-status {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-content: center;
-  gap: 10px;
+.source-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin-bottom: 9px;
+}
+
+.source-meta span:not(:first-child) {
+  color: var(--faint);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.selection-rule {
+  margin: 0 0 13px;
   color: var(--muted);
   font-size: 14px;
-  text-align: center;
+  line-height: 1.4;
 }
 
-.pdf-status small {
-  display: block;
-  max-width: 320px;
-  color: #8a4c41;
-  font-size: 12px;
+.passage-block {
+  margin: 0 0 16px;
+  padding: 14px 15px;
+  border-left: 3px solid var(--lavender);
+  color: #3e413b;
+  background: var(--lavender-soft);
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.question-prompt,
+.essay-prompt {
+  margin: 0 0 17px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.3;
+  white-space: pre-wrap;
+}
+
+.choice-list {
+  display: grid;
+  gap: 8px;
+}
+
+.choice-option {
+  display: grid;
+  grid-template-columns: 29px minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  padding: 11px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  color: var(--ink);
+  background: #fff;
+  text-align: left;
+}
+
+.choice-option > span {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.choice-option strong {
+  padding-top: 4px;
+  font-size: 15px;
+  font-weight: 600;
   line-height: 1.35;
+}
+
+.choice-option:hover,
+.choice-option.is-selected {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.choice-option.is-correct,
+.sentence-choice.is-correct {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.choice-option.is-wrong,
+.sentence-choice.is-wrong {
+  border-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.blank-groups {
+  display: grid;
+  gap: 17px;
+}
+
+.blank-group h4 {
+  margin: 0 0 8px;
+  color: var(--lavender);
+  font-size: 14px;
+}
+
+.sentence-choice-list {
+  display: grid;
+  gap: 8px;
+}
+
+.sentence-choice {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  color: var(--ink);
+  background: #fff;
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.sentence-choice > span {
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.sentence-choice:hover,
+.sentence-choice.is-selected {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.practice-check-button {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.practice-check-button:disabled {
+  cursor: not-allowed;
+  color: #81857d;
+  background: #e4e5df;
+}
+
+.solution-panel {
+  margin-top: 13px;
+  padding: 13px 14px;
+  border-left: 3px solid var(--green);
+  background: var(--green-soft);
+}
+
+.solution-panel.is-incorrect {
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.solution-panel > strong {
+  color: var(--green);
+  font-size: 14px;
+}
+
+.solution-panel.is-incorrect > strong {
+  color: #8b561d;
+}
+
+.solution-panel p {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.translation-block {
+  margin-top: 13px;
+  padding: 12px 13px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: #fff;
+  color: #3e413b;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.translation-block summary {
+  cursor: pointer;
+  color: var(--green);
+  font-weight: 800;
+}
+
+.translation-block p,
+.translation-block ul {
+  margin: 10px 0 0;
+}
+
+.translation-block ul {
+  padding-left: 20px;
+}
+
+.translation-choice-group {
+  margin-top: 10px;
+}
+
+.vocab-notes {
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid var(--line);
+}
+
+.vocab-notes h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+
+.vocab-notes > div {
+  display: grid;
+  gap: 9px;
+}
+
+.vocab-mini-card {
+  padding: 12px 13px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--paper);
+}
+
+.vocab-mini-card > span {
+  color: var(--lavender);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.vocab-mini-card h4 {
+  margin: 3px 0 5px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.vocab-mini-card p,
+.vocab-mini-card small,
+.vocab-mini-card em {
+  display: block;
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-style: normal;
+  line-height: 1.45;
+}
+
+.vocab-mini-card em {
+  color: #3e413b;
+}
+
+.essay-draft-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--green);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.essay-draft {
+  width: 100%;
+  min-height: 270px;
+  resize: vertical;
+  padding: 13px;
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  color: var(--ink);
+  background: #fff;
+  font: inherit;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.essay-draft:focus {
+  border-color: var(--green);
+  outline: 2px solid rgba(25, 95, 69, 0.14);
+}
+
+.essay-draft-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  color: var(--faint);
+  font-size: 12px;
+}
+
+.essay-draft-footer button {
+  border: 0;
+  color: var(--lavender);
+  background: transparent;
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .review-summary {
@@ -978,12 +1246,11 @@ button {
     font-size: 36px;
   }
 
-  .practice-panel {
-    grid-template-columns: 94px minmax(0, 1fr);
-    column-gap: 12px;
+  .practice-picker {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .pdf-thumb {
-    height: 112px;
+  .practice-picker span {
+    display: none;
   }
 }

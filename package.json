@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "prepare:data": "node scripts/prepare-data.mjs",
+    "prepare:practice": "node scripts/build-public-practice-data.mjs",
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
-    "build:fresh": "npm run prepare:data && vite build",
+    "build:fresh": "npm run prepare:data && npm run prepare:practice && vite build",
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {
