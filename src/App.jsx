@@ -611,8 +611,8 @@ function VocabularyCards({ vocabulary }) {
   if (!vocabulary?.length) return null;
 
   return (
-    <section className="vocab-notes">
-      <h3>Vocabulary notes</h3>
+    <details className="vocab-notes">
+      <summary>Vocabulary &amp; translations</summary>
       <div>
         {vocabulary.map((item, index) => (
           <article className="vocab-mini-card" key={`${item.blank || ""}-${item.label || index}-${item.term}`}>
@@ -625,7 +625,31 @@ function VocabularyCards({ vocabulary }) {
           </article>
         ))}
       </div>
-    </section>
+    </details>
+  );
+}
+
+function BlankGuide({ question }) {
+  const explicitBlankCount = Number(question.responseFormat?.blank_count) || 0;
+  const blankCount = explicitBlankCount || (question.questionType === "sentence_equivalence" ? 1 : 0);
+  if (!blankCount) return null;
+
+  const labels = question.optionGroups?.length
+    ? question.optionGroups.map((group) => group.blank)
+    : Array.from({ length: blankCount }, (_, index) => (blankCount > 1 ? `(${"i".repeat(index + 1)})` : ""));
+
+  return (
+    <div className="blank-guide" aria-label={`Fill ${blankCount} blank${blankCount > 1 ? "s" : ""}`}>
+      <span>Fill-in blank{blankCount > 1 ? "s" : ""}</span>
+      <div>
+        {labels.map((label, index) => (
+          <span className="blank-target" key={`${label}-${index}`}>
+            {label && <b>{label}</b>}
+            <i aria-hidden="true">________</i>
+          </span>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -684,6 +708,7 @@ function VerbalQuestion({ question }) {
       {question.responseFormat?.selection_rule && <p className="selection-rule">{question.responseFormat.selection_rule}</p>}
       {question.passage?.text && <blockquote className="passage-block">{question.passage.text}</blockquote>}
       <h3 className="question-prompt">{question.questionText}</h3>
+      <BlankGuide question={question} />
 
       {isBlankQuestion && (
         <div className="blank-groups">
