@@ -75,16 +75,32 @@ function compactSource(source) {
   };
 }
 
+function needsClozeLayout(question) {
+  return question.question_type === "text_completion" || question.question_type === "sentence_equivalence";
+}
+
+function expectedBlankCount(question) {
+  const declaredCount = Number(question.response_format?.blank_count) || 0;
+  return declaredCount || (question.question_type === "sentence_equivalence" ? 1 : 0);
+}
+
+function countClozeMarkers(text) {
+  return [...String(text || "").matchAll(/\[\[BLANK:\d+\]\]/g)].length;
+}
+
 async function main() {
-  const [questionBank, answerBank, essayBank] = await Promise.all([
+  const [questionBank, answerBank, essayBank, clozeLayouts] = await Promise.all([
     readJson("local-data/verbal-question-bank/verbal-question-bank.json"),
     readJson("local-data/verbal-answer-bank-all/verbal-answer-bank-all-565.json"),
     readJson("local-data/essay-prompts/essay-prompts.json"),
+    readJson("local-data/cloze-layouts/cloze-layouts.json"),
   ]);
 
   const passagesById = new Map(questionBank.passage_groups.map((passage) => [passage.id, passage]));
   const answersById = new Map(answerBank.records.map((record) => [record.id, record]));
+  const clozeLayoutsById = new Map(clozeLayouts.records.map((layout) => [layout.id, layout]));
   const responseFormatCounts = countBy(questionBank.records, (record) => record.response_format?.id || "unknown");
+  const clozeQuestions = questionBank.records.filter(needsClozeLayout);
 
   assert(questionBank.records.length === 565, `Expected 565 verbal records, found ${questionBank.records.length}.`);
   assert(answerBank.records.length === questionBank.records.length, "Every verbal question must have exactly one answer record.");
@@ -94,11 +110,24 @@ async function main() {
     assert(responseFormatCounts[format] === expectedCount, `Unexpected ${format} count: ${responseFormatCounts[format] || 0}.`);
   }
 
+  assert(clozeLayouts.records.length === clozeQuestions.length, `Expected ${clozeQuestions.length} cloze layouts, found ${clozeLayouts.records.length}.`);
+  assert(clozeLayoutsById.size === clozeLayouts.records.length, "Cloze layouts contain duplicate IDs.");
+  for (const layout of clozeLayouts.records) {
+    const question = questionBank.records.find((record) => record.id === layout.id);
+    assert(question && needsClozeLayout(question), `Unexpected cloze layout ID: ${layout.id}.`);
+    assert(
+      countClozeMarkers(layout.cloze_text) === expectedBlankCount(question),
+      `Incorrect inline blank count for ${layout.id}.`,
+    );
+  }
+
   const verbalRecords = questionBank.records.map((question) => {
     const answerRecord = answersById.get(question.id);
+    const clozeLayout = clozeLayoutsById.get(question.id) || null;
     assert(answerRecord, `Missing answer record for ${question.id}.`);
     const passage = question.passage_group_id ? passagesById.get(question.passage_group_id) : null;
     assert(!question.passage_group_id || passage, `Missing passage group ${question.passage_group_id} for ${question.id}.`);
+    assert(!needsClozeLayout(question) || clozeLayout, `Missing cloze layout for ${question.id}.`);
 
     if (question.response_format?.id === "passage_sentence_selection") {
       const sentenceText = answerRecord.answer?.sentence_text;
@@ -119,8 +148,9 @@ async function main() {
       topic: question.topic,
       topicTags: question.topic_tags,
       passage: passage ? { id: passage.id, text: repairPublicText(passage.text) } : null,
-      questionText: repairPublicText(question.question_text),
-      options: repairPublicValue(question.options),
+      questionText: repairPublicText(clozeLayout?.question_text ?? question.question_text),
+      clozeText: clozeLayout ? repairPublicText(clozeLayout.cloze_text) : null,
+      options: repairPublicValue(clozeLayout?.options ?? question.options),
       optionGroups: repairPublicValue(question.option_groups),
       answer: repairPublicValue(answerRecord.answer),
       translation: repairPublicValue(answerRecord.translation),

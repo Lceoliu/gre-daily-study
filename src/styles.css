@@ -895,50 +895,15 @@ button {
   white-space: pre-wrap;
 }
 
-.blank-guide {
-  display: grid;
-  gap: 7px;
-  margin: -4px 0 18px;
-  padding: 11px 13px;
-  border: 1px dashed var(--line-strong);
-  border-left: 3px solid var(--green);
-  background: var(--parchment);
-}
-
-.blank-guide > span {
-  color: var(--green);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-}
-
-.blank-guide > div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.blank-target {
-  display: inline-flex;
-  align-items: end;
-  min-width: 112px;
-  gap: 7px;
-  color: var(--ink);
-}
-
-.blank-target b {
-  color: var(--lavender);
-  font-size: 13px;
-}
-
-.blank-target i {
-  min-width: 70px;
-  border-bottom: 2px solid var(--green);
-  color: transparent;
-  font-size: 14px;
-  font-style: normal;
-  letter-spacing: 1px;
+.inline-blank {
+  display: inline-block;
+  width: clamp(5.4rem, 24vw, 8.3rem);
+  height: 1.08em;
+  margin: 0 0.12em;
+  vertical-align: -0.11em;
+  border: 2px solid var(--green);
+  border-radius: 2px;
+  background: #fff;
 }
 
 .choice-list {

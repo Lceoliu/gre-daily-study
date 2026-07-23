@@ -629,27 +629,27 @@ function VocabularyCards({ vocabulary }) {
   );
 }
 
-function BlankGuide({ question }) {
-  const explicitBlankCount = Number(question.responseFormat?.blank_count) || 0;
-  const blankCount = explicitBlankCount || (question.questionType === "sentence_equivalence" ? 1 : 0);
-  if (!blankCount) return null;
+const CLOZE_MARKER_PATTERN = /(\[\[BLANK:\d+\]\])/g;
+const CLOZE_MARKER = /^\[\[BLANK:(\d+)\]\]$/;
 
-  const labels = question.optionGroups?.length
-    ? question.optionGroups.map((group) => group.blank)
-    : Array.from({ length: blankCount }, (_, index) => (blankCount > 1 ? `(${"i".repeat(index + 1)})` : ""));
+function ClozeQuestionText({ question }) {
+  const text = question.clozeText || question.questionText || "";
 
   return (
-    <div className="blank-guide" aria-label={`Fill ${blankCount} blank${blankCount > 1 ? "s" : ""}`}>
-      <span>Fill-in blank{blankCount > 1 ? "s" : ""}</span>
-      <div>
-        {labels.map((label, index) => (
-          <span className="blank-target" key={`${label}-${index}`}>
-            {label && <b>{label}</b>}
-            <i aria-hidden="true">________</i>
-          </span>
-        ))}
-      </div>
-    </div>
+    <h3 className="question-prompt cloze-question-prompt">
+      {String(text).split(CLOZE_MARKER_PATTERN).map((part, index) => {
+        const match = CLOZE_MARKER.exec(part);
+        if (!match) return part;
+        return (
+          <span
+            aria-label={`Blank ${match[1]}`}
+            className="inline-blank"
+            key={`blank-${index}-${match[1]}`}
+            role="img"
+          />
+        );
+      })}
+    </h3>
   );
 }
 
@@ -707,8 +707,7 @@ function VerbalQuestion({ question }) {
       <QuestionMeta question={question} />
       {question.responseFormat?.selection_rule && <p className="selection-rule">{question.responseFormat.selection_rule}</p>}
       {question.passage?.text && <blockquote className="passage-block">{question.passage.text}</blockquote>}
-      <h3 className="question-prompt">{question.questionText}</h3>
-      <BlankGuide question={question} />
+      <ClozeQuestionText question={question} />
 
       {isBlankQuestion && (
         <div className="blank-groups">
