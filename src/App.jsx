@@ -22,8 +22,10 @@ const STORAGE_KEY = "gre-daily-study-state-v1";
 const START_DATE_KEY = "gre-daily-study-start-date";
 const AUDIO_CACHE_KEY = "gre-daily-study-audio-cache-v1";
 const PRACTICE_DRAFTS_KEY = "gre-daily-study-essay-drafts-v1";
+const PRACTICE_STATE_KEY = "gre-daily-study-practice-state-v1";
 const DICTIONARY_API_BASE = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 const BASE_URL = import.meta.env.BASE_URL || "/";
+const PRACTICE_FILTER_IDS = new Set(["all", "text_completion", "sentence_equivalence", "reading_comprehension", "issue_task"]);
 
 const navItems = [
   { id: "today", label: "Today", icon: CalendarDays },
@@ -57,6 +59,42 @@ function loadJsonStorage(key, fallback) {
   } catch {
     return fallback;
   }
+}
+
+function normalizePracticeResponse(value) {
+  const response = value && typeof value === "object" ? value : {};
+  const selectedByBlank = response.selectedByBlank && typeof response.selectedByBlank === "object"
+    ? Object.fromEntries(Object.entries(response.selectedByBlank).filter(([blank, label]) => typeof blank === "string" && typeof label === "string"))
+    : {};
+
+  return {
+    selectedLabels: Array.isArray(response.selectedLabels) ? response.selectedLabels.filter((label) => typeof label === "string") : [],
+    selectedByBlank,
+    selectedSentence: typeof response.selectedSentence === "string" ? response.selectedSentence : "",
+    checked: Boolean(response.checked),
+    attemptCount: Number.isInteger(response.attemptCount) && response.attemptCount > 0 ? response.attemptCount : 0,
+    lastCorrect: typeof response.lastCorrect === "boolean" ? response.lastCorrect : null,
+    completedAt: typeof response.completedAt === "string" ? response.completedAt : "",
+    lastAttemptAt: typeof response.lastAttemptAt === "string" ? response.lastAttemptAt : "",
+  };
+}
+
+function getInitialPracticeState() {
+  const stored = loadJsonStorage(PRACTICE_STATE_KEY, {});
+  const rawResponses = stored?.responses && typeof stored.responses === "object" ? stored.responses : {};
+  const responses = Object.fromEntries(
+    Object.entries(rawResponses)
+      .filter(([questionId]) => typeof questionId === "string")
+      .map(([questionId, response]) => [questionId, normalizePracticeResponse(response)]),
+  );
+
+  return {
+    selectedQuestionId: typeof stored?.selectedQuestionId === "string" ? stored.selectedQuestionId : "",
+    typeFilter: PRACTICE_FILTER_IDS.has(stored?.typeFilter) ? stored.typeFilter : "all",
+    sourceFilter: typeof stored?.sourceFilter === "string" ? stored.sourceFilter : "all",
+    query: typeof stored?.query === "string" ? stored.query : "",
+    responses,
+  };
 }
 
 function getInitialStartDate() {
@@ -666,11 +704,9 @@ function OptionButton({ option, selected, correct, incorrect, onClick }) {
   );
 }
 
-function VerbalQuestion({ question }) {
-  const [selectedLabels, setSelectedLabels] = useState([]);
-  const [selectedByBlank, setSelectedByBlank] = useState({});
-  const [selectedSentence, setSelectedSentence] = useState("");
-  const [checked, setChecked] = useState(false);
+function VerbalQuestion({ question, response, onChangeResponse }) {
+  const savedResponse = normalizePracticeResponse(response);
+  const { selectedLabels, selectedByBlank, selectedSentence, checked } = savedResponse;
   const format = question.responseFormat?.id;
   const expectedLabels = getAnswerLabels(question.answer);
   const selectionLimit = Math.max(1, expectedLabels.length);
@@ -689,16 +725,31 @@ function VerbalQuestion({ question }) {
       ? selectedSentence.replace(/\s+/g, " ").trim() === String(question.answer?.sentence_text || "").replace(/\s+/g, " ").trim()
       : sameLabels(selectedLabels, expectedLabels);
 
+  const updateResponse = (changes) => {
+    onChangeResponse({ ...savedResponse, ...changes });
+  };
+
   const chooseOption = (label) => {
-    setChecked(false);
     if (selectionLimit === 1) {
-      setSelectedLabels([label]);
+      updateResponse({ checked: false, selectedLabels: [label] });
       return;
     }
-    setSelectedLabels((current) => {
-      if (current.includes(label)) return current.filter((item) => item !== label);
-      if (current.length >= selectionLimit) return [...current.slice(1), label];
-      return [...current, label];
+    const nextLabels = selectedLabels.includes(label)
+      ? selectedLabels.filter((item) => item !== label)
+      : selectedLabels.length >= selectionLimit
+        ? [...selectedLabels.slice(1), label]
+        : [...selectedLabels, label];
+    updateResponse({ checked: false, selectedLabels: nextLabels });
+  };
+
+  const checkAnswer = () => {
+    const timestamp = new Date().toISOString();
+    updateResponse({
+      checked: true,
+      attemptCount: savedResponse.attemptCount + 1,
+      completedAt: savedResponse.completedAt || timestamp,
+      lastAttemptAt: timestamp,
+      lastCorrect: correct,
     });
   };
 
@@ -723,8 +774,10 @@ function VerbalQuestion({ question }) {
                     option={option}
                     selected={selectedByBlank[group.blank] === option.label}
                     onClick={() => {
-                      setChecked(false);
-                      setSelectedByBlank((current) => ({ ...current, [group.blank]: option.label }));
+                      updateResponse({
+                        checked: false,
+                        selectedByBlank: { ...selectedByBlank, [group.blank]: option.label },
+                      });
                     }}
                   />
                 ))}
@@ -744,8 +797,7 @@ function VerbalQuestion({ question }) {
                 key={`${index}-${sentence}`}
                 type="button"
                 onClick={() => {
-                  setChecked(false);
-                  setSelectedSentence(sentence);
+                  updateResponse({ checked: false, selectedSentence: sentence });
                 }}
               >
                 <span>{index + 1}</span>
@@ -771,7 +823,7 @@ function VerbalQuestion({ question }) {
         </div>
       )}
 
-      <button className="practice-check-button" disabled={!complete} type="button" onClick={() => setChecked(true)}>
+      <button className="practice-check-button" disabled={!complete} type="button" onClick={checkAnswer}>
         Check answer
       </button>
       {checked && <SolutionPanel answer={question.answer} correct={correct} />}
@@ -802,15 +854,24 @@ function EssayQuestion({ question, draft, onChangeDraft }) {
   );
 }
 
-function PracticeQuestion({ question, draft, onChangeDraft }) {
+function PracticeQuestion({ question, draft, onChangeDraft, response, onChangeResponse }) {
   if (question.category === "essay") return <EssayQuestion question={question} draft={draft} onChangeDraft={onChangeDraft} />;
-  return <VerbalQuestion question={question} />;
+  return <VerbalQuestion question={question} response={response} onChangeResponse={onChangeResponse} />;
 }
 
-function PracticeView({ records, selectedQuestionId, onSelectQuestion, essayDrafts, onChangeEssayDraft }) {
-  const [typeFilter, setTypeFilter] = useState("all");
-  const [sourceFilter, setSourceFilter] = useState("all");
-  const [query, setQuery] = useState("");
+function PracticeView({
+  records,
+  selectedQuestionId,
+  onSelectQuestion,
+  filters,
+  onChangeFilters,
+  responses,
+  onChangeResponse,
+  progress,
+  essayDrafts,
+  onChangeEssayDraft,
+}) {
+  const { typeFilter, sourceFilter, query } = filters;
   const sources = useMemo(() => [...new Set(records.map((record) => record.source?.file).filter(Boolean))], [records]);
   const filteredRecords = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -838,22 +899,29 @@ function PracticeView({ records, selectedQuestionId, onSelectQuestion, essayDraf
         </div>
       </div>
 
+      <div className="practice-session-status" aria-label="Practice progress saved on this device">
+        <strong>{progress.checkedCount} / {progress.verbalCount} checked</strong>
+        <span>{progress.correctCount} correct</span>
+        {progress.essayDraftCount > 0 && <span>{progress.essayDraftCount} essay draft{progress.essayDraftCount === 1 ? "" : "s"}</span>}
+        <small>Saved on this device</small>
+      </div>
+
       <div className="practice-type-pills" aria-label="Question type">
         {practiceTypeFilters.map((filter) => (
-          <button className={typeFilter === filter.id ? "is-active" : ""} key={filter.id} type="button" onClick={() => setTypeFilter(filter.id)}>
+          <button className={typeFilter === filter.id ? "is-active" : ""} key={filter.id} type="button" onClick={() => onChangeFilters({ typeFilter: filter.id })}>
             {filter.label}
           </button>
         ))}
       </div>
 
       <div className="practice-controls">
-        <select aria-label="Practice set" value={sourceFilter} onChange={(event) => setSourceFilter(event.target.value)}>
+        <select aria-label="Practice set" value={sourceFilter} onChange={(event) => onChangeFilters({ sourceFilter: event.target.value })}>
           <option value="all">All practice sets</option>
           {sources.map((source) => <option key={source} value={source}>{source.replace(/\.pdf$/i, "")}</option>)}
         </select>
         <div className="search-box">
           <Search size={19} />
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search question text or ID" />
+          <input value={query} onChange={(event) => onChangeFilters({ query: event.target.value })} placeholder="Search question text or ID" />
         </div>
       </div>
 
@@ -877,6 +945,8 @@ function PracticeView({ records, selectedQuestionId, onSelectQuestion, essayDraf
             question={selectedQuestion}
             draft={essayDrafts[selectedQuestion.id]}
             onChangeDraft={(value) => onChangeEssayDraft(selectedQuestion.id, value)}
+            response={responses[selectedQuestion.id]}
+            onChangeResponse={(response) => onChangeResponse(selectedQuestion.id, response)}
           />
         </>
       )}
@@ -955,7 +1025,7 @@ export function App() {
   const [selectedDay, setSelectedDay] = useState(1);
   const [progress, setProgress] = useState(() => loadJsonStorage(STORAGE_KEY, {}));
   const [focusReveal, setFocusReveal] = useState(true);
-  const [practiceQuestionId, setPracticeQuestionId] = useState("");
+  const [practiceState, setPracticeState] = useState(getInitialPracticeState);
   const [essayDrafts, setEssayDrafts] = useState(() => loadJsonStorage(PRACTICE_DRAFTS_KEY, {}));
   const [audioStatus, setAudioStatus] = useState("");
   const audioCacheRef = useRef(loadJsonStorage(AUDIO_CACHE_KEY, {}));
@@ -968,6 +1038,10 @@ export function App() {
   useEffect(() => {
     window.localStorage.setItem(PRACTICE_DRAFTS_KEY, JSON.stringify(essayDrafts));
   }, [essayDrafts]);
+
+  useEffect(() => {
+    window.localStorage.setItem(PRACTICE_STATE_KEY, JSON.stringify(practiceState));
+  }, [practiceState]);
 
   useEffect(() => {
     if (!data) return;
@@ -996,6 +1070,14 @@ export function App() {
   const focusState = focusWord ? getWordState(progress, focusWord.id) : { mastered: false, saved: false };
   const practiceRecords = data.practice?.records || [];
   const dailyPracticeQuestion = practiceRecords.length ? practiceRecords[(selectedDay - 1) % practiceRecords.length] : null;
+  const verbalPracticeIds = new Set(practiceRecords.filter((record) => record.category === "verbal").map((record) => record.id));
+  const checkedResponses = Object.entries(practiceState.responses).filter(([questionId, response]) => verbalPracticeIds.has(questionId) && response.attemptCount > 0);
+  const practiceProgress = {
+    verbalCount: verbalPracticeIds.size,
+    checkedCount: checkedResponses.length,
+    correctCount: checkedResponses.filter(([, response]) => response.lastCorrect).length,
+    essayDraftCount: practiceRecords.filter((record) => record.category === "essay" && String(essayDrafts[record.id] || "").trim()).length,
+  };
 
   const toggleMastered = (word) => {
     if (!word) return;
@@ -1026,8 +1108,33 @@ export function App() {
     });
   };
 
+  const selectPracticeQuestion = (questionId) => {
+    if (!questionId) return;
+    setPracticeState((current) => ({ ...current, selectedQuestionId: questionId }));
+  };
+
+  const changePracticeFilters = (changes) => {
+    setPracticeState((current) => ({ ...current, ...changes }));
+  };
+
+  const changePracticeResponse = (questionId, response) => {
+    if (!questionId) return;
+    setPracticeState((current) => ({
+      ...current,
+      responses: { ...current.responses, [questionId]: normalizePracticeResponse(response) },
+    }));
+  };
+
   const openPractice = (question) => {
-    if (question?.id) setPracticeQuestionId(question.id);
+    if (question?.id) {
+      setPracticeState((current) => ({
+        ...current,
+        selectedQuestionId: question.id,
+        typeFilter: "all",
+        sourceFilter: "all",
+        query: "",
+      }));
+    }
     setActiveTab("practice");
   };
 
@@ -1119,8 +1226,13 @@ export function App() {
         {activeTab === "practice" && (
           <PracticeView
             records={practiceRecords}
-            selectedQuestionId={practiceQuestionId}
-            onSelectQuestion={setPracticeQuestionId}
+            selectedQuestionId={practiceState.selectedQuestionId}
+            onSelectQuestion={selectPracticeQuestion}
+            filters={practiceState}
+            onChangeFilters={changePracticeFilters}
+            responses={practiceState.responses}
+            onChangeResponse={changePracticeResponse}
+            progress={practiceProgress}
             essayDrafts={essayDrafts}
             onChangeEssayDraft={changeEssayDraft}
           />

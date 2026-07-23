@@ -762,6 +762,29 @@ button {
   padding-bottom: 34px;
 }
 
+.practice-session-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 11px;
+  margin: 0 0 15px;
+  padding: 9px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.practice-session-status strong {
+  color: var(--green);
+}
+
+.practice-session-status small {
+  margin-left: auto;
+  color: var(--faint);
+  font-size: 12px;
+}
+
 .practice-type-pills {
   display: flex;
   gap: 8px;
