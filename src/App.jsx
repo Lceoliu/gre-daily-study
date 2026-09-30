@@ -884,6 +884,13 @@ function PracticeView({
   }, [query, records, sourceFilter, typeFilter]);
   const selectedQuestion = filteredRecords.find((record) => record.id === selectedQuestionId) || filteredRecords[0] || null;
   const selectedIndex = selectedQuestion ? filteredRecords.findIndex((record) => record.id === selectedQuestion.id) : -1;
+  const previousQuestionId = useRef(selectedQuestion?.id);
+  useEffect(() => {
+    if (previousQuestionId.current && previousQuestionId.current !== selectedQuestion?.id && window.matchMedia('(max-width: 600px)').matches) {
+      document.querySelector('.question-card')?.scrollIntoView({ block: 'start' });
+    }
+    previousQuestionId.current = selectedQuestion?.id;
+  }, [selectedQuestion?.id]);
   const moveQuestion = (offset) => {
     if (!filteredRecords.length) return;
     const nextIndex = (selectedIndex + offset + filteredRecords.length) % filteredRecords.length;

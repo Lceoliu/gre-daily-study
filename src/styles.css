@@ -1291,3 +1291,76 @@ button {
     display: none;
   }
 }
+
+/* Keep the reading area clear while question navigation stays within thumb reach. */
+@media (max-width: 600px) {
+  .practice-view {
+    padding-bottom: 88px;
+  }
+
+  .practice-navigation {
+    position: fixed;
+    z-index: 6;
+    left: 50%;
+    bottom: calc(75px + env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    width: min(100%, 430px);
+    margin: 0;
+    padding: 8px 16px;
+    border-top: 1px solid var(--line);
+    background: var(--paper);
+  }
+
+  .practice-navigation button,
+  .practice-type-pills button {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+
+  .practice-controls input,
+  .practice-controls > select,
+  .practice-picker select,
+  .essay-draft {
+    font-size: 16px;
+  }
+
+  .practice-picker {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .practice-picker span {
+    display: block;
+    text-align: right;
+  }
+
+  .question-card {
+    scroll-margin-top: 16px;
+  }
+
+  .question-prompt,
+  .essay-prompt {
+    font-size: 22px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .passage-block {
+    padding: 12px;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+  }
+
+  .choice-option strong,
+  .sentence-choice {
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .practice-view :is(button, input, select, textarea):focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 3px;
+  }
+}
