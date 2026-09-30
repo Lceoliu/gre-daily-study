@@ -172,7 +172,12 @@ async function main() {
     promptText: repairPublicText(prompt.prompt_text),
   }));
 
-  const records = [...verbalRecords, ...essayRecords];
+  const importedVerbal = await readJson("data/imports/2026-09-30-verbal.json");
+  const importedIssues = await readJson("data/imports/2026-09-30-issues.json");
+  const corrections = await readJson("data/imports/2026-09-30-corrections.json");
+  const correctionsById = new Map(corrections.records.map((item) => [item.id, item.changes]));
+  const records = [...verbalRecords, ...essayRecords, ...importedVerbal.records, ...importedIssues.records]
+    .map((record) => ({ ...record, ...correctionsById.get(record.id) }));
   const ids = new Set(records.map((record) => record.id));
   assert(ids.size === records.length, "Public practice records contain duplicate IDs.");
 
@@ -181,10 +186,10 @@ async function main() {
     scope: "Public GRE verbal practice questions and Issue essay prompts",
     stats: {
       totalQuestionCount: records.length,
-      verbalQuestionCount: verbalRecords.length,
-      issuePromptCount: essayRecords.length,
+      verbalQuestionCount: records.filter((record) => record.category === "verbal").length,
+      issuePromptCount: records.filter((record) => record.category === "essay").length,
       questionTypeCounts: countBy(records, (record) => record.questionType),
-      responseFormatCounts,
+      responseFormatCounts: countBy(records.filter((record) => record.category === "verbal"), (record) => record.responseFormat.id),
     },
     records,
   };

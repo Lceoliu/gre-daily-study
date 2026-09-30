@@ -68,6 +68,7 @@ function normalizePracticeResponse(value) {
     : {};
 
   return {
+    responseRevision: response.responseRevision ?? 1,
     selectedLabels: Array.isArray(response.selectedLabels) ? response.selectedLabels.filter((label) => typeof label === "string") : [],
     selectedByBlank,
     selectedSentence: typeof response.selectedSentence === "string" ? response.selectedSentence : "",
@@ -591,7 +592,7 @@ function QuestionMeta({ question }) {
   return (
     <div className="source-meta">
       <span>{question.typeLabel}</span>
-      <span>{sourceLabel(question)}</span>
+      <a href={`${BASE_URL}pdfs/${question.source.file}#page=${question.source.page}`} target="_blank" rel="noreferrer" aria-label="Open original PDF page">{sourceLabel(question)}</a>
       {question.topic && <span>{question.topic}</span>}
     </div>
   );
@@ -605,16 +606,24 @@ function AnswerSummary({ answer }) {
   return <>Answer unavailable.</>;
 }
 
-function SolutionPanel({ answer, correct }) {
+function SolutionPanel({ answer, correct, aiInferred }) {
   return (
     <section className={`solution-panel ${correct ? "is-correct" : "is-incorrect"}`}>
-      <strong>{correct ? "Correct" : "Review the answer"}</strong>
+      <strong>{aiInferred ? (correct ? "与 AI 参考答案一致" : "与 AI 参考答案不同") : (correct ? "Correct" : "Review the answer")}</strong>
+      {aiInferred && <p className="answer-provenance">AI推断 · 非官方答案</p>}
       <p><b>Answer:</b> <AnswerSummary answer={answer} /></p>
       {answer?.rationale_zh && <p>{answer.rationale_zh}</p>}
       {answer?.coherence_zh && <p>{answer.coherence_zh}</p>}
       {answer?.pair_relation_zh && <p>{answer.pair_relation_zh}</p>}
     </section>
   );
+}
+
+function PassageText({ passage }) {
+  const highlights = passage.highlights || [];
+  if (!highlights.length) return passage.text;
+  const pattern = new RegExp(`(${highlights.map((text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "g");
+  return passage.text.split(pattern).map((part, index) => highlights.includes(part) ? <mark key={index}>{part}</mark> : part);
 }
 
 function TranslationBlock({ translation }) {
@@ -705,9 +714,12 @@ function OptionButton({ option, selected, correct, incorrect, onClick }) {
 }
 
 function VerbalQuestion({ question, response, onChangeResponse }) {
-  const savedResponse = normalizePracticeResponse(response);
+  const responseRevision = question.responseRevision ?? 1;
+  const savedResponse = normalizePracticeResponse((response?.responseRevision ?? 1) === responseRevision ? response : null);
   const { selectedLabels, selectedByBlank, selectedSentence, checked } = savedResponse;
   const format = question.responseFormat?.id;
+  const aiInferred = question.answerProvenance === "ai_inferred";
+  const hasAnswer = Boolean(question.answer);
   const expectedLabels = getAnswerLabels(question.answer);
   const selectionLimit = Math.max(1, expectedLabels.length);
   const isBlankQuestion = format === "two_blanks_three_each" || format === "three_blanks_three_each";
@@ -726,7 +738,7 @@ function VerbalQuestion({ question, response, onChangeResponse }) {
       : sameLabels(selectedLabels, expectedLabels);
 
   const updateResponse = (changes) => {
-    onChangeResponse({ ...savedResponse, ...changes });
+    onChangeResponse({ ...savedResponse, ...changes, responseRevision });
   };
 
   const chooseOption = (label) => {
@@ -756,8 +768,11 @@ function VerbalQuestion({ question, response, onChangeResponse }) {
   return (
     <article className="question-card">
       <QuestionMeta question={question} />
+      {aiInferred && <p className="answer-provenance">AI推断 · 答案与解析未获官方确认</p>}
+      {!hasAnswer && <p className="answer-provenance">答案待核对 · 本题暂不判分</p>}
       {question.responseFormat?.selection_rule && <p className="selection-rule">{question.responseFormat.selection_rule}</p>}
-      {question.passage?.text && <blockquote className="passage-block">{question.passage.text}</blockquote>}
+      {question.passage?.text && <blockquote className="passage-block"><PassageText passage={question.passage} /></blockquote>}
+      {/highlighted/i.test(question.questionText) && !question.passage?.highlights?.length && <p className="answer-provenance">题干引用的高亮位置请对照上方原 PDF。</p>}
       <ClozeQuestionText question={question} />
 
       {isBlankQuestion && (
@@ -823,10 +838,10 @@ function VerbalQuestion({ question, response, onChangeResponse }) {
         </div>
       )}
 
-      <button className="practice-check-button" disabled={!complete} type="button" onClick={checkAnswer}>
-        Check answer
+      <button className="practice-check-button" disabled={!complete || !hasAnswer} type="button" onClick={checkAnswer}>
+        {hasAnswer ? (aiInferred ? "核对 AI 参考答案" : "Check answer") : "答案待核对"}
       </button>
-      {checked && <SolutionPanel answer={question.answer} correct={correct} />}
+      {checked && hasAnswer && <SolutionPanel answer={question.answer} correct={correct} aiInferred={aiInferred} />}
       <TranslationBlock translation={question.translation} />
       <VocabularyCards vocabulary={question.vocabulary} />
     </article>
@@ -873,6 +888,7 @@ function PracticeView({
 }) {
   const { typeFilter, sourceFilter, query } = filters;
   const sources = useMemo(() => [...new Set(records.map((record) => record.source?.file).filter(Boolean))], [records]);
+  const sourceTitles = useMemo(() => new Map(records.map((record) => [record.source?.file, record.source?.title])), [records]);
   const filteredRecords = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
     return records.filter((record) => {
@@ -924,7 +940,7 @@ function PracticeView({
       <div className="practice-controls">
         <select aria-label="Practice set" value={sourceFilter} onChange={(event) => onChangeFilters({ sourceFilter: event.target.value })}>
           <option value="all">All practice sets</option>
-          {sources.map((source) => <option key={source} value={source}>{source.replace(/\.pdf$/i, "")}</option>)}
+          {sources.map((source) => <option key={source} value={source}>{sourceTitles.get(source) || source.replace(/\.pdf$/i, "")}</option>)}
         </select>
         <div className="search-box">
           <Search size={19} />
@@ -1077,10 +1093,10 @@ export function App() {
   const focusState = focusWord ? getWordState(progress, focusWord.id) : { mastered: false, saved: false };
   const practiceRecords = data.practice?.records || [];
   const dailyPracticeQuestion = practiceRecords.length ? practiceRecords[(selectedDay - 1) % practiceRecords.length] : null;
-  const verbalPracticeIds = new Set(practiceRecords.filter((record) => record.category === "verbal").map((record) => record.id));
-  const checkedResponses = Object.entries(practiceState.responses).filter(([questionId, response]) => verbalPracticeIds.has(questionId) && response.attemptCount > 0);
+  const verbalPracticeById = new Map(practiceRecords.filter((record) => record.category === "verbal").map((record) => [record.id, record]));
+  const checkedResponses = Object.entries(practiceState.responses).filter(([questionId, response]) => verbalPracticeById.has(questionId) && response.attemptCount > 0 && response.responseRevision === (verbalPracticeById.get(questionId).responseRevision ?? 1));
   const practiceProgress = {
-    verbalCount: verbalPracticeIds.size,
+    verbalCount: verbalPracticeById.size,
     checkedCount: checkedResponses.length,
     correctCount: checkedResponses.filter(([, response]) => response.lastCorrect).length,
     essayDraftCount: practiceRecords.filter((record) => record.category === "essay" && String(essayDrafts[record.id] || "").trim()).length,

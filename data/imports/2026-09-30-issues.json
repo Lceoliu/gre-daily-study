@@ -1,0 +1,160 @@
+{
+  "records": [
+    {
+      "id": "practice-23:S1:Q1",
+      "category": "essay",
+      "source": {
+        "file": "practice-23.pdf",
+        "page": 3,
+        "section": 1,
+        "questionNumber": 1
+      },
+      "questionType": "issue_task",
+      "typeLabel": "Issue Writing",
+      "promptText": "Governments should not fund any scientific research whose consequences are unclear.\n\nWrite a response in which you discuss the extent to which you agree or disagree with the recommendation and explain your reasoning for the position you take. In developing and supporting your position, describe specific circumstances in which adopting the recommendation would or would not be advantageous and explain how these examples shape your position."
+    },
+    {
+      "id": "practice-24:S1:Q1",
+      "category": "essay",
+      "source": {
+        "file": "practice-24.pdf",
+        "page": 3,
+        "section": 1,
+        "questionNumber": 1
+      },
+      "questionType": "issue_task",
+      "typeLabel": "Issue Writing",
+      "promptText": "Governments should not fund any scientific research whose consequences are unclear.\n\nWrite a response in which you discuss the extent to which you agree or disagree with the recommendation and explain your reasoning for the position you take. In developing and supporting your position, describe specific circumstances in which adopting the recommendation would or would not be advantageous and explain how these examples shape your position."
+    },
+    {
+      "id": "practice-25:S1:Q1",
+      "category": "essay",
+      "source": {
+        "file": "practice-25.pdf",
+        "page": 5,
+        "section": 1,
+        "questionNumber": 1
+      },
+      "questionType": "issue_task",
+      "typeLabel": "Issue Writing",
+      "promptText": "Claim: Young people's tendency to make extensive use of portable devices like smartphones and tablets has hurt their development of social skills.\n\nReason: These devices encourage users to form artificial personalities and relationships online rather than fully and honestly engaging with the people around them.\n\nWrite a response in which you discuss the extent to which you agree or disagree with the claim and the reason on which that claim is based."
+    },
+    {
+      "id": "practice-26:S1:Q1",
+      "category": "essay",
+      "source": {
+        "file": "practice-26.pdf",
+        "page": 5,
+        "section": 1,
+        "questionNumber": 1
+      },
+      "questionType": "issue_task",
+      "typeLabel": "Issue Writing",
+      "promptText": "Claim: The surest indicator of a great nation is not the achievements of its rulers, artists, or scientists.\n\nReason: The surest indicator of a great nation is actually the welfare of all its people.\n\nWrite a response in which you discuss the extent to which you agree or disagree with the claim and the reason on which that claim is based."
+    },
+    {
+      "id": "practice-27:S1:Q1",
+      "category": "essay",
+      "source": {
+        "file": "practice-27.pdf",
+        "page": 7,
+        "section": 1,
+        "questionNumber": 1
+      },
+      "questionType": "issue_task",
+      "typeLabel": "Issue Writing",
+      "promptText": "Some people believe that in order to be effective, political leaders must yield to public opinion and abandon principle for the sake of compromise. Others believe that the most essential quality of an effective leader is the ability to remain consistently committed to particular principles and objectives.\n\nWrite a response in which you discuss which view more closely aligns with your own position and explain your reasoning for the position you take. In developing and supporting your position, you should address both of the views presented."
+    },
+    {
+      "id": "practice-29:S1:Q1",
+      "category": "essay",
+      "source": {
+        "file": "practice-29.pdf",
+        "page": 10,
+        "section": 1,
+        "questionNumber": 1
+      },
+      "questionType": "issue_task",
+      "typeLabel": "Issue Writing",
+      "promptText": "In any field of endeavor, it is impossible to make a significant contribution without first being strongly influenced by past achievements within that field.\n\nWrite a response in which you discuss the extent to which you agree or disagree with the statement and explain your reasoning for the position you take. In developing and supporting your position, you should consider ways in which the statement might or might not hold true and explain how these considerations shape your position."
+    },
+    {
+      "id": "practice-30:S1:Q1",
+      "category": "essay",
+      "source": {
+        "file": "practice-30.pdf",
+        "page": 6,
+        "section": 1,
+        "questionNumber": 1
+      },
+      "questionType": "issue_task",
+      "typeLabel": "Issue Writing",
+      "promptText": "Universities should require every student to take a variety of courses outside the student's field of study.\n\nWrite a response in which you discuss your views on the policy and explain your reasoning for the position you take. In developing and supporting your position, you should consider the possible consequences of implementing the policy and explain how these consequences shape your position."
+    },
+    {
+      "id": "practice-32:S1:Q1",
+      "category": "essay",
+      "source": {
+        "file": "practice-32.pdf",
+        "page": 1,
+        "section": 1,
+        "questionNumber": 1
+      },
+      "questionType": "issue_task",
+      "typeLabel": "Issue Writing",
+      "promptText": "Claim: It is no longer possible for a society to regard any living person as a hero.\n\nReason: The reputation of anyone who is subjected to media scrutiny will eventually be diminished.\n\nWrite a response in which you discuss the extent to which you agree or disagree with the claim and the reason on which that claim is based."
+    },
+    {
+      "id": "practice-34:S1:Q1",
+      "category": "essay",
+      "source": {
+        "file": "practice-34.pdf",
+        "page": 1,
+        "section": 1,
+        "questionNumber": 1
+      },
+      "questionType": "issue_task",
+      "typeLabel": "Issue Writing",
+      "promptText": "Claim: No act is done purely for the benefit of others.\n\nReason: All actions - even those that seem to be done for other people - are based on self-interest.\n\nWrite a response in which you discuss the extent to which you agree or disagree with the claim and the reason on which that claim is based."
+    },
+    {
+      "id": "practice-36:S1:Q1",
+      "category": "essay",
+      "source": {
+        "file": "practice-36.pdf",
+        "page": 1,
+        "section": 1,
+        "questionNumber": 1
+      },
+      "questionType": "issue_task",
+      "typeLabel": "Issue Writing",
+      "promptText": "Some people believe that the most important qualities of an effective teacher are understanding and empathy. Others believe that it is more important for teachers to be rigorous and demanding in their expectations for students.\n\nWrite a response in which you discuss which view more closely aligns with your own position and explain your reasoning for the position you take. In developing and supporting your position, you should address both of the views presented."
+    },
+    {
+      "id": "practice-37:S1:Q1",
+      "category": "essay",
+      "source": {
+        "file": "practice-37.pdf",
+        "page": 1,
+        "section": 1,
+        "questionNumber": 1
+      },
+      "questionType": "issue_task",
+      "typeLabel": "Issue Writing",
+      "promptText": "As we acquire more knowledge, things do not become more comprehensible, but more complex and mysterious.\n\nWrite a response in which you discuss the extent to which you agree or disagree with the statement and explain your reasoning for the position you take. In developing and supporting your position, you should consider ways in which the statement might or might not hold true and explain how these considerations shape your position."
+    },
+    {
+      "id": "practice-38:S1:Q1",
+      "category": "essay",
+      "source": {
+        "file": "practice-38.pdf",
+        "page": 1,
+        "section": 1,
+        "questionNumber": 1
+      },
+      "questionType": "issue_task",
+      "typeLabel": "Issue Writing",
+      "promptText": "Critical judgment of work in any given field has little value unless it comes from someone who is an expert in that field.\n\nWrite a response in which you discuss the extent to which you agree or disagree with the statement and explain your reasoning for the position you take. In developing and supporting your position, you should consider ways in which the statement might or might not hold true and explain how these considerations shape your position."
+    }
+  ]
+}

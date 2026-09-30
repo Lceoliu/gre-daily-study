@@ -598,6 +598,23 @@ button {
   font-weight: 800;
 }
 
+.answer-provenance {
+  margin: 8px 0 14px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.source-meta a {
+  color: var(--green);
+  text-underline-offset: 3px;
+}
+
+.passage-block mark {
+  color: inherit;
+  background: #f4df9b;
+}
+
 .practice-start-button:hover,
 .practice-check-button:not(:disabled):hover {
   background: #114d37;

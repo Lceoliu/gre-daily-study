@@ -64,13 +64,21 @@ function loadPdfs() {
   }
 
   ensureDir(publicPdfRoot);
+  const previous = existsSync(path.join(dataRoot, "study-data.json"))
+    ? readJson(path.join(dataRoot, "study-data.json")).pdfs : [];
+  const registered = readJson(path.join(projectRoot, "data", "pdf-sources.json")).pdfs;
+  const known = new Map([...previous, ...registered].map((pdf) => [pdf.originalName, pdf]));
+  let nextNumber = Math.max(0, ...[...known.values()].map((pdf) => Number(pdf.fileName.match(/practice-(\d+)/)[1]))) + 1;
 
-  return readdirSync(pdfRoot)
+  return readdirSync(pdfRoot, { recursive: true })
     .filter((name) => name.toLowerCase().endsWith(".pdf"))
-    .sort((a, b) => a.localeCompare(b, "zh-Hans-CN"))
-    .map((originalName, index) => {
+    .map((name) => name.replaceAll("\\", "/"))
+    .sort((a, b) => a.localeCompare(b, "zh-Hans-CN", { numeric: true }))
+    .map((originalName) => {
       const sourcePath = path.join(pdfRoot, originalName);
-      const fileName = `practice-${String(index + 1).padStart(2, "0")}.pdf`;
+      const existing = known.get(originalName);
+      const number = existing ? Number(existing.fileName.match(/practice-(\d+)/)[1]) : nextNumber++;
+      const fileName = `practice-${String(number).padStart(2, "0")}.pdf`;
       const targetPath = path.join(publicPdfRoot, fileName);
       if (existsSync(targetPath)) {
         chmodSync(targetPath, 0o666);
@@ -80,13 +88,13 @@ function loadPdfs() {
       chmodSync(targetPath, 0o666);
 
       return {
-        id: `pdf${String(index + 1).padStart(2, "0")}`,
-        title: originalName.replace(/\.pdf$/i, ""),
+        id: `pdf${String(number).padStart(2, "0")}`,
+        title: existing?.title || originalName.replace(/\.pdf$/i, ""),
         originalName,
         fileName,
         pageCount: countPdfPages(sourcePath),
       };
-    });
+    }).sort((a, b) => a.fileName.localeCompare(b.fileName, undefined, { numeric: true }));
 }
 
 ensureDir(dataRoot);

@@ -1,0 +1,1622 @@
+{
+  "records": [
+    {
+      "id": "practice-01:S2:Q3",
+      "changes": {
+        "questionText": "Because popular culture often portrays lawyers as shady and scientists as eccentric, we might expect cinematic depictions of scientists employed as expert witnesses in court cases to reflect badly on both law and science. Yet science and scientists rarely (i) ________ in movies involving trials. When a scientist is negatively portrayed, it is often because the legal process is represented as having (ii) ________ science; when a scientist is positively portrayed, it is often because science is represented as superior to law, as (iii) ________ law's rhetorical and institutional instabilities.",
+        "clozeText": "Because popular culture often portrays lawyers as shady and scientists as eccentric, we might expect cinematic depictions of scientists employed as expert witnesses in court cases to reflect badly on both law and science. Yet science and scientists rarely (i) [[BLANK:1]] in movies involving trials. When a scientist is negatively portrayed, it is often because the legal process is represented as having (ii) [[BLANK:2]] science; when a scientist is positively portrayed, it is often because science is represented as superior to law, as (iii) [[BLANK:3]] law's rhetorical and institutional instabilities."
+      }
+    },
+    {
+      "id": "practice-01:S2:Q5",
+      "changes": {
+        "questionText": "Select the sentence in the passage that describes a particular alternative to the conventional perspective on the blues."
+      }
+    },
+    {
+      "id": "practice-02:S2:Q2",
+      "changes": {
+        "questionText": "Testing alternate versions of web pages in real time can make Internet-based companies (i) ________ some user preferences, but that does not necessarily make those companies (ii) ________, as 10,000 ongoing tweaks to the company web site do not add up to a fundamental change of direction when one is needed.",
+        "clozeText": "Testing alternate versions of web pages in real time can make Internet-based companies (i) [[BLANK:1]] some user preferences, but that does not necessarily make those companies (ii) [[BLANK:2]], as 10,000 ongoing tweaks to the company web site do not add up to a fundamental change of direction when one is needed."
+      }
+    },
+    {
+      "id": "practice-03:S4:Q10",
+      "changes": {
+        "questionText": "Since it is an incredible challenge to detect dark matter directly, scientists have ________ its existence from its gravitational effects on shaping galaxies and other large-scale structures.",
+        "clozeText": "Since it is an incredible challenge to detect dark matter directly, scientists have [[BLANK:1]] its existence from its gravitational effects on shaping galaxies and other large-scale structures."
+      }
+    },
+    {
+      "id": "practice-03:S4:Q12",
+      "changes": {
+        "questionText": "Blake's reputation for weakness is ________; almost all who have worked with him say he is a disciplined, intellectually formidable, and very tough politician.",
+        "clozeText": "Blake's reputation for weakness is [[BLANK:1]]; almost all who have worked with him say he is a disciplined, intellectually formidable, and very tough politician."
+      }
+    },
+    {
+      "id": "practice-04:S5:Q12",
+      "changes": {
+        "questionText": "Some consider the theorem Emmy Noether first published in 1918 to be as important as Einstein's theory of relativity, since much of today's vanguard research in physics is ________ Noether's theorem.",
+        "clozeText": "Some consider the theorem Emmy Noether first published in 1918 to be as important as Einstein's theory of relativity, since much of today's vanguard research in physics is [[BLANK:1]] Noether's theorem."
+      }
+    },
+    {
+      "id": "practice-05:S3:Q11",
+      "changes": {
+        "questionText": "The passage suggests that if the \"possible explanation\" is correct, then which of the following would be true?"
+      }
+    },
+    {
+      "id": "practice-05:S3:Q3",
+      "changes": {
+        "questionText": "Whatever the level of the museum's past (i) ________ American art, it pales beside its current (ii) ________. Since opening its renovated and expanded building, the museum has relegated American paintings to hard-to-find corners of the museum. It is as if American art is (iii) ________ the overwhelmingly European narrative that dominates the permanent collection galleries.",
+        "clozeText": "Whatever the level of the museum's past (i) [[BLANK:1]] American art, it pales beside its current (ii) [[BLANK:2]]. Since opening its renovated and expanded building, the museum has relegated American paintings to hard-to-find corners of the museum. It is as if American art is (iii) [[BLANK:3]] the overwhelmingly European narrative that dominates the permanent collection galleries."
+      }
+    },
+    {
+      "id": "practice-05:S3:Q6",
+      "changes": {
+        "questionText": "The plays of Alice Childress (1916–1994) often present Black women in confrontations that rearrange what qualifies as ________ behavior: Childress's heroines, for example, often question the social protocols limiting the content of public conversations.",
+        "clozeText": "The plays of Alice Childress (1916–1994) often present Black women in confrontations that rearrange what qualifies as [[BLANK:1]] behavior: Childress's heroines, for example, often question the social protocols limiting the content of public conversations.",
+        "options": [
+          {
+            "label": "A",
+            "text": "conventional"
+          },
+          {
+            "label": "B",
+            "text": "normative"
+          },
+          {
+            "label": "C",
+            "text": "surreptitious"
+          },
+          {
+            "label": "D",
+            "text": "exemplary"
+          },
+          {
+            "label": "E",
+            "text": "altruistic"
+          },
+          {
+            "label": "F",
+            "text": "magnanimous"
+          }
+        ]
+      }
+    },
+    {
+      "id": "practice-05:S5:Q2",
+      "changes": {
+        "questionText": "The (i) ________ museums worldwide makes for (ii) ________: by some estimates, 75 percent of species that are “discovered” each year during field expeditions are already part of a museum collection somewhere.",
+        "clozeText": "The (i) [[BLANK:1]] museums worldwide makes for (ii) [[BLANK:2]]: by some estimates, 75 percent of species that are “discovered” each year during field expeditions are already part of a museum collection somewhere."
+      }
+    },
+    {
+      "id": "practice-06:S2:Q3",
+      "changes": {
+        "questionText": "Because popular culture often portrays lawyers as shady and scientists as eccentric, we might expect cinematic depictions of scientists employed as expert witnesses in court cases to reflect badly on both law and science. Yet science and scientists rarely (i) ________ in movies involving trials. When a scientist is negatively portrayed, it is often because the legal process is represented as having (ii) ________ science; when a scientist is positively portrayed, it is often because science is represented as superior to law, as (iii) ________ law's rhetorical and institutional instabilities.",
+        "clozeText": "Because popular culture often portrays lawyers as shady and scientists as eccentric, we might expect cinematic depictions of scientists employed as expert witnesses in court cases to reflect badly on both law and science. Yet science and scientists rarely (i) [[BLANK:1]] in movies involving trials. When a scientist is negatively portrayed, it is often because the legal process is represented as having (ii) [[BLANK:2]] science; when a scientist is positively portrayed, it is often because science is represented as superior to law, as (iii) [[BLANK:3]] law's rhetorical and institutional instabilities."
+      }
+    },
+    {
+      "id": "practice-06:S2:Q5",
+      "changes": {
+        "questionText": "Select the sentence in the passage that describes a particular alternative to the conventional perspective on the blues."
+      }
+    },
+    {
+      "id": "practice-07:S2:Q3",
+      "changes": {
+        "questionText": "Kennedy's novels have a baffling way of engaging us as readers and then (i) ________ our involvement. It is not that she gives us wooden characters or poor writing or foolish plots. Rather, her books seem so adroitly written and carefully conceived, they strike us as so (ii) ________ as we read them, that it comes as a surprise to reach the end and find them ultimately so (iii) ________.",
+        "clozeText": "Kennedy's novels have a baffling way of engaging us as readers and then (i) [[BLANK:1]] our involvement. It is not that she gives us wooden characters or poor writing or foolish plots. Rather, her books seem so adroitly written and carefully conceived, they strike us as so (ii) [[BLANK:2]] as we read them, that it comes as a surprise to reach the end and find them ultimately so (iii) [[BLANK:3]]."
+      }
+    },
+    {
+      "id": "practice-08:S5:Q3",
+      "changes": {
+        "questionText": "Recent work suggests that the interest among the rural population in the anticolonial political activism of the 1950s has to a large extent been (i) ________: the small percentage of rural residents who engaged in documented acts of overt political activism during that period (ii) ________ a much larger number who were strongly sympathetic but more cautiously engaged.",
+        "clozeText": "Recent work suggests that the interest among the rural population in the anticolonial political activism of the 1950s has to a large extent been (i) [[BLANK:1]]: the small percentage of rural residents who engaged in documented acts of overt political activism during that period (ii) [[BLANK:2]] a much larger number who were strongly sympathetic but more cautiously engaged."
+      }
+    },
+    {
+      "id": "practice-11:S3:Q1",
+      "changes": {
+        "questionText": "The two scientists' achievements are [[BLANK:1]] only..."
+      }
+    },
+    {
+      "id": "practice-11:S3:Q2",
+      "changes": {
+        "questionText": "It would be imprecise to characterize her scholarship as (i) ________: though her etymological discussions are necessarily esoteric, there is nothing (ii) ________ about the conclusions she derives from them.",
+        "clozeText": "It would be imprecise to characterize her scholarship as (i) [[BLANK:1]]: though her etymological discussions are necessarily esoteric, there is nothing (ii) [[BLANK:2]] about the conclusions she derives from them."
+      }
+    },
+    {
+      "id": "practice-12:S3:Q6",
+      "changes": {
+        "options": [
+          {
+            "label": "A",
+            "text": "curiosity about"
+          },
+          {
+            "label": "B",
+            "text": "proclivity toward"
+          },
+          {
+            "label": "C",
+            "text": "predilection for"
+          },
+          {
+            "label": "D",
+            "text": "unfamiliarity with"
+          },
+          {
+            "label": "E",
+            "text": "rejection of"
+          },
+          {
+            "label": "F",
+            "text": "disdain for"
+          }
+        ]
+      }
+    },
+    {
+      "id": "practice-13:S2:Q4",
+      "changes": {
+        "questionText": "The primary purpose of the passage is to"
+      }
+    },
+    {
+      "id": "practice-14:S2:Q4",
+      "changes": {
+        "questionText": "According to the passage, Eliot differed from some of her contemporaries in that she",
+        "options": [
+          {
+            "label": "A",
+            "text": "considered the cultivation of intellectual breadth to be an unrealistic endeavor"
+          },
+          {
+            "label": "B",
+            "text": "ascribed certain intellectual advances of her time to profound changes in the division of labor"
+          },
+          {
+            "label": "C",
+            "text": "doubted whether the accelerating pace of knowledge production was inevitable"
+          },
+          {
+            "label": "D",
+            "text": "perceived increasing specialization as driven partly by the self-interest of particular groups"
+          },
+          {
+            "label": "E",
+            "text": "anticipated the potential negative effects of rapidly expanding knowledge on professionals."
+          }
+        ]
+      }
+    },
+    {
+      "id": "practice-16:S2:Q4",
+      "changes": {
+        "questionText": "It can be inferred that the author mentions Ellison's apprenticeship with Richmond Barthé primarily in order to",
+        "options": [
+          {
+            "label": "A",
+            "text": "show that Ellison drew upon some aspects of the visual arts in developing his ideas for Invisible Man"
+          },
+          {
+            "label": "B",
+            "text": "show that Ellison's claim for the superiority of language derived from his experience with other art forms"
+          },
+          {
+            "label": "C",
+            "text": "establish that Ellison had experience with an art form that interested many leading figures of the 1930s Harlem arts scene"
+          },
+          {
+            "label": "D",
+            "text": "suggest that in the 1930s the Harlem art scene provided an environment in which artists were likely to work in several media"
+          },
+          {
+            "label": "E",
+            "text": "qualify Ellison's reservations about visual renderings of his work by showing that he was not indifferent to visual art."
+          }
+        ]
+      }
+    },
+    {
+      "id": "practice-17:S2:Q2",
+      "changes": {
+        "questionText": "Having characterized her opponents as extreme and one-sided, the pundit conspicuously failed to (i) ________ the middle ground to which she laid claim; how speedily the pretense of moderation is (ii) ________!",
+        "clozeText": "Having characterized her opponents as extreme and one-sided, the pundit conspicuously failed to (i) [[BLANK:1]] the middle ground to which she laid claim; how speedily the pretense of moderation is (ii) [[BLANK:2]]!",
+        "optionGroups": [
+          {
+            "blank": "(i)",
+            "choices": [
+              {
+                "label": "A",
+                "text": "occupy"
+              },
+              {
+                "label": "B",
+                "text": "demarcate"
+              },
+              {
+                "label": "C",
+                "text": "survey"
+              }
+            ]
+          },
+          {
+            "blank": "(ii)",
+            "choices": [
+              {
+                "label": "A",
+                "text": "provoked"
+              },
+              {
+                "label": "B",
+                "text": "abused"
+              },
+              {
+                "label": "C",
+                "text": "shed"
+              }
+            ]
+          }
+        ],
+        "answer": {
+          "selections": [
+            {
+              "blank": "(i)",
+              "label": "A",
+              "text": "occupy"
+            },
+            {
+              "blank": "(ii)",
+              "label": "C",
+              "text": "shed"
+            }
+          ],
+          "confidence": "high",
+          "rationale_zh": "“lay claim to the middle ground”要求动词为 occupy；pundit先把对手刻画为极端，结尾感叹的是温和姿态迅速 shed。该结论仅为基于更正后题干和选项的 AI 推断。"
+        },
+        "answerProvenance": "ai_inferred",
+        "translation": null,
+        "vocabulary": [],
+        "responseRevision": 2
+      }
+    },
+    {
+      "id": "practice-17:S2:Q4",
+      "changes": {
+        "questionText": "It can be inferred that the author mentions Ellison's apprenticeship with Richmond Barthé primarily in order to",
+        "options": [
+          {
+            "label": "A",
+            "text": "show that Ellison drew upon some aspects of the visual arts in developing his ideas for Invisible Man"
+          },
+          {
+            "label": "B",
+            "text": "show that Ellison's claim for the superiority of language derived from his experience with other art forms"
+          },
+          {
+            "label": "C",
+            "text": "establish that Ellison had experience with an art form that interested many leading figures of the 1930s Harlem arts scene"
+          },
+          {
+            "label": "D",
+            "text": "suggest that in the 1930s the Harlem art scene provided an environment in which artists were likely to work in several media"
+          },
+          {
+            "label": "E",
+            "text": "qualify Ellison's reservations about visual renderings of his work by showing that he was not indifferent to visual art."
+          }
+        ]
+      }
+    },
+    {
+      "id": "practice-18:S2:Q4",
+      "changes": {
+        "questionText": "The author mentions 'artifact dating' primarily to",
+        "options": [
+          {
+            "label": "A",
+            "text": "concede the validity of a particular argument"
+          },
+          {
+            "label": "B",
+            "text": "propose an alternative explanation for a finding"
+          },
+          {
+            "label": "C",
+            "text": "explain why a particular methodology has been subject to criticism"
+          },
+          {
+            "label": "D",
+            "text": "acknowledge a weakness in a particular line of reasoning"
+          },
+          {
+            "label": "E",
+            "text": "account for differences of opinion about the ages of certain artifacts."
+          }
+        ]
+      }
+    },
+    {
+      "id": "practice-19:S2:Q1",
+      "changes": {
+        "questionText": "Since the deficit predicament is fundamentally a long-term problem, the legislature's [[BLANK:1]] short-term approaches has actually compounded the difficulty in each succeeding year, eroding the state's credit rating in the process."
+      }
+    },
+    {
+      "id": "practice-19:S2:Q4",
+      "changes": {
+        "questionText": "It can be inferred from the passage that the 'positive effect' occurs because",
+        "options": [
+          {
+            "label": "A",
+            "text": "water ceases to be a limiting factor"
+          },
+          {
+            "label": "B",
+            "text": "seedlings require less water than mature plants do"
+          },
+          {
+            "label": "C",
+            "text": "the growth of certain other plants is inhibited"
+          },
+          {
+            "label": "D",
+            "text": "drier conditions favor diverse species of annuals"
+          },
+          {
+            "label": "E",
+            "text": "shrub seedlings use soil resources more efficiently than other seedlings do"
+          }
+        ]
+      }
+    },
+    {
+      "id": "practice-20:S2:Q4",
+      "changes": {
+        "questionText": "The passage suggests which of the following about the number of people living in towns in England during the fourteenth century?",
+        "options": [
+          {
+            "label": "A",
+            "text": "It may have declined even as urbanization increased."
+          },
+          {
+            "label": "B",
+            "text": "It depended largely on the expansion of particular industries."
+          },
+          {
+            "label": "C",
+            "text": "It is widely agreed to have grown faster than the number of people living in rural areas."
+          },
+          {
+            "label": "D",
+            "text": "It remained about the same throughout the plague epidemic."
+          },
+          {
+            "label": "E",
+            "text": "It may have declined even as urban mortality levels decreased."
+          }
+        ]
+      }
+    },
+    {
+      "id": "practice-21:S3:Q4",
+      "changes": {
+        "questionText": "The author would likely include which of the following evidence in the 'facts of chronology'?",
+        "options": [
+          {
+            "label": "A",
+            "text": "The number of centuries separating the earliest transitions to agriculture from those observed by anthropologists"
+          },
+          {
+            "label": "B",
+            "text": "The earliest dates for which evidence of farming practices has been established"
+          },
+          {
+            "label": "C",
+            "text": "The known dates, if any, of extinctions of prey species that formed an important part of the diet of ancient human societies."
+          }
+        ]
+      }
+    },
+    {
+      "id": "practice-04:S5:Q2",
+      "changes": {
+        "questionText": "Many readers today consider the moral sentiments expressed in the ancient writer's work to be quite vapid, and in the seventeenth century they were similarly regarded as ____.",
+        "options": [
+          {
+            "label": "A",
+            "text": "jejune"
+          },
+          {
+            "label": "B",
+            "text": "didactic"
+          },
+          {
+            "label": "C",
+            "text": "dogmatic"
+          },
+          {
+            "label": "D",
+            "text": "tendentious"
+          },
+          {
+            "label": "E",
+            "text": "arcane"
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "“Vapid”意为乏味、空洞；“jejune”也有贫乏、浅薄之意，能与句中评价对应。其他选项分别偏向说教、教条、偏颇或深奥，不符合语义。",
+          "label": "A",
+          "text": "jejune"
+        },
+        "clozeText": "Many readers today consider the moral sentiments expressed in the ancient writer's work to be quite vapid, and in the seventeenth century they were similarly regarded as [[BLANK:1]].",
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-05:S5:Q12",
+      "changes": {
+        "questionText": "The hypothesis that the moon formed from a planetary impact could account for the ____ of water and other volatiles on the Moon since such an impact would have caused volatiles to escape into space.",
+        "options": [
+          {
+            "label": "A",
+            "text": "condensation"
+          },
+          {
+            "label": "B",
+            "text": "paucity"
+          },
+          {
+            "label": "C",
+            "text": "nullity"
+          },
+          {
+            "label": "D",
+            "text": "ephemerality"
+          },
+          {
+            "label": "E",
+            "text": "dearth"
+          },
+          {
+            "label": "F",
+            "text": "occurrence"
+          }
+        ],
+        "answer": {
+          "labels": [
+            "B",
+            "E"
+          ],
+          "texts": [
+            "paucity",
+            "dearth"
+          ],
+          "confidence": "high",
+          "rationale_zh": "撞击会把挥发物带入太空，因此可解释月球上水和其他挥发物的稀少。paucity与dearth均表示缺乏，是意义相近的一对。"
+        },
+        "clozeText": "The hypothesis that the moon formed from a planetary impact could account for the [[BLANK:1]] of water and other volatiles on the Moon since such an impact would have caused volatiles to escape into space.",
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-08:S5:Q8",
+      "changes": {
+        "questionText": "The author would most likely agree with which of the following statements about the “writers on Nast”?",
+        "options": [
+          {
+            "label": "A",
+            "text": "They established a once-dominant view of Nast's political cartoons that has now been rejected by most scholars."
+          },
+          {
+            "label": "B",
+            "text": "They might have developed a more accurate understanding of Nast's relationship with Harper's Weekly if they had analyzed the content of Nast's cartoons more carefully."
+          },
+          {
+            "label": "C",
+            "text": "For the most part, they have not sufficiently considered the effect of larger social changes on the way in which Nast's cartoons were perceived."
+          },
+          {
+            "label": "D",
+            "text": "Many of them have misrepresented Nast's reasons for leaving Harper's Weekly, largely because they have misunderstood the true nature of Nast's political views."
+          },
+          {
+            "label": "E",
+            "text": "In general, they have correctly characterized the sources of conflict between Nast and his editors at Harper's Weekly but have failed to describe accurately how the conflict developed."
+          }
+        ],
+        "answer": {
+          "label": "C",
+          "text": "For the most part, they have not sufficiently considered the effect of larger social changes on the way in which Nast's cartoons were perceived.",
+          "confidence": "high",
+          "rationale_zh": "作者认为常见解释过分强调政治分歧，却忽视主流新闻文化转向强调文明表达的社会变化。因此，批评者的问题主要是没有充分考虑更广泛的社会变化。"
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-08:S5:Q9",
+      "changes": {
+        "questionText": "The author mentions Nast's dominance over the pictorial content of Harper's Weekly primarily in order to",
+        "options": [
+          {
+            "label": "A",
+            "text": "cite a factor that puts into perspective Nast's feelings about working for Harper's Weekly"
+          },
+          {
+            "label": "B",
+            "text": "explain why the editors of Harper's Weekly became unhappy with Nast's cartoons"
+          },
+          {
+            "label": "C",
+            "text": "support the argument that Nast was an influential figure in American publishing after the Civil War"
+          },
+          {
+            "label": "D",
+            "text": "help refute a claim about Nast's relationship with the editorial board of Harper's Weekly"
+          },
+          {
+            "label": "E",
+            "text": "suggest that the style of Nast's cartoons was less extreme than is sometimes claimed"
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "作者把Nast的高知名度、主导画报视觉内容和高薪与他仍感到受挫并置，说明其不满并不能简单归因于地位或影响力不足。",
+          "label": "A",
+          "text": "cite a factor that puts into perspective Nast's feelings about working for Harper's Weekly"
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-08:S5:Q13",
+      "changes": {
+        "questionText": "Determining which of the following would be most relevant to evaluating the argument given?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Whether increasing carbon dioxide levels in greenhouses improves the eating quality of the grapes grown in the greenhouses"
+          },
+          {
+            "label": "B",
+            "text": "Whether in the future the market for grapes will be greater than it is now"
+          },
+          {
+            "label": "C",
+            "text": "Whether temperatures today often get so high in regions where grapes are grown that the grapes suffer serious damage"
+          },
+          {
+            "label": "D",
+            "text": "Whether the use of greenhouses for growing grapes serves research purposes only"
+          },
+          {
+            "label": "E",
+            "text": "Whether the economic benefits that might be derived from a major increase in world grape production would outweigh any economic harm resulting from negative health effects associated with increased worldwide carbon dioxide levels"
+          }
+        ],
+        "answer": {
+          "label": "C",
+          "text": "Whether temperatures today often get so high in regions where grapes are grown that the grapes suffer serious damage",
+          "confidence": "high",
+          "rationale_zh": "推理把温室升温促进增产延伸到露天葡萄；若葡萄种植区的高温已会造成严重损害，就会削弱温度上升带来增产的关键前提。其他选项不直接检验这一联系。"
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-08:S5:Q14",
+      "changes": {
+        "questionText": "According to the passage, the occurrence of social learning can be established by",
+        "options": [
+          {
+            "label": "A",
+            "text": "identifying the presence of a shared variation in behavior"
+          },
+          {
+            "label": "B",
+            "text": "establishing whether a learned behavior is complex or simple"
+          },
+          {
+            "label": "C",
+            "text": "examining whether a behavioral difference is maintained over time"
+          },
+          {
+            "label": "D",
+            "text": "eliminating alternative explanations for a shared behavioral pattern"
+          },
+          {
+            "label": "E",
+            "text": "comparing behavior learned through teaching with that learned through imitation"
+          }
+        ],
+        "answer": {
+          "label": "D",
+          "text": "eliminating alternative explanations for a shared behavioral pattern",
+          "confidence": "high",
+          "rationale_zh": "文中说若行为差异无法由遗传或环境因素解释，就可推断发生了文化传播。因此，关键是排除共享行为模式的其他解释。"
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-09:S4:Q5",
+      "changes": {
+        "questionText": "It can be inferred that which of the following approaches to preservation would be unacceptable to “some archivists” but acceptable to the “archivists with a contrary view” as the two groups’ positions are described in the passage?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Displaying a historical document in a glass case in order to allow the public to view the document without damaging it"
+          },
+          {
+            "label": "B",
+            "text": "Scanning a governor's handwritten commentary on political correspondence into a computer file and disposing of the originals in order to save physical space"
+          },
+          {
+            "label": "C",
+            "text": "Destroying videotapes containing eyewitness accounts of news events if the files have not been viewed by anyone in the previous five years"
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "一类档案工作者重视保存原始载体；另一类则认为可用替代品保存信息、原件可弃。扫描并保存内容、再丢弃原件正符合后一立场，却会被前一类反对。",
+          "labels": [
+            "B"
+          ],
+          "texts": [
+            "Scanning a governor's handwritten commentary on political correspondence into a computer file and disposing of the originals in order to save physical space"
+          ]
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-09:S4:Q8",
+      "changes": {
+        "questionText": "According to the passage, which of the following is true regarding factory workers in eastern mill towns after the economic boom?",
+        "options": [
+          {
+            "label": "A",
+            "text": "They strongly identified with small-business entrepreneurs and professionals."
+          },
+          {
+            "label": "B",
+            "text": "Their numbers tripled because of the competition for their labor among various industrialists."
+          },
+          {
+            "label": "C",
+            "text": "They had little if any control over their own working conditions."
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "文章指出工厂工人被排除在财产所有者阶层之外，并在雇主面前无助，直接支持他们对工作条件缺少控制。人口增长三倍描述的是城镇人口，而非工人因争夺劳动力而增长。",
+          "labels": [
+            "C"
+          ],
+          "texts": [
+            "They had little if any control over their own working conditions."
+          ]
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null,
+        "passage": {
+          "id": "practice-09:S4:P7-9",
+          "text": "The post-1850 economic boom in the United States had its greatest impact on eastern mill towns, such as Lowell, Massachusetts. Formerly peaceful villages became bustling towns whose factories rose to dominate their skylines. Their populations sometimes tripled in a decade, forcing propertyless workers into overcrowded, dilapidated housing. Their economies came under the domination of industrialists who competed unfairly with one another and were contemptuous of the old ways. These industrialists had economic power and the social and political power that accompanied it; town politicians catered to their interests. Other property owners, especially small-business entrepreneurs and professionals, identified with them and applauded their successes. The factory workers inevitably found themselves alienated from property owners and helpless before their employers. Thus, economic class, social status, and power were inextricably intertwined; control over property and machinery was readily transformed into complete authority."
+        }
+      }
+    },
+    {
+      "id": "practice-09:S4:Q15",
+      "changes": {
+        "questionText": "Which of the following might plausibly account for the findings in the highlighted sentence?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Spherule layers older than 3.47 billion years exist, but they have not been discovered yet."
+          },
+          {
+            "label": "B",
+            "text": "Spherule layers older than 3.47 billion years once existed, but they have since been destroyed."
+          },
+          {
+            "label": "C",
+            "text": "Fewer asteroids collided with Earth than with the Moon during the lunar cataclysm."
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "高亮信息指出已知地层中没有与月球大撞击时期对应的球粒层。若更古老层尚未发现，或曾存在但已被破坏，都能解释这一缺口；地月撞击数量比较本身不能解释地层记录缺失。",
+          "labels": [
+            "A",
+            "B"
+          ],
+          "texts": [
+            "Spherule layers older than 3.47 billion years exist, but they have not been discovered yet.",
+            "Spherule layers older than 3.47 billion years once existed, but they have since been destroyed."
+          ]
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-16:S2:Q10",
+      "changes": {
+        "questionText": "It can be inferred from the passage that Leonardo Bruni most likely believed which of the following?",
+        "options": [
+          {
+            "label": "A",
+            "text": "The private sphere is superior to the public sphere."
+          },
+          {
+            "label": "B",
+            "text": "Formal education was unnecessary for women in Renaissance Italy."
+          },
+          {
+            "label": "C",
+            "text": "Rhetoric is useful primarily in the public sphere rather than in the private sphere."
+          },
+          {
+            "label": "D",
+            "text": "Women in Renaissance Italy had less desire to study rhetoric than did men."
+          },
+          {
+            "label": "E",
+            "text": "Most liberal arts are of little utility in the public sphere."
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "Bruni主张女性应学习文科，但将修辞排除在女性的领域之外；作者说明他把女性的范围限定在私人领域。由此可推知他认为修辞主要用于公共领域。",
+          "label": "C",
+          "text": "Rhetoric is useful primarily in the public sphere rather than in the private sphere."
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-16:S2:Q11",
+      "changes": {
+        "questionText": "Which of the following is a criticism the author of the passage makes of Burckhardt's work?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Burckhardt's discussion of women's roles overemphasizes certain social and economic factors at the expense of other factors."
+          },
+          {
+            "label": "B",
+            "text": "Burckhardt failed to conduct a detailed study of all of the works of Bruni."
+          },
+          {
+            "label": "C",
+            "text": "Burckhardt was overly influenced by nineteenth-century assumptions about women's roles."
+          },
+          {
+            "label": "D",
+            "text": "Burckhardt relied heavily on sixteenth-century Italian pedagogic works; thus his work was narrowly focused."
+          },
+          {
+            "label": "E",
+            "text": "Burckhardt overlooked important evidence because he shared an assumption contained in that evidence."
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "作者指出布克哈特因认同人文主义者关于女性私人领域的假设，而忽略了布鲁尼将修辞排除于女性教育之外的证据。E准确概括了这种“因共享证据中的假设而忽视证据”的批评。",
+          "label": "E",
+          "text": "Burckhardt overlooked important evidence because he shared an assumption contained in that evidence."
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-16:S2:Q12",
+      "changes": {
+        "questionText": "Which of the following, if true, would cast the most serious doubt on the position taken by the author of the passage regarding Burckhardt's evaluation of historical evidence?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Burckhardt's scholarly works focus almost exclusively on sixteenth-century European humanists."
+          },
+          {
+            "label": "B",
+            "text": "Burckhardt had read Bruni's pedagogic works and had admired them."
+          },
+          {
+            "label": "C",
+            "text": "Margaret King's work has received considerable scholarly acclaim."
+          },
+          {
+            "label": "D",
+            "text": "Many of Bruni's colleagues felt that women should be excluded from instruction in all of the liberal arts."
+          },
+          {
+            "label": "E",
+            "text": "Margaret King's evidence is based largely on Bruni's work, which was not representative of humanist texts."
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "作者的解释是布克哈特因共享人文主义者的性别观而未注意布鲁尼的教育主张。若布克哈特确实读过并欣赏布鲁尼的教育著作，这会最直接动摇他因未接触相关证据而忽略它的解释。",
+          "label": "B",
+          "text": "Burckhardt had read Bruni's pedagogic works and had admired them."
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-16:S4:Q5",
+      "changes": {
+        "questionText": "The passage suggests that some scholars of African literary studies",
+        "options": [
+          {
+            "label": "A",
+            "text": "celebrate African authors for their fluency in more than one language"
+          },
+          {
+            "label": "B",
+            "text": "believe that a literature can have national status even when it comprises a small number of works"
+          },
+          {
+            "label": "C",
+            "text": "view thematic unity as an indispensable attribute of literatures that are justifiably defined as “national”"
+          },
+          {
+            "label": "D",
+            "text": "claim that African countries are too culturally diverse to have national literatures"
+          },
+          {
+            "label": "E",
+            "text": "define several African literatures as “national” even though the works are written in non-indigenous languages"
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "文章指出某些学者推动承认非洲国家的民族文学，尽管这些文学使用的欧洲语言并非当地语言，也不是真正意义上的国家语言。E直接对应这种将其界定为“民族文学”的做法。",
+          "label": "E",
+          "text": "define several African literatures as “national” even though the works are written in non-indigenous languages"
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-16:S4:Q6",
+      "changes": {
+        "questionText": "The author of the passage mentions “thematic and formal progressions” primarily to",
+        "options": [
+          {
+            "label": "A",
+            "text": "describe a structural feature unique to African national literatures"
+          },
+          {
+            "label": "B",
+            "text": "suggest that African national literatures are very similar to each other"
+          },
+          {
+            "label": "C",
+            "text": "cite a potential justification for a certain opinion on national literatures"
+          },
+          {
+            "label": "D",
+            "text": "explain why many African authors avoid writing in European languages"
+          },
+          {
+            "label": "E",
+            "text": "discuss conditions necessary for a country to possess a national literature"
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "文中将主题和形式上的发展脉络作为部分文学形成群体认同的表现，说明为何有人主张这些文学具有民族意义。因此该提法是在给某种看法提供潜在依据。",
+          "label": "C",
+          "text": "cite a potential justification for a certain opinion on national literatures"
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-16:S4:Q7",
+      "changes": {
+        "questionText": "The author of the passage suggests that industrialists who had economic power in mill towns after 1850 were also very likely to",
+        "options": [
+          {
+            "label": "A",
+            "text": "collude with each other to increase their economic prosperity"
+          },
+          {
+            "label": "B",
+            "text": "possess political and social power"
+          },
+          {
+            "label": "C",
+            "text": "increase significantly the prosperity of eastern mill town residents"
+          },
+          {
+            "label": "D",
+            "text": "find their power resisted by propertyless workers"
+          },
+          {
+            "label": "E",
+            "text": "compete with the interests of the propertied business and professional classes"
+          }
+        ],
+        "answer": {
+          "label": "B",
+          "text": "possess political and social power",
+          "confidence": "high",
+          "rationale_zh": "文章明确指出工业家除了经济权力外，还拥有相伴而来的社会与政治权力。其余选项要么无依据，要么与文中描述不符。"
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-16:S4:Q8",
+      "changes": {
+        "questionText": "According to the passage, which of the following is true regarding factory workers in eastern mill towns after the economic boom?",
+        "options": [
+          {
+            "label": "A",
+            "text": "They strongly identified with small-business entrepreneurs and professionals."
+          },
+          {
+            "label": "B",
+            "text": "Their numbers tripled because of the competition for their labor among various industrialists."
+          },
+          {
+            "label": "C",
+            "text": "They had little if any control over their own working conditions."
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "文中称工厂工人疏离于财产所有者，并在雇主面前无助，支持他们几乎无法控制自己的工作条件。城镇人口虽可能翻三倍，但文章没有说工人数量因雇主竞争而增加。",
+          "labels": [
+            "C"
+          ],
+          "texts": [
+            "They had little if any control over their own working conditions."
+          ]
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-16:S4:Q9",
+      "changes": {
+        "questionText": "In the context in which it appears, “dominate” most nearly means",
+        "options": [
+          {
+            "label": "A",
+            "text": "dictate"
+          },
+          {
+            "label": "B",
+            "text": "tyrannize"
+          },
+          {
+            "label": "C",
+            "text": "control"
+          },
+          {
+            "label": "D",
+            "text": "command"
+          },
+          {
+            "label": "E",
+            "text": "oversee"
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "这里说工厂高耸于城镇天际线，dominate意为占据主导、支配。control最贴切；其余词语分别强调命令、暴政或监督。",
+          "label": "C",
+          "text": "control"
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-16:S4:Q13",
+      "changes": {
+        "questionText": "Which of the following, if true, would enable the conclusion of the argument to be properly drawn?",
+        "options": [
+          {
+            "label": "A",
+            "text": "The only place where Consuelo enjoys widely recommended movies is a movie theater."
+          },
+          {
+            "label": "B",
+            "text": "Widely recommended movies are never shown on airplanes."
+          },
+          {
+            "label": "C",
+            "text": "If a movie shown on an airplane is not widely derided, then it is invariably widely recommended."
+          },
+          {
+            "label": "D",
+            "text": "If the picture quality of the movies shown on airplanes was better, Consuelo would enjoy the widely recommended movies."
+          },
+          {
+            "label": "E",
+            "text": "Some movies are neither widely recommended nor widely derided."
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "要推出她在飞机上从不享受电影，需确保每部飞机电影要么遭广泛批评（她不享受），要么获得广泛推荐（她因画质差不享受）。C建立了后一连接，故结论成立。",
+          "label": "C",
+          "text": "If a movie shown on an airplane is not widely derided, then it is invariably widely recommended."
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-16:S4:Q14",
+      "changes": {
+        "questionText": "The primary purpose of the passage is to",
+        "options": [
+          {
+            "label": "A",
+            "text": "challenge a basic assumption underlying a theory"
+          },
+          {
+            "label": "B",
+            "text": "analyze a flaw in a novel approach to a problem"
+          },
+          {
+            "label": "C",
+            "text": "describe different processes that could have produced the same phenomenon"
+          },
+          {
+            "label": "D",
+            "text": "explain how a class of data might be useful for answering a question"
+          },
+          {
+            "label": "E",
+            "text": "outline a theory that may reconcile conflicting interpretations of a phenomenon"
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "文章介绍球粒层如何形成与定年，并说明这些地质记录可帮助研究月球大撞击的时间。因此其主要目的在于解释一类数据如何用于回答科学问题。",
+          "label": "D",
+          "text": "explain how a class of data might be useful for answering a question"
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-16:S4:Q15",
+      "changes": {
+        "questionText": "Which of the following might plausibly account for the findings in the highlighted sentence?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Spherule layers older than 3.47 billion years exist, but they have not been discovered yet."
+          },
+          {
+            "label": "B",
+            "text": "Spherule layers older than 3.47 billion years once existed, but they have since been destroyed."
+          },
+          {
+            "label": "C",
+            "text": "Fewer asteroids collided with Earth than with the Moon during the lunar cataclysm."
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "高亮指出目前没有已知球粒层对应月球大撞击时期。更古老的层尚未发现，或曾形成但后来被破坏，均可解释这一观测结果；第三项不能解释地层为何缺失。",
+          "labels": [
+            "A",
+            "B"
+          ],
+          "texts": [
+            "Spherule layers older than 3.47 billion years exist, but they have not been discovered yet.",
+            "Spherule layers older than 3.47 billion years once existed, but they have since been destroyed."
+          ]
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-17:S2:Q10",
+      "changes": {
+        "questionText": "It can be inferred from the passage that Leonardo Bruni most likely believed which of the following?",
+        "options": [
+          {
+            "label": "A",
+            "text": "The private sphere is superior to the public sphere."
+          },
+          {
+            "label": "B",
+            "text": "Formal education was unnecessary for women in Renaissance Italy."
+          },
+          {
+            "label": "C",
+            "text": "Rhetoric is useful primarily in the public sphere rather than in the private sphere."
+          },
+          {
+            "label": "D",
+            "text": "Women in Renaissance Italy had less desire to study rhetoric than did men."
+          },
+          {
+            "label": "E",
+            "text": "Most liberal arts are of little utility in the public sphere."
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "Bruni主张女性应学习文科，但将修辞排除在女性的领域之外；作者说明他把女性的范围限定在私人领域。由此可推知他认为修辞主要用于公共领域。",
+          "label": "C",
+          "text": "Rhetoric is useful primarily in the public sphere rather than in the private sphere."
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-17:S2:Q11",
+      "changes": {
+        "questionText": "Which of the following is a criticism the author of the passage makes of Burckhardt's work?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Burckhardt's discussion of women's roles overemphasizes certain social and economic factors at the expense of other factors."
+          },
+          {
+            "label": "B",
+            "text": "Burckhardt failed to conduct a detailed study of all of the works of Bruni."
+          },
+          {
+            "label": "C",
+            "text": "Burckhardt was overly influenced by nineteenth-century assumptions about women's roles."
+          },
+          {
+            "label": "D",
+            "text": "Burckhardt relied heavily on sixteenth-century Italian pedagogic works; thus his work was narrowly focused."
+          },
+          {
+            "label": "E",
+            "text": "Burckhardt overlooked important evidence because he shared an assumption contained in that evidence."
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "作者指出布克哈特因认同人文主义者关于女性私人领域的假设，而忽略了布鲁尼将修辞排除于女性教育之外的证据。E准确概括了这种“因共享证据中的假设而忽视证据”的批评。",
+          "label": "E",
+          "text": "Burckhardt overlooked important evidence because he shared an assumption contained in that evidence."
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-17:S2:Q12",
+      "changes": {
+        "questionText": "Which of the following, if true, would cast the most serious doubt on the position taken by the author of the passage regarding Burckhardt's evaluation of historical evidence?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Burckhardt's scholarly works focus almost exclusively on sixteenth-century European humanists."
+          },
+          {
+            "label": "B",
+            "text": "Burckhardt had read Bruni's pedagogic works and had admired them."
+          },
+          {
+            "label": "C",
+            "text": "Margaret King's work has received considerable scholarly acclaim."
+          },
+          {
+            "label": "D",
+            "text": "Many of Bruni's colleagues felt that women should be excluded from instruction in all of the liberal arts."
+          },
+          {
+            "label": "E",
+            "text": "Margaret King's evidence is based largely on Bruni's work, which was not representative of humanist texts."
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "作者的解释是布克哈特因共享人文主义者的性别观而未注意布鲁尼的教育主张。若布克哈特确实读过并欣赏布鲁尼的教育著作，这会最直接动摇他因未接触相关证据而忽略它的解释。",
+          "label": "B",
+          "text": "Burckhardt had read Bruni's pedagogic works and had admired them."
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-17:S4:Q5",
+      "changes": {
+        "questionText": "The passage suggests that some scholars of African literary studies",
+        "options": [
+          {
+            "label": "A",
+            "text": "celebrate African authors for their fluency in more than one language"
+          },
+          {
+            "label": "B",
+            "text": "believe that a literature can have national status even when it comprises a small number of works"
+          },
+          {
+            "label": "C",
+            "text": "view thematic unity as an indispensable attribute of literatures that are justifiably defined as “national”"
+          },
+          {
+            "label": "D",
+            "text": "claim that African countries are too culturally diverse to have national literatures"
+          },
+          {
+            "label": "E",
+            "text": "define several African literatures as “national” even though the works are written in non-indigenous languages"
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "文章指出某些学者推动承认非洲国家的民族文学，尽管这些文学使用的欧洲语言并非当地语言，也不是真正意义上的国家语言。E直接对应这种将其界定为“民族文学”的做法。",
+          "label": "E",
+          "text": "define several African literatures as “national” even though the works are written in non-indigenous languages"
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-17:S4:Q6",
+      "changes": {
+        "questionText": "The author of the passage mentions “thematic and formal progressions” primarily to",
+        "options": [
+          {
+            "label": "A",
+            "text": "describe a structural feature unique to African national literatures"
+          },
+          {
+            "label": "B",
+            "text": "suggest that African national literatures are very similar to each other"
+          },
+          {
+            "label": "C",
+            "text": "cite a potential justification for a certain opinion on national literatures"
+          },
+          {
+            "label": "D",
+            "text": "explain why many African authors avoid writing in European languages"
+          },
+          {
+            "label": "E",
+            "text": "discuss conditions necessary for a country to possess a national literature"
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "文中将主题和形式上的发展脉络作为部分文学形成群体认同的表现，说明为何有人主张这些文学具有民族意义。因此该提法是在给某种看法提供潜在依据。",
+          "label": "C",
+          "text": "cite a potential justification for a certain opinion on national literatures"
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-17:S4:Q7",
+      "changes": {
+        "questionText": "The author of the passage suggests that industrialists who had economic power in mill towns after 1850 were also very likely to",
+        "options": [
+          {
+            "label": "A",
+            "text": "collude with each other to increase their economic prosperity"
+          },
+          {
+            "label": "B",
+            "text": "possess political and social power"
+          },
+          {
+            "label": "C",
+            "text": "increase significantly the prosperity of eastern mill town residents"
+          },
+          {
+            "label": "D",
+            "text": "find their power resisted by propertyless workers"
+          },
+          {
+            "label": "E",
+            "text": "compete with the interests of the propertied business and professional classes"
+          }
+        ],
+        "answer": {
+          "label": "B",
+          "text": "possess political and social power",
+          "confidence": "high",
+          "rationale_zh": "文章明确指出工业家除了经济权力外，还拥有相伴而来的社会与政治权力。其余选项要么无依据，要么与文中描述不符。"
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-17:S4:Q8",
+      "changes": {
+        "questionText": "According to the passage, which of the following is true regarding factory workers in eastern mill towns after the economic boom?",
+        "options": [
+          {
+            "label": "A",
+            "text": "They strongly identified with small-business entrepreneurs and professionals."
+          },
+          {
+            "label": "B",
+            "text": "Their numbers tripled because of the competition for their labor among various industrialists."
+          },
+          {
+            "label": "C",
+            "text": "They had little if any control over their own working conditions."
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "文中称工厂工人疏离于财产所有者，并在雇主面前无助，支持他们几乎无法控制自己的工作条件。城镇人口虽可能翻三倍，但文章没有说工人数量因雇主竞争而增加。",
+          "labels": [
+            "C"
+          ],
+          "texts": [
+            "They had little if any control over their own working conditions."
+          ]
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-17:S4:Q9",
+      "changes": {
+        "questionText": "In the context in which it appears, “dominate” most nearly means",
+        "options": [
+          {
+            "label": "A",
+            "text": "dictate"
+          },
+          {
+            "label": "B",
+            "text": "tyrannize"
+          },
+          {
+            "label": "C",
+            "text": "control"
+          },
+          {
+            "label": "D",
+            "text": "command"
+          },
+          {
+            "label": "E",
+            "text": "oversee"
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "这里说工厂高耸于城镇天际线，dominate意为占据主导、支配。control最贴切；其余词语分别强调命令、暴政或监督。",
+          "label": "C",
+          "text": "control"
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-17:S4:Q13",
+      "changes": {
+        "questionText": "Which of the following, if true, would enable the conclusion of the argument to be properly drawn?",
+        "options": [
+          {
+            "label": "A",
+            "text": "The only place where Consuelo enjoys widely recommended movies is a movie theater."
+          },
+          {
+            "label": "B",
+            "text": "Widely recommended movies are never shown on airplanes."
+          },
+          {
+            "label": "C",
+            "text": "If a movie shown on an airplane is not widely derided, then it is invariably widely recommended."
+          },
+          {
+            "label": "D",
+            "text": "If the picture quality of the movies shown on airplanes was better, Consuelo would enjoy the widely recommended movies."
+          },
+          {
+            "label": "E",
+            "text": "Some movies are neither widely recommended nor widely derided."
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "要推出她在飞机上从不享受电影，需确保每部飞机电影要么遭广泛批评（她不享受），要么获得广泛推荐（她因画质差不享受）。C建立了后一连接，故结论成立。",
+          "label": "C",
+          "text": "If a movie shown on an airplane is not widely derided, then it is invariably widely recommended."
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-17:S4:Q14",
+      "changes": {
+        "questionText": "The primary purpose of the passage is to",
+        "options": [
+          {
+            "label": "A",
+            "text": "challenge a basic assumption underlying a theory"
+          },
+          {
+            "label": "B",
+            "text": "analyze a flaw in a novel approach to a problem"
+          },
+          {
+            "label": "C",
+            "text": "describe different processes that could have produced the same phenomenon"
+          },
+          {
+            "label": "D",
+            "text": "explain how a class of data might be useful for answering a question"
+          },
+          {
+            "label": "E",
+            "text": "outline a theory that may reconcile conflicting interpretations of a phenomenon"
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "文章介绍球粒层如何形成与定年，并说明这些地质记录可帮助研究月球大撞击的时间。因此其主要目的在于解释一类数据如何用于回答科学问题。",
+          "label": "D",
+          "text": "explain how a class of data might be useful for answering a question"
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-17:S4:Q15",
+      "changes": {
+        "questionText": "Which of the following might plausibly account for the findings in the highlighted sentence?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Spherule layers older than 3.47 billion years exist, but they have not been discovered yet."
+          },
+          {
+            "label": "B",
+            "text": "Spherule layers older than 3.47 billion years once existed, but they have since been destroyed."
+          },
+          {
+            "label": "C",
+            "text": "Fewer asteroids collided with Earth than with the Moon during the lunar cataclysm."
+          }
+        ],
+        "answer": {
+          "confidence": "high",
+          "rationale_zh": "高亮指出目前没有已知球粒层对应月球大撞击时期。更古老的层尚未发现，或曾形成但后来被破坏，均可解释这一观测结果；第三项不能解释地层为何缺失。",
+          "labels": [
+            "A",
+            "B"
+          ],
+          "texts": [
+            "Spherule layers older than 3.47 billion years exist, but they have not been discovered yet.",
+            "Spherule layers older than 3.47 billion years once existed, but they have since been destroyed."
+          ]
+        },
+        "answerProvenance": "ai_inferred",
+        "answerModel": "gpt-6-luna",
+        "responseRevision": 2,
+        "translation": null
+      }
+    },
+    {
+      "id": "practice-09:S4:Q7",
+      "changes": {
+        "passage": {
+          "id": "practice-09:S4:P7-9",
+          "text": "The post-1850 economic boom in the United States had its greatest impact on eastern mill towns, such as Lowell, Massachusetts. Formerly peaceful villages became bustling towns whose factories rose to dominate their skylines. Their populations sometimes tripled in a decade, forcing propertyless workers into overcrowded, dilapidated housing. Their economies came under the domination of industrialists who competed unfairly with one another and were contemptuous of the old ways. These industrialists had economic power and the social and political power that accompanied it; town politicians catered to their interests. Other property owners, especially small-business entrepreneurs and professionals, identified with them and applauded their successes. The factory workers inevitably found themselves alienated from property owners and helpless before their employers. Thus, economic class, social status, and power were inextricably intertwined; control over property and machinery was readily transformed into complete authority."
+        }
+      }
+    },
+    {
+      "id": "practice-09:S4:Q9",
+      "changes": {
+        "passage": {
+          "id": "practice-09:S4:P7-9",
+          "text": "The post-1850 economic boom in the United States had its greatest impact on eastern mill towns, such as Lowell, Massachusetts. Formerly peaceful villages became bustling towns whose factories rose to dominate their skylines. Their populations sometimes tripled in a decade, forcing propertyless workers into overcrowded, dilapidated housing. Their economies came under the domination of industrialists who competed unfairly with one another and were contemptuous of the old ways. These industrialists had economic power and the social and political power that accompanied it; town politicians catered to their interests. Other property owners, especially small-business entrepreneurs and professionals, identified with them and applauded their successes. The factory workers inevitably found themselves alienated from property owners and helpless before their employers. Thus, economic class, social status, and power were inextricably intertwined; control over property and machinery was readily transformed into complete authority."
+        }
+      }
+    }
+  ]
+}
