@@ -1325,6 +1325,17 @@ button {
   font-size: 13px;
 }
 
+/* Override the label styling that .meaning-block span and .word-row span apply. */
+.word-memory > span,
+.meaning-block .word-memory > span,
+.word-row .word-memory > span {
+  display: block;
+  margin: 0;
+  color: #444741;
+  font-size: inherit;
+  font-weight: 400;
+}
+
 .mark-toggle {
   display: inline-flex;
   align-items: center;
