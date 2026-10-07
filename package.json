@@ -10,9 +10,12 @@
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
     "build:fresh": "npm run prepare:data && npm run prepare:cloze && npm run prepare:practice && vite build",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1",
+    "apply:review": "node scripts/apply-review-data.mjs",
+    "test": "node scripts/test-sync-engine.mjs && node scripts/validate-practice-data.mjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.117.3",
     "@vitejs/plugin-react": "5.0.4",
     "lucide-react": "^1.21.0",
     "pdfjs-dist": "^6.0.227",

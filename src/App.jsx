@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   BookOpen,
   Bookmark,
@@ -16,16 +16,22 @@ import {
   RotateCcw,
   Search,
   Volume2,
+  Flag,
 } from "lucide-react";
+import { AccountSheet, syncBadge } from "./AccountSheet.jsx";
+import { useCloudAuth, useCloudSync } from "./cloud/useCloud.js";
+import { applyKindChanges, isInWrongBook, normalizeMark, normalizePracticeResponse } from "./studyState.js";
 
 const STORAGE_KEY = "gre-daily-study-state-v1";
 const START_DATE_KEY = "gre-daily-study-start-date";
 const AUDIO_CACHE_KEY = "gre-daily-study-audio-cache-v1";
 const PRACTICE_DRAFTS_KEY = "gre-daily-study-essay-drafts-v1";
 const PRACTICE_STATE_KEY = "gre-daily-study-practice-state-v1";
+const QUESTION_MARKS_KEY = "gre-daily-study-question-marks-v1";
 const DICTIONARY_API_BASE = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 const BASE_URL = import.meta.env.BASE_URL || "/";
 const PRACTICE_FILTER_IDS = new Set(["all", "text_completion", "sentence_equivalence", "reading_comprehension", "issue_task"]);
+const PRACTICE_COLLECTION_IDS = new Set(["all", "wrong", "marked", "unanswered"]);
 
 const navItems = [
   { id: "today", label: "Today", icon: CalendarDays },
@@ -61,25 +67,6 @@ function loadJsonStorage(key, fallback) {
   }
 }
 
-function normalizePracticeResponse(value) {
-  const response = value && typeof value === "object" ? value : {};
-  const selectedByBlank = response.selectedByBlank && typeof response.selectedByBlank === "object"
-    ? Object.fromEntries(Object.entries(response.selectedByBlank).filter(([blank, label]) => typeof blank === "string" && typeof label === "string"))
-    : {};
-
-  return {
-    responseRevision: response.responseRevision ?? 1,
-    selectedLabels: Array.isArray(response.selectedLabels) ? response.selectedLabels.filter((label) => typeof label === "string") : [],
-    selectedByBlank,
-    selectedSentence: typeof response.selectedSentence === "string" ? response.selectedSentence : "",
-    checked: Boolean(response.checked),
-    attemptCount: Number.isInteger(response.attemptCount) && response.attemptCount > 0 ? response.attemptCount : 0,
-    lastCorrect: typeof response.lastCorrect === "boolean" ? response.lastCorrect : null,
-    completedAt: typeof response.completedAt === "string" ? response.completedAt : "",
-    lastAttemptAt: typeof response.lastAttemptAt === "string" ? response.lastAttemptAt : "",
-  };
-}
-
 function getInitialPracticeState() {
   const stored = loadJsonStorage(PRACTICE_STATE_KEY, {});
   const rawResponses = stored?.responses && typeof stored.responses === "object" ? stored.responses : {};
@@ -92,10 +79,24 @@ function getInitialPracticeState() {
   return {
     selectedQuestionId: typeof stored?.selectedQuestionId === "string" ? stored.selectedQuestionId : "",
     typeFilter: PRACTICE_FILTER_IDS.has(stored?.typeFilter) ? stored.typeFilter : "all",
+    collectionFilter: PRACTICE_COLLECTION_IDS.has(stored?.collectionFilter) ? stored.collectionFilter : "all",
     sourceFilter: typeof stored?.sourceFilter === "string" ? stored.sourceFilter : "all",
     query: typeof stored?.query === "string" ? stored.query : "",
     responses,
   };
+}
+
+function getInitialMarks() {
+  const stored = loadJsonStorage(QUESTION_MARKS_KEY, {});
+  if (!stored || typeof stored !== "object") return {};
+  return Object.fromEntries(Object.entries(stored).map(([questionId, mark]) => [questionId, normalizeMark(mark)]));
+}
+
+// A response only counts while it belongs to the current revision of its question.
+function currentResponse(question, responses) {
+  const response = responses[question.id];
+  if (!response || (response.responseRevision ?? 1) !== (question.responseRevision ?? 1)) return null;
+  return response;
 }
 
 function getInitialStartDate() {
@@ -256,14 +257,27 @@ function ErrorScreen({ error }) {
   );
 }
 
-function TopHeader({ selectedDay, totalDays, progressLabel, dayProgress, onPrev, onNext, onResetStartDate }) {
+function AccountButton({ badge, onClick }) {
+  const Icon = badge.icon;
+  return (
+    <button aria-label={`账户与云同步：${badge.label}`} className={`account-button tone-${badge.tone}`} type="button" onClick={onClick}>
+      <Icon className={badge.spinning ? "spin" : ""} size={21} />
+      <span>{badge.label}</span>
+    </button>
+  );
+}
+
+function TopHeader({ selectedDay, totalDays, progressLabel, dayProgress, accountBadge, onOpenAccount, onPrev, onNext, onResetStartDate }) {
   return (
     <header className="top-header">
       <div className="title-row">
         <h1>Today</h1>
-        <IconButton aria-label="Use today as Day 01" onClick={onResetStartDate}>
-          <CalendarDays size={26} />
-        </IconButton>
+        <div className="title-actions">
+          <AccountButton badge={accountBadge} onClick={onOpenAccount} />
+          <IconButton aria-label="Use today as Day 01" onClick={onResetStartDate}>
+            <CalendarDays size={26} />
+          </IconButton>
+        </div>
       </div>
 
       <div className="day-switcher">
@@ -304,6 +318,16 @@ function TimelineBadge({ icon: Icon, tone = "green" }) {
   );
 }
 
+function WordMemory({ memory }) {
+  if (!memory?.text) return null;
+  return (
+    <div className="word-memory">
+      <b>{memory.method || "记忆"}</b>
+      <span>{memory.text}</span>
+    </div>
+  );
+}
+
 function WordFocusCard({ word, state, reveal, audioStatus, onPronounce, onReveal, onToggleMastered, onToggleSaved }) {
   if (!word) return null;
   const pos = parsePartOfSpeech(word.explanation);
@@ -332,6 +356,7 @@ function WordFocusCard({ word, state, reveal, audioStatus, onPronounce, onReveal
 
       <div className={`meaning-block ${reveal ? "" : "is-hidden"}`}>
         <p>{explanation}</p>
+        <WordMemory memory={word.memory} />
         <div>
           <span>Synonym</span>
           <strong>{synonyms}</strong>
@@ -418,6 +443,7 @@ function TodayView({
   audioStatus,
   dailyPracticeQuestion,
   practiceTotal,
+  reviewSummary,
   masteredCount,
   progress,
   onPronounce,
@@ -455,7 +481,7 @@ function TodayView({
         <time>11 AM</time>
         <TimelineBadge icon={RotateCcw} tone="lavender" />
         <div className="timeline-content">
-          <SectionHeading title="Review" body="Saved words and unfinished items" onClick={onOpenSaved} />
+          <SectionHeading title="Review" body={reviewSummary} onClick={onOpenSaved} />
         </div>
       </div>
 
@@ -483,7 +509,8 @@ function WordListView({ days, selectedDay, setSelectedDay, progress, onPronounce
         return (
           word.word.toLowerCase().includes(normalized) ||
           word.explanation.toLowerCase().includes(normalized) ||
-          word.synonyms.join(", ").toLowerCase().includes(normalized)
+          word.synonyms.join(", ").toLowerCase().includes(normalized) ||
+          String(word.memory?.text || "").toLowerCase().includes(normalized)
         );
       });
   }, [activeDay.words, days, query]);
@@ -519,6 +546,7 @@ function WordListView({ days, selectedDay, setSelectedDay, progress, onPronounce
                 <span>{word.day ? `Day ${String(word.day).padStart(2, "0")}` : `#${word.number}`}</span>
                 <strong>{word.word}</strong>
                 <p>{compactExplanation(word.explanation)}</p>
+                <WordMemory memory={word.memory} />
                 {word.synonyms.length > 0 && <em>{word.synonyms.join(", ")}</em>}
               </div>
               <div className="word-actions">
@@ -546,6 +574,26 @@ function WordListView({ days, selectedDay, setSelectedDay, progress, onPronounce
       </div>
     </section>
   );
+}
+
+const practiceCollections = [
+  { id: "all", label: "全部" },
+  { id: "wrong", label: "错题本" },
+  { id: "marked", label: "已标记" },
+  { id: "unanswered", label: "未做" },
+];
+
+function inPracticeCollection(collection, record, { responses, marks, essayDrafts }) {
+  if (collection === "marked") return Boolean(marks[record.id]);
+  if (record.category === "essay") {
+    if (collection === "wrong") return false;
+    if (collection === "unanswered") return !String(essayDrafts[record.id] || "").trim();
+    return true;
+  }
+  const response = currentResponse(record, responses);
+  if (collection === "wrong") return isInWrongBook(response);
+  if (collection === "unanswered") return !response?.attemptCount;
+  return true;
 }
 
 const practiceTypeFilters = [
@@ -588,12 +636,22 @@ function buildSentenceChoices(passage, answer) {
   return choices;
 }
 
-function QuestionMeta({ question }) {
+function MarkToggle({ marked, onToggle }) {
+  return (
+    <button aria-pressed={marked} className={`mark-toggle ${marked ? "is-active" : ""}`} type="button" onClick={onToggle}>
+      <Flag size={15} strokeWidth={2.3} />
+      {marked ? "已标记" : "标记"}
+    </button>
+  );
+}
+
+function QuestionMeta({ question, marked, onToggleMark }) {
   return (
     <div className="source-meta">
       <span>{question.typeLabel}</span>
       <a href={`${BASE_URL}pdfs/${question.source.file}#page=${question.source.page}`} target="_blank" rel="noreferrer" aria-label="Open original PDF page">{sourceLabel(question)}</a>
       {question.topic && <span>{question.topic}</span>}
+      {onToggleMark && <MarkToggle marked={marked} onToggle={onToggleMark} />}
     </div>
   );
 }
@@ -713,7 +771,7 @@ function OptionButton({ option, selected, correct, incorrect, onClick }) {
   );
 }
 
-function VerbalQuestion({ question, response, onChangeResponse }) {
+function VerbalQuestion({ question, response, onChangeResponse, marked, onToggleMark }) {
   const responseRevision = question.responseRevision ?? 1;
   const savedResponse = normalizePracticeResponse((response?.responseRevision ?? 1) === responseRevision ? response : null);
   const { selectedLabels, selectedByBlank, selectedSentence, checked } = savedResponse;
@@ -762,12 +820,14 @@ function VerbalQuestion({ question, response, onChangeResponse }) {
       completedAt: savedResponse.completedAt || timestamp,
       lastAttemptAt: timestamp,
       lastCorrect: correct,
+      ...(correct ? {} : { wrongCount: savedResponse.wrongCount + 1, lastWrongAt: timestamp }),
     });
   };
+  const inWrongBook = isInWrongBook(savedResponse);
 
   return (
     <article className="question-card">
-      <QuestionMeta question={question} />
+      <QuestionMeta question={question} marked={marked} onToggleMark={onToggleMark} />
       {aiInferred && <p className="answer-provenance">AI推断 · 答案与解析未获官方确认</p>}
       {!hasAnswer && <p className="answer-provenance">答案待核对 · 本题暂不判分</p>}
       {question.responseFormat?.selection_rule && <p className="selection-rule">{question.responseFormat.selection_rule}</p>}
@@ -842,16 +902,22 @@ function VerbalQuestion({ question, response, onChangeResponse }) {
         {hasAnswer ? (aiInferred ? "核对 AI 参考答案" : "Check answer") : "答案待核对"}
       </button>
       {checked && hasAnswer && <SolutionPanel answer={question.answer} correct={correct} aiInferred={aiInferred} />}
+      {inWrongBook && (
+        <div className="wrong-book-note">
+          <span>已在错题本 · 错 {savedResponse.wrongCount} 次</span>
+          <button type="button" onClick={() => updateResponse({ wrongClearedAt: new Date().toISOString() })}>移出错题本</button>
+        </div>
+      )}
       <TranslationBlock translation={question.translation} />
       <VocabularyCards vocabulary={question.vocabulary} />
     </article>
   );
 }
 
-function EssayQuestion({ question, draft, onChangeDraft }) {
+function EssayQuestion({ question, draft, onChangeDraft, marked, onToggleMark }) {
   return (
     <article className="question-card essay-question">
-      <QuestionMeta question={question} />
+      <QuestionMeta question={question} marked={marked} onToggleMark={onToggleMark} />
       <h3 className="essay-prompt">{question.promptText}</h3>
       <label className="essay-draft-label" htmlFor={`draft-${question.id}`}>Your response</label>
       <textarea
@@ -862,16 +928,16 @@ function EssayQuestion({ question, draft, onChangeDraft }) {
         placeholder="Write your Issue response here…"
       />
       <div className="essay-draft-footer">
-        <span>Saved in this browser.</span>
+        <span>Saved on this device; synced when signed in.</span>
         <button type="button" onClick={() => onChangeDraft("")}>Clear draft</button>
       </div>
     </article>
   );
 }
 
-function PracticeQuestion({ question, draft, onChangeDraft, response, onChangeResponse }) {
-  if (question.category === "essay") return <EssayQuestion question={question} draft={draft} onChangeDraft={onChangeDraft} />;
-  return <VerbalQuestion question={question} response={response} onChangeResponse={onChangeResponse} />;
+function PracticeQuestion({ question, draft, onChangeDraft, response, onChangeResponse, marked, onToggleMark }) {
+  if (question.category === "essay") return <EssayQuestion question={question} draft={draft} onChangeDraft={onChangeDraft} marked={marked} onToggleMark={onToggleMark} />;
+  return <VerbalQuestion question={question} response={response} onChangeResponse={onChangeResponse} marked={marked} onToggleMark={onToggleMark} />;
 }
 
 function PracticeView({
@@ -882,22 +948,35 @@ function PracticeView({
   onChangeFilters,
   responses,
   onChangeResponse,
+  marks,
+  onToggleMark,
   progress,
   essayDrafts,
   onChangeEssayDraft,
 }) {
-  const { typeFilter, sourceFilter, query } = filters;
+  const { typeFilter, sourceFilter, query, collectionFilter } = filters;
+  const collectionCounts = useMemo(() => {
+    const context = { responses, marks, essayDrafts };
+    return {
+      wrong: records.filter((record) => inPracticeCollection("wrong", record, context)).length,
+      marked: records.filter((record) => inPracticeCollection("marked", record, context)).length,
+    };
+  }, [essayDrafts, marks, records, responses]);
   const sources = useMemo(() => [...new Set(records.map((record) => record.source?.file).filter(Boolean))], [records]);
   const sourceTitles = useMemo(() => new Map(records.map((record) => [record.source?.file, record.source?.title])), [records]);
   const filteredRecords = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
+    const context = { responses, marks, essayDrafts };
     return records.filter((record) => {
+      if (collectionFilter !== "all" && !inPracticeCollection(collectionFilter, record, context)) return false;
       if (typeFilter !== "all" && record.questionType !== typeFilter) return false;
       if (sourceFilter !== "all" && record.source?.file !== sourceFilter) return false;
       if (!normalizedQuery) return true;
       return `${record.id} ${record.typeLabel} ${questionPreview(record)} ${record.topic || ""}`.toLowerCase().includes(normalizedQuery);
     });
-  }, [query, records, sourceFilter, typeFilter]);
+    // Membership is re-read only when the filter itself changes, so answering a question
+    // correctly inside the wrong-question book does not yank it out from under the reader.
+  }, [collectionFilter, query, records, sourceFilter, typeFilter]);
   const selectedQuestion = filteredRecords.find((record) => record.id === selectedQuestionId) || filteredRecords[0] || null;
   const selectedIndex = selectedQuestion ? filteredRecords.findIndex((record) => record.id === selectedQuestion.id) : -1;
   const previousQuestionId = useRef(selectedQuestion?.id);
@@ -926,7 +1005,23 @@ function PracticeView({
         <strong>{progress.checkedCount} / {progress.verbalCount} checked</strong>
         <span>{progress.correctCount} correct</span>
         {progress.essayDraftCount > 0 && <span>{progress.essayDraftCount} essay draft{progress.essayDraftCount === 1 ? "" : "s"}</span>}
-        <small>Saved on this device</small>
+        <small>{progress.syncLabel}</small>
+      </div>
+
+      <div className="practice-collection-tabs" aria-label="Question collection" role="tablist">
+        {practiceCollections.map((collection) => (
+          <button
+            aria-selected={collectionFilter === collection.id}
+            className={collectionFilter === collection.id ? "is-active" : ""}
+            key={collection.id}
+            role="tab"
+            type="button"
+            onClick={() => onChangeFilters({ collectionFilter: collection.id })}
+          >
+            {collection.label}
+            {collectionCounts[collection.id] !== undefined && <b>{collectionCounts[collection.id]}</b>}
+          </button>
+        ))}
       </div>
 
       <div className="practice-type-pills" aria-label="Question type">
@@ -949,7 +1044,10 @@ function PracticeView({
       </div>
 
       {!selectedQuestion ? (
-        <EmptyState title="No matching questions" body="Try another question type, practice set, or search phrase." />
+        <EmptyState
+          title={collectionFilter === "wrong" ? "错题本是空的" : collectionFilter === "marked" ? "还没有标记的题目" : "No matching questions"}
+          body={collectionFilter === "wrong" ? "答错的题会自动进入错题本。" : collectionFilter === "marked" ? "在题目右上角点“标记”，之后可以在这里集中复习。" : "Try another question type, practice set, or search phrase."}
+        />
       ) : (
         <>
           <div className="practice-picker">
@@ -970,6 +1068,8 @@ function PracticeView({
             onChangeDraft={(value) => onChangeEssayDraft(selectedQuestion.id, value)}
             response={responses[selectedQuestion.id]}
             onChangeResponse={(response) => onChangeResponse(selectedQuestion.id, response)}
+            marked={Boolean(marks[selectedQuestion.id])}
+            onToggleMark={() => onToggleMark(selectedQuestion.id)}
           />
         </>
       )}
@@ -977,12 +1077,52 @@ function PracticeView({
   );
 }
 
-function SavedView({ days, progress, onPronounce, toggleMastered, toggleSaved }) {
+function QuestionReviewList({ records, kind, responses, onOpenQuestion, onRemove }) {
+  if (!records.length) {
+    return kind === "wrong"
+      ? <EmptyState title="错题本是空的" body="在 Practice 里答错的题会自动出现在这里。" />
+      : <EmptyState title="还没有标记的题目" body="做题时点题目右上角的“标记”，之后在这里集中复习。" />;
+  }
+
+  return (
+    <div className="question-review-list">
+      {records.map((record) => {
+        const response = responses[record.id];
+        return (
+          <article className="question-review-row" key={record.id}>
+            <button className="question-review-open" type="button" onClick={() => onOpenQuestion(record.id)}>
+              <span>{record.typeLabel} · {sourceLabel(record)}</span>
+              <p>{(record.clozeText || questionPreview(record)).replace(/\[\[BLANK:\d+\]\]/g, "____")}</p>
+              {kind === "wrong" && response && <small>错 {response.wrongCount} 次 · 最近 {String(response.lastWrongAt || "").slice(0, 10)}</small>}
+            </button>
+            <button className="question-review-remove" type="button" onClick={() => onRemove(record.id)}>
+              {kind === "wrong" ? "移出" : "取消标记"}
+            </button>
+          </article>
+        );
+      })}
+    </div>
+  );
+}
+
+function SavedView({ days, progress, onPronounce, toggleMastered, toggleSaved, records, responses, marks, onOpenCollection, onToggleMark, onClearWrong }) {
+  const [segment, setSegment] = useState("words");
   const savedWords = days
     .flatMap((day) => day.words.map((word) => ({ ...word, day: day.day })))
     .filter((word) => getWordState(progress, word.id).saved);
   const unfinishedSaved = savedWords.filter((word) => !getWordState(progress, word.id).mastered);
   const masteredCount = Object.values(progress).filter((state) => state.mastered).length;
+  const wrongRecords = records
+    .filter((record) => record.category === "verbal" && isInWrongBook(currentResponse(record, responses)))
+    .sort((left, right) => Date.parse(responses[right.id].lastWrongAt || 0) - Date.parse(responses[left.id].lastWrongAt || 0));
+  const markedRecords = records
+    .filter((record) => marks[record.id])
+    .sort((left, right) => Date.parse(marks[right.id].markedAt || 0) - Date.parse(marks[left.id].markedAt || 0));
+  const segments = [
+    { id: "words", label: "生词", count: savedWords.length },
+    { id: "wrong", label: "错题本", count: wrongRecords.length },
+    { id: "marked", label: "标记题目", count: markedRecords.length },
+  ];
 
   return (
     <section className="panel-view saved-view">
@@ -1002,9 +1142,40 @@ function SavedView({ days, progress, onPronounce, toggleMastered, toggleSaved })
           <span>Still reviewing</span>
           <strong>{unfinishedSaved.length}</strong>
         </div>
+        <div>
+          <span>错题本</span>
+          <strong>{wrongRecords.length}</strong>
+        </div>
+        <div>
+          <span>标记题目</span>
+          <strong>{markedRecords.length}</strong>
+        </div>
       </div>
 
-      {savedWords.length === 0 ? (
+      <div className="practice-collection-tabs saved-segments" aria-label="Review collection" role="tablist">
+        {segments.map((item) => (
+          <button aria-selected={segment === item.id} className={segment === item.id ? "is-active" : ""} key={item.id} role="tab" type="button" onClick={() => setSegment(item.id)}>
+            {item.label}
+            <b>{item.count}</b>
+          </button>
+        ))}
+      </div>
+
+      {segment === "wrong" && (
+        <>
+          {wrongRecords.length > 0 && <button className="practice-start-button review-start" type="button" onClick={() => onOpenCollection("wrong", wrongRecords[0].id)}>练习错题本（{wrongRecords.length}）</button>}
+          <QuestionReviewList records={wrongRecords} kind="wrong" responses={responses} onOpenQuestion={(id) => onOpenCollection("wrong", id)} onRemove={onClearWrong} />
+        </>
+      )}
+
+      {segment === "marked" && (
+        <>
+          {markedRecords.length > 0 && <button className="practice-start-button review-start" type="button" onClick={() => onOpenCollection("marked", markedRecords[0].id)}>练习标记题目（{markedRecords.length}）</button>}
+          <QuestionReviewList records={markedRecords} kind="marked" responses={responses} onOpenQuestion={(id) => onOpenCollection("marked", id)} onRemove={onToggleMark} />
+        </>
+      )}
+
+      {segment === "words" && (savedWords.length === 0 ? (
         <EmptyState title="No saved words" body="Tap Save on words you want to review again." />
       ) : (
         <div className="word-table">
@@ -1016,6 +1187,7 @@ function SavedView({ days, progress, onPronounce, toggleMastered, toggleSaved })
                   <span>Day {String(word.day).padStart(2, "0")}</span>
                   <strong>{word.word}</strong>
                   <p>{compactExplanation(word.explanation)}</p>
+                  <WordMemory memory={word.memory} />
                 </div>
                 <div className="word-actions">
                   <IconButton aria-label={`Pronounce ${word.word}`} onClick={() => onPronounce(word.word)}>
@@ -1036,7 +1208,7 @@ function SavedView({ days, progress, onPronounce, toggleMastered, toggleSaved })
             );
           })}
         </div>
-      )}
+      ))}
     </section>
   );
 }
@@ -1050,6 +1222,8 @@ export function App() {
   const [focusReveal, setFocusReveal] = useState(true);
   const [practiceState, setPracticeState] = useState(getInitialPracticeState);
   const [essayDrafts, setEssayDrafts] = useState(() => loadJsonStorage(PRACTICE_DRAFTS_KEY, {}));
+  const [marks, setMarks] = useState(getInitialMarks);
+  const [accountOpen, setAccountOpen] = useState(false);
   const [audioStatus, setAudioStatus] = useState("");
   const audioCacheRef = useRef(loadJsonStorage(AUDIO_CACHE_KEY, {}));
   const audioRef = useRef(null);
@@ -1065,6 +1239,32 @@ export function App() {
   useEffect(() => {
     window.localStorage.setItem(PRACTICE_STATE_KEY, JSON.stringify(practiceState));
   }, [practiceState]);
+
+  useEffect(() => {
+    window.localStorage.setItem(QUESTION_MARKS_KEY, JSON.stringify(marks));
+  }, [marks]);
+
+  useEffect(() => {
+    window.localStorage.setItem(START_DATE_KEY, startDate);
+  }, [startDate]);
+
+  const auth = useCloudAuth();
+  const syncSnapshot = useMemo(
+    () => ({ progress, responses: practiceState.responses, marks, drafts: essayDrafts, settings: { startDate } }),
+    [essayDrafts, marks, practiceState.responses, progress, startDate],
+  );
+  const applyRemoteChanges = useCallback((changes) => {
+    setProgress((current) => applyKindChanges(current, changes, "word"));
+    setPracticeState((current) => {
+      const responses = applyKindChanges(current.responses, changes, "response");
+      return responses === current.responses ? current : { ...current, responses };
+    });
+    setMarks((current) => applyKindChanges(current, changes, "mark"));
+    setEssayDrafts((current) => applyKindChanges(current, changes, "draft", (data) => data.text));
+    const startDateChange = changes.find((change) => change.kind === "setting" && change.itemId === "startDate");
+    if (typeof startDateChange?.data?.value === "string") setStartDate(startDateChange.data.value);
+  }, []);
+  const { status: syncStatus, syncNow } = useCloudSync({ client: auth.client, user: auth.user, snapshot: syncSnapshot, onRemoteChanges: applyRemoteChanges });
 
   useEffect(() => {
     if (!data) return;
@@ -1100,6 +1300,17 @@ export function App() {
     checkedCount: checkedResponses.length,
     correctCount: checkedResponses.filter(([, response]) => response.lastCorrect).length,
     essayDraftCount: practiceRecords.filter((record) => record.category === "essay" && String(essayDrafts[record.id] || "").trim()).length,
+    syncLabel: auth.user ? (syncStatus.pending > 0 || syncStatus.phase === "syncing" ? "Syncing to your account" : "Synced to your account") : "Saved on this device",
+  };
+  const wrongCount = practiceRecords.filter((record) => record.category === "verbal" && isInWrongBook(currentResponse(record, practiceState.responses))).length;
+  const markedCount = practiceRecords.filter((record) => marks[record.id]).length;
+  const accountSummary = {
+    mastered: Object.values(progress).filter((state) => state.mastered).length,
+    savedWords: Object.values(progress).filter((state) => state.saved).length,
+    answered: practiceProgress.checkedCount,
+    wrong: wrongCount,
+    marked: markedCount,
+    drafts: practiceProgress.essayDraftCount,
   };
 
   const toggleMastered = (word) => {
@@ -1115,9 +1326,7 @@ export function App() {
   };
 
   const resetStartDate = () => {
-    const value = todayIso();
-    window.localStorage.setItem(START_DATE_KEY, value);
-    setStartDate(value);
+    setStartDate(todayIso());
     setFocusReveal(true);
   };
 
@@ -1153,12 +1362,46 @@ export function App() {
       setPracticeState((current) => ({
         ...current,
         selectedQuestionId: question.id,
+        collectionFilter: "all",
         typeFilter: "all",
         sourceFilter: "all",
         query: "",
       }));
     }
     setActiveTab("practice");
+  };
+
+  const openPracticeCollection = (collection, questionId) => {
+    setPracticeState((current) => ({
+      ...current,
+      selectedQuestionId: questionId || current.selectedQuestionId,
+      collectionFilter: collection,
+      typeFilter: "all",
+      sourceFilter: "all",
+      query: "",
+    }));
+    setActiveTab("practice");
+  };
+
+  const toggleMark = (questionId) => {
+    setMarks((current) => {
+      if (current[questionId]) {
+        const { [questionId]: _removed, ...rest } = current;
+        return rest;
+      }
+      return { ...current, [questionId]: { markedAt: new Date().toISOString() } };
+    });
+  };
+
+  const clearWrong = (questionId) => {
+    setPracticeState((current) => {
+      const response = current.responses[questionId];
+      if (!response) return current;
+      return {
+        ...current,
+        responses: { ...current.responses, [questionId]: normalizePracticeResponse({ ...response, wrongClearedAt: new Date().toISOString() }) },
+      };
+    });
   };
 
   const changeEssayDraft = (questionId, value) => {
@@ -1207,6 +1450,8 @@ export function App() {
         totalDays={data.days.length}
         progressLabel={`${masteredCount} of ${day.words.length} words`}
         dayProgress={dayProgress}
+        accountBadge={syncBadge(auth, syncStatus)}
+        onOpenAccount={() => setAccountOpen(true)}
         onPrev={() => changeDay(-1)}
         onNext={() => changeDay(1)}
         onResetStartDate={resetStartDate}
@@ -1222,6 +1467,7 @@ export function App() {
             audioStatus={audioStatus}
             dailyPracticeQuestion={dailyPracticeQuestion}
             practiceTotal={practiceRecords.length}
+            reviewSummary={`${Object.values(progress).filter((state) => state.saved).length} saved words · 错题 ${wrongCount} · 标记 ${markedCount}`}
             masteredCount={masteredCount}
             progress={progress}
             onPronounce={playPronunciation}
@@ -1255,6 +1501,8 @@ export function App() {
             onChangeFilters={changePracticeFilters}
             responses={practiceState.responses}
             onChangeResponse={changePracticeResponse}
+            marks={marks}
+            onToggleMark={toggleMark}
             progress={practiceProgress}
             essayDrafts={essayDrafts}
             onChangeEssayDraft={changeEssayDraft}
@@ -1262,7 +1510,19 @@ export function App() {
         )}
 
         {activeTab === "saved" && (
-          <SavedView days={data.days} progress={progress} onPronounce={playPronunciation} toggleMastered={toggleMastered} toggleSaved={toggleSaved} />
+          <SavedView
+            days={data.days}
+            progress={progress}
+            onPronounce={playPronunciation}
+            toggleMastered={toggleMastered}
+            toggleSaved={toggleSaved}
+            records={practiceRecords}
+            responses={practiceState.responses}
+            marks={marks}
+            onOpenCollection={openPracticeCollection}
+            onToggleMark={toggleMark}
+            onClearWrong={clearWrong}
+          />
         )}
       </div>
 
@@ -1277,6 +1537,10 @@ export function App() {
           );
         })}
       </nav>
+
+      {accountOpen && (
+        <AccountSheet auth={auth} status={syncStatus} summary={accountSummary} onSyncNow={syncNow} onClose={() => setAccountOpen(false)} />
+      )}
     </main>
   );
 }

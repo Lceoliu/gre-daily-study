@@ -29,8 +29,14 @@ jobs:
         run: npm ci
       - name: Validate practice data
         run: node scripts/validate-practice-data.mjs
+      - name: Test account sync engine
+        run: node scripts/test-sync-engine.mjs
       - name: Build
         run: npm run build
+        env:
+          # Optional: set these as repository Actions variables to enable accounts and cloud sync.
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

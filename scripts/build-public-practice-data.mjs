@@ -174,10 +174,11 @@ async function main() {
 
   const importedVerbal = await readJson("data/imports/2026-09-30-verbal.json");
   const importedIssues = await readJson("data/imports/2026-09-30-issues.json");
-  const corrections = await readJson("data/imports/2026-09-30-corrections.json");
-  const correctionsById = new Map(corrections.records.map((item) => [item.id, item.changes]));
+  // Correction files apply in order; later reviews hold full field values and win.
+  const correctionFiles = ["data/imports/2026-09-30-corrections.json", "data/imports/2026-10-07-review-corrections.json"];
+  const correctionSets = await Promise.all(correctionFiles.map(async (file) => new Map((await readJson(file)).records.map((item) => [item.id, item.changes]))));
   const records = [...verbalRecords, ...essayRecords, ...importedVerbal.records, ...importedIssues.records]
-    .map((record) => ({ ...record, ...correctionsById.get(record.id) }));
+    .map((record) => correctionSets.reduce((current, set) => ({ ...current, ...set.get(record.id) }), record));
   const ids = new Set(records.map((record) => record.id));
   assert(ids.size === records.length, "Public practice records contain duplicate IDs.");
 

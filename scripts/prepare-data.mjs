@@ -25,18 +25,27 @@ function countPdfPages(filePath) {
   return matches ? matches.length : null;
 }
 
+// Memory aids (word roots, origins, sound-alikes) are curated in the repo, not in the source word list.
+const wordMemory = existsSync(path.join(projectRoot, "data", "word-memory.json"))
+  ? readJson(path.join(projectRoot, "data", "word-memory.json")).words : {};
+
 function normalizeWord(raw) {
   const synonyms = String(raw["同义词"] || "")
     .split(",")
     .map((item) => item.trim())
     .filter(Boolean);
 
+  const id = `w${raw["编号"]}`;
+  const word = String(raw["单词"] || "").trim();
+  const memory = wordMemory[id]?.word === word ? { method: wordMemory[id].method, text: wordMemory[id].text } : undefined;
+
   return {
-    id: `w${raw["编号"]}`,
+    id,
     number: raw["编号"],
-    word: String(raw["单词"] || "").trim(),
+    word,
     explanation: String(raw["解释"] || "").trim(),
     synonyms,
+    ...(memory ? { memory } : {}),
   };
 }
 

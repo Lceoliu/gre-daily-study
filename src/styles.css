@@ -1262,9 +1262,537 @@ button {
   font-size: 14px;
 }
 
+.title-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.account-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--green);
+  background: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.account-button:hover,
+.account-button:focus-visible {
+  border-color: var(--green);
+  outline: none;
+}
+
+.account-button.tone-warn {
+  border-color: #e4c79f;
+  color: #8b561d;
+  background: var(--amber-soft);
+}
+
+.account-button.tone-busy {
+  color: var(--lavender);
+}
+
+.word-memory {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 14px;
+  color: #444741;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.word-memory b {
+  padding: 1px 7px;
+  border-radius: 999px;
+  color: var(--amber);
+  background: var(--amber-soft);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.word-row .word-memory {
+  margin: 7px 0 0;
+  font-size: 13px;
+}
+
+/* Override the label styling that .meaning-block span and .word-row span apply. */
+.word-memory > span,
+.meaning-block .word-memory > span,
+.word-row .word-memory > span {
+  display: block;
+  margin: 0;
+  color: #444741;
+  font-size: inherit;
+  font-weight: 400;
+}
+
+.mark-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 30px;
+  margin-left: auto;
+  padding: 0 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--muted);
+  background: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.mark-toggle.is-active {
+  border-color: var(--amber);
+  color: #8b561d;
+  background: var(--amber-soft);
+}
+
+.mark-toggle.is-active svg {
+  fill: currentColor;
+}
+
+.wrong-book-note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  color: #8b561d;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.wrong-book-note button,
+.question-review-remove {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  color: var(--lavender);
+  background: var(--paper);
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.practice-collection-tabs {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: 1px;
+  margin: 0 0 14px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--line-strong);
+}
+
+.practice-collection-tabs button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 40px;
+  padding: 0 6px;
+  border: 0;
+  color: var(--green);
+  background: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.practice-collection-tabs button b {
+  min-width: 20px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  color: var(--green);
+  background: var(--green-soft);
+  font-size: 11px;
+}
+
+.practice-collection-tabs button.is-active {
+  color: #fff;
+  background: var(--green);
+}
+
+.practice-collection-tabs button.is-active b {
+  color: var(--green);
+  background: #fff;
+}
+
+.saved-segments {
+  margin-bottom: 16px;
+}
+
+.review-start {
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+.question-review-list {
+  border-top: 1px solid var(--line);
+}
+
+.question-review-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.question-review-open {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  text-align: left;
+}
+
+.question-review-open span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.question-review-open p {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  color: #3e413b;
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.question-review-open small {
+  display: block;
+  margin-top: 6px;
+  color: #8b561d;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.account-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(32, 35, 31, 0.36);
+}
+
+.account-sheet {
+  width: 100%;
+  max-width: 430px;
+  max-height: calc(100vh - 24px);
+  overflow-y: auto;
+  padding: 6px 20px calc(22px + env(safe-area-inset-bottom));
+  border-radius: 14px 14px 0 0;
+  background: var(--paper);
+  box-shadow: 0 -12px 34px rgba(38, 43, 36, 0.18);
+}
+
+.account-sheet > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+  border-bottom: 1px solid var(--line);
+}
+
+.account-sheet h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.account-body {
+  display: grid;
+  gap: 13px;
+  padding-top: 16px;
+}
+
+.account-loading {
+  justify-items: center;
+  padding: 28px 0;
+  color: var(--muted);
+}
+
+.account-lead,
+.account-note,
+.account-message {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.account-lead {
+  color: #3e413b;
+}
+
+.account-note {
+  color: var(--faint);
+  font-size: 12px;
+}
+
+.account-message.tone-ok {
+  color: var(--green);
+}
+
+.account-message.tone-warn {
+  color: #8b561d;
+}
+
+.account-steps {
+  margin: 0;
+  padding-left: 20px;
+  color: #3e413b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.account-steps code {
+  padding: 0 4px;
+  border-radius: 3px;
+  background: var(--parchment);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.account-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--line-strong);
+}
+
+.account-tabs button {
+  min-height: 40px;
+  border: 0;
+  color: var(--green);
+  background: #fff;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.account-tabs button.is-active {
+  color: #fff;
+  background: var(--green);
+}
+
+.account-field {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.account-field input,
+.account-password input {
+  width: 100%;
+  min-width: 0;
+  height: 46px;
+  padding: 0 13px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  color: var(--ink);
+  background: #fff;
+  font-size: 16px;
+}
+
+.account-field input:focus,
+.account-password input:focus {
+  border-color: var(--green);
+  outline: 2px solid rgba(25, 95, 69, 0.14);
+}
+
+.account-primary,
+.account-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.account-primary {
+  border: 0;
+  color: #fff;
+  background: var(--green);
+}
+
+.account-primary .spin {
+  color: #fff;
+}
+
+.account-secondary {
+  border: 1px solid var(--line-strong);
+  color: #8b561d;
+  background: #fff;
+}
+
+.account-primary:disabled,
+.account-secondary:disabled,
+.account-link:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.account-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 38px;
+  border: 0;
+  color: var(--lavender);
+  background: transparent;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.account-identity span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.account-identity strong {
+  font-size: 17px;
+  overflow-wrap: anywhere;
+}
+
+.account-status {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 12px;
+  border-left: 3px solid var(--green);
+  color: var(--green);
+  background: var(--green-soft);
+}
+
+.account-status.tone-warn {
+  border-left-color: var(--amber);
+  color: #8b561d;
+  background: var(--amber-soft);
+}
+
+.account-status.tone-busy {
+  border-left-color: var(--lavender);
+  color: var(--lavender);
+  background: var(--lavender-soft);
+}
+
+.account-status p {
+  margin: 0;
+  color: #3e413b;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.account-status button {
+  min-height: 34px;
+  padding: 0 11px;
+  border: 1px solid currentColor;
+  border-radius: 5px;
+  color: inherit;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.account-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--line);
+}
+
+.account-summary div {
+  padding: 10px 11px;
+  background: #fff;
+}
+
+.account-summary dt {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.account-summary dd {
+  margin: 4px 0 0;
+  color: var(--green);
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.account-password summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: var(--green);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.account-password form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.account-password form button {
+  padding: 0 16px;
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  background: var(--green);
+  font-weight: 800;
+}
+
 @media (max-width: 360px) {
   .title-row {
     padding-inline: 16px;
+  }
+
+  .account-button span {
+    display: none;
   }
 
   .title-row h1 {
