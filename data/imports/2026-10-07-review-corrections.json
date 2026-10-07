@@ -4704,6 +4704,35 @@
    }
   },
   {
+   "id": "practice-18:S2:Q5",
+   "changes": {
+    "questionText": "It can be inferred from the passage that the \"Olmec-style objects\"",
+    "options": [
+     {
+      "label": "A",
+      "text": "have seldom been discovered at archaeological sites excavated prior to the mid-twentieth century"
+     },
+     {
+      "label": "B",
+      "text": "are not generally considered by archaeologists to be precursors to similar objects found in Mexico's Gulf Coast lowlands"
+     },
+     {
+      "label": "C",
+      "text": "have been found to feature certain attributes that are not characteristic of objects found in Mexico's Gulf Coast lowlands"
+     },
+     {
+      "label": "D",
+      "text": "can be dated with somewhat greater certainty than has been possible with regard to Olmec monumental sculptures"
+     },
+     {
+      "label": "E",
+      "text": "exhibit less homogeneity in their stylistic attributes than most archaeologists recognized prior to the mid-twentieth century"
+     }
+    ],
+    "responseRevision": 2
+   }
+  },
+  {
    "id": "practice-18:S2:Q8",
    "changes": {
     "questionText": "In medieval China, the Confucian emphasis on rites as an outward manifestation of virtue explains Chinese bureaucrats' ____ the accurate performance of tributary rituals by foreigners at the imperial court.",
@@ -4713,21 +4742,69 @@
   {
    "id": "practice-18:S2:Q10",
    "changes": {
+    "questionText": "The primary purpose of the passage is to",
+    "options": [
+     {
+      "label": "A",
+      "text": "explain how insects and crustaceans differ from chelicerates"
+     },
+     {
+      "label": "B",
+      "text": "evaluate an account of the evolution of various types of arthropods"
+     },
+     {
+      "label": "C",
+      "text": "illustrate a case of convergent evolution among different types of arthropods"
+     },
+     {
+      "label": "D",
+      "text": "discuss various physiological features of insects, crustaceans, and chelicerates"
+     },
+     {
+      "label": "E",
+      "text": "identify underlying similarities in two contrasting theories regarding the evolution of certain arthropods"
+     }
+    ],
     "passage": {
      "id": "practice-18:S2:P10-12",
      "text": "The late zoologist Sidnie Manton acknowledged that arthropods—animals with jointed exoskeletons, such as flies, crabs, and spiders—are all descended from soft-bodied segmented worms. Yet he maintained that differences in limb form, musculature, and embryonic development indicate that these three arthropod groups—insects, crustaceans, and chelicerates, respectively—evolved independently from worms rather than from a common arthropod ancestor. Consequently, according to Manton, shared characteristics such as a jointed exoskeleton and large compound eyes represent cases of convergent evolution—similar yet independent developments—in these organisms. But if they evolved convergently, then one would expect significant differences in the neurological systems supporting sight. In fact, however, many nerve cells play virtually identical roles in supporting complex visual responses in both insects and crustaceans, suggesting that their common ancestor already possessed highly developed eyes, and therefore was probably already an arthropod. Yet the compound eyes of chelicerates differ neurologically from those of insects and crustaceans, suggesting that the eyes of chelicerates did evolve independently and providing partial confirmation of Manton's views.",
      "highlights": []
-    }
+    },
+    "responseRevision": 2
    }
   },
   {
    "id": "practice-18:S2:Q11",
    "changes": {
+    "questionText": "It can be inferred that the author of the passage and Manton would be most likely to disagree over which of the following claims?",
+    "options": [
+     {
+      "label": "A",
+      "text": "Insects and crustaceans are both descended from segmented worms."
+     },
+     {
+      "label": "B",
+      "text": "Insects and crustaceans each have unique limb form, musculature, and embryonic development."
+     },
+     {
+      "label": "C",
+      "text": "The compound eyes of insects and crustaceans are a case of convergent evolution."
+     },
+     {
+      "label": "D",
+      "text": "None of the characteristics common to insects and crustaceans can be found in segmented worms."
+     },
+     {
+      "label": "E",
+      "text": "Insects and crustaceans are the most closely related of all the arthropod groups."
+     }
+    ],
     "passage": {
      "id": "practice-18:S2:P10-12",
      "text": "The late zoologist Sidnie Manton acknowledged that arthropods—animals with jointed exoskeletons, such as flies, crabs, and spiders—are all descended from soft-bodied segmented worms. Yet he maintained that differences in limb form, musculature, and embryonic development indicate that these three arthropod groups—insects, crustaceans, and chelicerates, respectively—evolved independently from worms rather than from a common arthropod ancestor. Consequently, according to Manton, shared characteristics such as a jointed exoskeleton and large compound eyes represent cases of convergent evolution—similar yet independent developments—in these organisms. But if they evolved convergently, then one would expect significant differences in the neurological systems supporting sight. In fact, however, many nerve cells play virtually identical roles in supporting complex visual responses in both insects and crustaceans, suggesting that their common ancestor already possessed highly developed eyes, and therefore was probably already an arthropod. Yet the compound eyes of chelicerates differ neurologically from those of insects and crustaceans, suggesting that the eyes of chelicerates did evolve independently and providing partial confirmation of Manton's views.",
      "highlights": []
-    }
+    },
+    "responseRevision": 2
    }
   },
   {
@@ -5016,6 +5093,35 @@
    }
   },
   {
+   "id": "practice-19:S2:Q5",
+   "changes": {
+    "questionText": "The author of the passage would most likely agree with which of the following statements about the growth of shrub seedlings?",
+    "options": [
+     {
+      "label": "A",
+      "text": "In naturally occurring conditions, water availability is positively correlated with seedling growth."
+     },
+     {
+      "label": "B",
+      "text": "In semi-arid climates, wetter than normal conditions have no appreciable effect on seedling growth."
+     },
+     {
+      "label": "C",
+      "text": "When seedlings are grown in isolation, water restriction will not positively affect their growth."
+     },
+     {
+      "label": "D",
+      "text": "Where there is competition among annual plants, shrub seedling growth will benefit from increased rainfall."
+     },
+     {
+      "label": "E",
+      "text": "Where annual plants are well established, drought will have a negative effect on shrub seedling growth."
+     }
+    ],
+    "responseRevision": 2
+   }
+  },
+  {
    "id": "practice-19:S2:Q8",
    "changes": {
     "questionText": "Though Fine leavens her work with humor and playfulness, she can be ____ writer, mincing no words in her judgments of other scientists' work.",
@@ -5025,11 +5131,35 @@
   {
    "id": "practice-19:S2:Q10",
    "changes": {
+    "questionText": "The author would most likely agree with which of the following statements about the buildings discussed in the passage?",
+    "options": [
+     {
+      "label": "A",
+      "text": "They possess a discernible architectural cohesiveness as a group."
+     },
+     {
+      "label": "B",
+      "text": "They probably all had the same or a similar function."
+     },
+     {
+      "label": "C",
+      "text": "They almost certainly were not used as royal residences."
+     },
+     {
+      "label": "D",
+      "text": "They were more likely to be used as administrative centers than as manufacturing centers."
+     },
+     {
+      "label": "E",
+      "text": "They are architecturally similar to a number of other buildings on Crete."
+     }
+    ],
     "passage": {
      "id": "practice-19:S2:P10-12",
      "text": "This passage discusses Minoan buildings constructed during the Bronze Age on the Greek island of Crete. Although the term \"Palace\" is widely used and deeply ingrained in Minoan archaeology, Driessen has remarked that the term has been used to describe a number of quite different things and that there is no consensus on what the term signifies. The debate usually centers on the presumed functions of the buildings. Evans assumed that the buildings known as Palaces had several roles, including royal residences, administrative centers, economic centers, manufacturing centers, and cult centers. Over the years, each of those functions has been called into question. For example, I. Schoep notes, \"The use of the term Palace carries with it a whole host of perhaps unhelpful baggage, which consciously or unconsciously encourages interpretation of the 'Palace' as the residence of a royal elite, occupying supreme position within a hierarchical social and political structure\"; she suggests using the more neutral term \"court-centered building\" instead. The problem, however, comes not from the architectural label one applies, but from making unwarranted assumptions about how the Palaces were used. I use the word \"Palaces\" (capitalized to signal its arbitrariness) not to imply a range of functions but to refer to a group of buildings that share a set of formal elements.",
      "highlights": []
-    }
+    },
+    "responseRevision": 2
    }
   },
   {
@@ -5170,21 +5300,148 @@
   {
    "id": "practice-19:S4:Q8",
    "changes": {
+    "questionText": "According to the author, the theory based on fluctuating resource availability might resolve \"apparently conflicting and ambiguous results\" because",
+    "options": [
+     {
+      "label": "A",
+      "text": "it explains how a particular circumstance can produce disparate effects"
+     },
+     {
+      "label": "B",
+      "text": "it does not assume that all of the results are instances of the phenomenon that the theory is intended to explain"
+     },
+     {
+      "label": "C",
+      "text": "it predicts that seemingly minor variations in research methodology can have a dramatic effect on results"
+     },
+     {
+      "label": "D",
+      "text": "its account is based on a statistical tendency rather than on the supposition that the results arise from a causal connection"
+     },
+     {
+      "label": "E",
+      "text": "it indicates why a similar outcome may be preceded by very different circumstances on different occasions"
+     }
+    ],
     "passage": {
      "id": "practice-19:S4:P7-9",
      "text": "Although many hypotheses have been proposed to explain why some plant communities are more susceptible than others to invasion by nonnative species, results from field studies have been inconsistent and no general theory of invasibility has yet emerged. However, a theory based on fluctuating resource availability could integrate most existing hypotheses and successfully resolve many of the apparently conflicting and ambiguous results of previous studies. The suggested theory is that a plant community becomes more susceptible to invasion whenever there is an increase in the amount of unused resources. The diversity in the range of resource-release mechanisms could partly explain the absence of consistent ecological correlates of invasibility. In particular, the theory predicts that there will be no necessary relationship between the species diversity of a plant community and its susceptibility to invasion, since near-complete exploitation of resources and very incomplete resource exploitation can each occur in both species-rich and species-poor communities. Though Lonsdale found a positive association between species richness and invasion, this may arise from the tendency of diverse plant communities to be nutrient poor and therefore more responsive to the effects of human-caused influxes of nutrients.",
      "highlights": []
-    }
+    },
+    "responseRevision": 2
    }
   },
   {
    "id": "practice-19:S4:Q9",
    "changes": {
+    "questionText": "The passage treats Lonsdale's finding as",
+    "options": [
+     {
+      "label": "A",
+      "text": "data that contradict a prediction of a suggested theory"
+     },
+     {
+      "label": "B",
+      "text": "something that can be accommodated by appealing to an observed relationship"
+     },
+     {
+      "label": "C",
+      "text": "evidence that provides the basis for the position that the passage puts forward"
+     },
+     {
+      "label": "D",
+      "text": "a result that is unlikely to survive empirical tests that are more stringent"
+     },
+     {
+      "label": "E",
+      "text": "a reason to revisit the assumptions on which a theoretical account depends"
+     }
+    ],
     "passage": {
      "id": "practice-19:S4:P7-9",
      "text": "Although many hypotheses have been proposed to explain why some plant communities are more susceptible than others to invasion by nonnative species, results from field studies have been inconsistent and no general theory of invasibility has yet emerged. However, a theory based on fluctuating resource availability could integrate most existing hypotheses and successfully resolve many of the apparently conflicting and ambiguous results of previous studies. The suggested theory is that a plant community becomes more susceptible to invasion whenever there is an increase in the amount of unused resources. The diversity in the range of resource-release mechanisms could partly explain the absence of consistent ecological correlates of invasibility. In particular, the theory predicts that there will be no necessary relationship between the species diversity of a plant community and its susceptibility to invasion, since near-complete exploitation of resources and very incomplete resource exploitation can each occur in both species-rich and species-poor communities. Though Lonsdale found a positive association between species richness and invasion, this may arise from the tendency of diverse plant communities to be nutrient poor and therefore more responsive to the effects of human-caused influxes of nutrients.",
      "highlights": []
-    }
+    },
+    "responseRevision": 2
+   }
+  },
+  {
+   "id": "practice-19:S4:Q13",
+   "changes": {
+    "questionText": "The scientist's response does which of the following?",
+    "options": [
+     {
+      "label": "A",
+      "text": "Indicates a possibility that shows that the conclusion drawn by the pharmaceutical developer does not follow from the evidence cited in its support"
+     },
+     {
+      "label": "B",
+      "text": "Argues that all of the evidence that the pharmaceutical developer cites actually undermines the pharmaceutical developer's own conclusion"
+     },
+     {
+      "label": "C",
+      "text": "Challenges the truth of a piece of evidence cited in support of the pharmaceutical developer's conclusion"
+     },
+     {
+      "label": "D",
+      "text": "Offers a hypothesis that, if true, would provide an alternative explanation of the facts cited by the pharmaceutical developer"
+     },
+     {
+      "label": "E",
+      "text": "Points out a further consequence of the pharmaceutical developer's conclusion that follows directly from that conclusion"
+     }
+    ],
+    "responseRevision": 2
+   }
+  },
+  {
+   "id": "practice-19:S4:Q14",
+   "changes": {
+    "questionText": "Which of the following best describes the function of the highlighted sentence?",
+    "options": [
+     {
+      "label": "A",
+      "text": "It qualifies an assertion made earlier in the passage."
+     },
+     {
+      "label": "B",
+      "text": "It helps explain why Twain made a particular assumption."
+     },
+     {
+      "label": "C",
+      "text": "It presents a fact that helps to explain the functioning of Snell's Window."
+     },
+     {
+      "label": "D",
+      "text": "It introduces a fact that complicates an explanation presented in the previous sentence."
+     },
+     {
+      "label": "E",
+      "text": "It provides information that helps to explain a phenomenon mentioned in the first sentence."
+     }
+    ],
+    "responseRevision": 2
+   }
+  },
+  {
+   "id": "practice-19:S4:Q15",
+   "changes": {
+    "questionText": "The passage suggests which of the following about Snell's Window?",
+    "options": [
+     {
+      "label": "A",
+      "text": "It is smaller for viewers in shallow water."
+     },
+     {
+      "label": "B",
+      "text": "Its radius is affected by the amount of light entering the water."
+     },
+     {
+      "label": "C",
+      "text": "Its size is not correlated with the size of a viewer's eyes."
+     }
+    ],
+    "responseRevision": 2
    }
   },
   {
@@ -5282,21 +5539,69 @@
   {
    "id": "practice-20:S2:Q11",
    "changes": {
+    "questionText": "Which of the following can be inferred from the passage concerning scholars' use of mythic, psychological, and historical considerations in evaluating Dunbar's works?",
+    "options": [
+     {
+      "label": "A",
+      "text": "Such use disputes the claim that Dunbar's work failed to challenge plantation stereotypes of African Americans."
+     },
+     {
+      "label": "B",
+      "text": "Such use challenges the claim that dialect poetry is well suited to producing effects of pathos and humor."
+     },
+     {
+      "label": "C",
+      "text": "Such use supports the claim that Dunbar's poetry was aesthetically more limited when written in dialect."
+     },
+     {
+      "label": "D",
+      "text": "Such use suggests that the initial reception accorded Dunbar's poetry may have been too positive."
+     },
+     {
+      "label": "E",
+      "text": "Such use suggests that earlier twentieth-century evaluations of Dunbar's poetry may have been too negative."
+     }
+    ],
     "passage": {
      "id": "practice-20:S2:P10-12",
      "text": "The poet Paul Laurence Dunbar (1872-1906) was the premier Black writer of poetry that used the dialect of rural African Americans of the southern United States. Although Dunbar's works were both popular with readers and acclaimed by literary critics during his lifetime, after the First World War a radical shift occurred, at least in critical opinion of his poetry, and twentieth-century critical evaluation of his work has been generally negative. Some critics attacked his work on social grounds for failing to challenge plantation stereotypes of African Americans. Other critics, such as the poet James Weldon Johnson, argued from aesthetic grounds that dialect poetry in general was too limited as an artistic medium, and capable of producing only two effects: pathos and humor. The negative critical trend only began to reverse itself in the 1970s, when scholars began to emphasize the importance of mythic, psychological, and historical dimensions of Dunbar's works, focusing on the interior and exterior realities of African American life after the Civil War.",
      "highlights": []
-    }
+    },
+    "responseRevision": 2
    }
   },
   {
    "id": "practice-20:S2:Q12",
    "changes": {
+    "questionText": "Which of the following can be inferred from the passage concerning literary critics' evaluations of Dunbar's poetry?",
+    "options": [
+     {
+      "label": "A",
+      "text": "During Dunbar's lifetime, critics did not commonly evaluate his works according to aesthetic criteria."
+     },
+     {
+      "label": "B",
+      "text": "Negative critical evaluations of Dunbar's poetry on social grounds caused his work to become less popular with the reading public in the period following the First World War."
+     },
+     {
+      "label": "C",
+      "text": "In the period between the First World War and the 1970s, critics did not commonly evaluate Dunbar's works in terms of psychological and historical considerations."
+     },
+     {
+      "label": "D",
+      "text": "A reversal of a negative critical trend led to wider popularity of Dunbar's works among the reading public in the 1970s."
+     },
+     {
+      "label": "E",
+      "text": "In the 1970s, scholars began to reevaluate Dunbar's work in the light of James Weldon Johnson's criticism of the limitations of dialect poetry."
+     }
+    ],
     "passage": {
      "id": "practice-20:S2:P10-12",
      "text": "The poet Paul Laurence Dunbar (1872-1906) was the premier Black writer of poetry that used the dialect of rural African Americans of the southern United States. Although Dunbar's works were both popular with readers and acclaimed by literary critics during his lifetime, after the First World War a radical shift occurred, at least in critical opinion of his poetry, and twentieth-century critical evaluation of his work has been generally negative. Some critics attacked his work on social grounds for failing to challenge plantation stereotypes of African Americans. Other critics, such as the poet James Weldon Johnson, argued from aesthetic grounds that dialect poetry in general was too limited as an artistic medium, and capable of producing only two effects: pathos and humor. The negative critical trend only began to reverse itself in the 1970s, when scholars began to emphasize the importance of mythic, psychological, and historical dimensions of Dunbar's works, focusing on the interior and exterior realities of African American life after the Civil War.",
      "highlights": []
-    }
+    },
+    "responseRevision": 2
    }
   },
   {
@@ -5307,33 +5612,221 @@
    }
   },
   {
+   "id": "practice-20:S4:Q6",
+   "changes": {
+    "questionText": "Which of the following does the author present as generally the most cost-effective way of meeting demand for water for irrigation?",
+    "options": [
+     {
+      "label": "A",
+      "text": "Reducing the amount of water consumed by large cities"
+     },
+     {
+      "label": "B",
+      "text": "Treating wastewater that is currently being dumped"
+     },
+     {
+      "label": "C",
+      "text": "Increasing the efficiency of current irrigation systems"
+     },
+     {
+      "label": "D",
+      "text": "Having new wells drilled"
+     },
+     {
+      "label": "E",
+      "text": "Increasing the efficiency of current wastewater treatment projects"
+     }
+    ],
+    "responseRevision": 2
+   }
+  },
+  {
    "id": "practice-20:S4:Q7",
    "changes": {
+    "questionText": "In the context of the passage, the mention of the Large Hadron Collider primarily serves to",
+    "options": [
+     {
+      "label": "A",
+      "text": "demonstrate the attention that is paid to what some consider pure science"
+     },
+     {
+      "label": "B",
+      "text": "introduce a change in the prevailing attitude toward science"
+     },
+     {
+      "label": "C",
+      "text": "call into question the currently existing priorities for scientific research"
+     },
+     {
+      "label": "D",
+      "text": "illustrate the contributions that applied science has made to pure science"
+     },
+     {
+      "label": "E",
+      "text": "cast doubt on the hierarchy identified by Medawar"
+     }
+    ],
     "passage": {
      "id": "practice-20:S4:P7-9",
      "text": "This passage is adapted from an essay published in 2010. As I write, the Large Hadron Collider, the world's biggest atom-smasher at CERN in Geneva, has switched on with almost unprecedented media jamboree. Asked about the practical value of it all, Stephen Hawking has said that \"modern society is based on advances in pure science that were not foreseen to have practical applications.\" It's a common claim, and it subtly reinforces the hierarchy that Medawar identified: technology and engineering are the humble offspring of pure science, the casual cast-offs of a more elevated pursuit. I don't believe that such pronouncements are intended to denigrate applied science as an intellectual activity; they merely speak into a culture in which that has already happened. Pure science undoubtedly does lead to applied spin-offs, but this is not the norm. Rather, most of our technology has come from explicit and painstaking efforts to develop it. And this is simply a part of the scientific enterprise. A dividing line between pure and applied science makes no sense at all, running as it does in a convoluted path through disciplines, departments, even individual scientific papers and careers. Research aimed at applications fills the pages of the leading journals in physics, chemistry, and the life and Earth sciences; curiosity-driven research with no real practical value is abundant in the \"applied\" literature of the materials, biotechnological, and engineering",
      "highlights": []
-    }
+    },
+    "responseRevision": 2
    }
   },
   {
    "id": "practice-20:S4:Q8",
    "changes": {
+    "questionText": "According to the passage, the \"explicit and painstaking efforts\" are",
+    "options": [
+     {
+      "label": "A",
+      "text": "part of the same overall endeavor as pure science research"
+     },
+     {
+      "label": "B",
+      "text": "the foundation of the techniques that allow advances in pure science"
+     },
+     {
+      "label": "C",
+      "text": "needed before the findings of pure science have practical benefit"
+     },
+     {
+      "label": "D",
+      "text": "in danger of dying out because of the attractions of pure science"
+     },
+     {
+      "label": "E",
+      "text": "ultimately of greater importance than the great majority of work in pure science"
+     }
+    ],
     "passage": {
      "id": "practice-20:S4:P7-9",
      "text": "This passage is adapted from an essay published in 2010. As I write, the Large Hadron Collider, the world's biggest atom-smasher at CERN in Geneva, has switched on with almost unprecedented media jamboree. Asked about the practical value of it all, Stephen Hawking has said that \"modern society is based on advances in pure science that were not foreseen to have practical applications.\" It's a common claim, and it subtly reinforces the hierarchy that Medawar identified: technology and engineering are the humble offspring of pure science, the casual cast-offs of a more elevated pursuit. I don't believe that such pronouncements are intended to denigrate applied science as an intellectual activity; they merely speak into a culture in which that has already happened. Pure science undoubtedly does lead to applied spin-offs, but this is not the norm. Rather, most of our technology has come from explicit and painstaking efforts to develop it. And this is simply a part of the scientific enterprise. A dividing line between pure and applied science makes no sense at all, running as it does in a convoluted path through disciplines, departments, even individual scientific papers and careers. Research aimed at applications fills the pages of the leading journals in physics, chemistry, and the life and Earth sciences; curiosity-driven research with no real practical value is abundant in the \"applied\" literature of the materials, biotechnological, and engineering",
      "highlights": []
-    }
+    },
+    "responseRevision": 2
    }
   },
   {
    "id": "practice-20:S4:Q9",
    "changes": {
+    "questionText": "The passage implies that the statement made by Stephen Hawking has which shortcoming?",
+    "options": [
+     {
+      "label": "A",
+      "text": "It overstates the importance of technology for modern society."
+     },
+     {
+      "label": "B",
+      "text": "It fails to recognize the distinct goals of pure and applied science."
+     },
+     {
+      "label": "C",
+      "text": "It ignores the work involved in turning initial insights into useful technology."
+     },
+     {
+      "label": "D",
+      "text": "It treats somewhat unusual cases as if they were the general rule."
+     },
+     {
+      "label": "E",
+      "text": "It inappropriately understates the value of pure science."
+     }
+    ],
     "passage": {
      "id": "practice-20:S4:P7-9",
      "text": "This passage is adapted from an essay published in 2010. As I write, the Large Hadron Collider, the world's biggest atom-smasher at CERN in Geneva, has switched on with almost unprecedented media jamboree. Asked about the practical value of it all, Stephen Hawking has said that \"modern society is based on advances in pure science that were not foreseen to have practical applications.\" It's a common claim, and it subtly reinforces the hierarchy that Medawar identified: technology and engineering are the humble offspring of pure science, the casual cast-offs of a more elevated pursuit. I don't believe that such pronouncements are intended to denigrate applied science as an intellectual activity; they merely speak into a culture in which that has already happened. Pure science undoubtedly does lead to applied spin-offs, but this is not the norm. Rather, most of our technology has come from explicit and painstaking efforts to develop it. And this is simply a part of the scientific enterprise. A dividing line between pure and applied science makes no sense at all, running as it does in a convoluted path through disciplines, departments, even individual scientific papers and careers. Research aimed at applications fills the pages of the leading journals in physics, chemistry, and the life and Earth sciences; curiosity-driven research with no real practical value is abundant in the \"applied\" literature of the materials, biotechnological, and engineering",
      "highlights": []
-    }
+    },
+    "responseRevision": 2
+   }
+  },
+  {
+   "id": "practice-20:S4:Q13",
+   "changes": {
+    "questionText": "The argument is vulnerable to criticism on the ground that it",
+    "options": [
+     {
+      "label": "A",
+      "text": "takes it for granted that the condition of being overweight predisposes overweight people to watch television"
+     },
+     {
+      "label": "B",
+      "text": "takes it for granted that no one who watches television more than three hours a day engages in regular physical exercise"
+     },
+     {
+      "label": "C",
+      "text": "overlooks the possibility that those who watch television for an average of three hours per day are physically active at work"
+     },
+     {
+      "label": "D",
+      "text": "overlooks the possibility that a dislike of physical exercise makes certain people more likely both to spend time watching television and to be overweight"
+     },
+     {
+      "label": "E",
+      "text": "overlooks the possibility that there are some people who are overweight and yet watch no television at all"
+     }
+    ],
+    "responseRevision": 2
+   }
+  },
+  {
+   "id": "practice-20:S4:Q14",
+   "changes": {
+    "questionText": "The statement in the highlighted sentence suggests which of the following about the philosophers mentioned in the passage?",
+    "options": [
+     {
+      "label": "A",
+      "text": "Their theories of aesthetics are fundamentally incompatible with Sontag's."
+     },
+     {
+      "label": "B",
+      "text": "Their view of Sontag's work is affected by Sontag's implicit judgment of it."
+     },
+     {
+      "label": "C",
+      "text": "They see the distinction between critical theory and critical practice as untenable."
+     },
+     {
+      "label": "D",
+      "text": "They regard criticism of particular works of art as a marginal task in aesthetic evaluation."
+     },
+     {
+      "label": "E",
+      "text": "They conflate Sontag's purely theoretical arguments with her analyses of specific artworks."
+     }
+    ],
+    "responseRevision": 2
+   }
+  },
+  {
+   "id": "practice-20:S4:Q15",
+   "changes": {
+    "questionText": "The passage suggests which of the following about \"those who prize her critical work\"?",
+    "options": [
+     {
+      "label": "A",
+      "text": "They deliberately ignore Sontag's own precepts regarding the relationship between critical theory and its application to particular artworks."
+     },
+     {
+      "label": "B",
+      "text": "They attempt to address the objections of philosophers by practicing a variation of the critical practice Sontag championed."
+     },
+     {
+      "label": "C",
+      "text": "They display a version of the same indifference to Sontag's theoretical work expressed by philosophers as a whole."
+     },
+     {
+      "label": "D",
+      "text": "They downplay \"Against Interpretation\" and \"On Style\" despite recognizing the importance of those essays to Sontag's conceptualization of critical theory."
+     },
+     {
+      "label": "E",
+      "text": "They misperceive Sontag's critical practice as hostile to abstractions and categorical claims."
+     }
+    ],
+    "responseRevision": 2
    }
   },
   {
