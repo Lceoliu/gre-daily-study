@@ -4,3 +4,6 @@ dist/
 *.log
 tmp/
 screenshots/*.png
+.env
+.env.local
+.env.*.local
